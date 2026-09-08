@@ -1,0 +1,445 @@
+{
+  "name": "Ecossistema de Busca Ativa, Match Semantico e Candidatura Assertiva - Mauricio Santos",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "node-schedule-trigger",
+      "name": "Disparador Agendado (08h Seg-Sex)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Carrega contrato de calibração do candidato\nreturn [\n  {\n    json: {\n      profile_owner: \"Mauricio Alves dos Santos\",\n      target_seniority: \"Senior / Lead Architect\",\n      cargos_alvo: [\n        \"SRE Manager\",\n        \"Automation Architect\",\n        \"Workload Automation Specialist\",\n        \"Infrastructure Engineer - AI & Cloud\",\n        \"Analista de Produção e Operações de TI SR\",\n        \"Scheduler SR\"\n      ],\n      skills_obrigatorias: [\n        \"Control-M\", \"UC4 (Automic)\", \"Maestro\", \n        \"TSM (Tivoli Storage Manager)\", \"NetBackup\", \n        \"Mainframe ES9000 / VM/VSESA\", \"Tape Libraries (ACSLS)\", \n        \"UNIX (AIX, Solaris, HP-UX, Linux)\", \"SAP R/3 Basis\"\n      ],\n      skills_modernas: [\n        \"Python\", \"CrewAI\", \"N8N\", \"AWS Cloud Practitioner\", \n        \"Azure AZ-900 / AI-900\", \"Kubernetes\"\n      ],\n      major_accounts: [\"TECBAN\", \"ENEL\", \"BUNGE\", \"UNILEVER\", \"FABER-CASTELL\"],\n      thresholds: {\n        high_match: 70,\n        correction_min: 50\n      }\n    }\n  }\n];"
+      },
+      "id": "node-loader-profile",
+      "name": "Loader: profile.json",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.adzuna.com/v1/api/jobs/br/search/1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "app_id",
+              "value": "={{ $env.ADZUNA_APP_ID }}"
+            },
+            {
+              "name": "app_key",
+              "value": "={{ $env.ADZUNA_APP_KEY }}"
+            },
+            {
+              "name": "what",
+              "value": "Control-M OR TSM OR Mainframe OR SRE OR Scheduler"
+            },
+            {
+              "name": "results_per_page",
+              "value": "20"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-extractor-api",
+      "name": "Extractor: APIs Oficiais (Adzuna / Remotive)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        540,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Anti-Fraud Gate: Filosofia Fail-Closed\nconst items = $input.all();\nconst output = [];\n\nconst freeEmailDomains = ['gmail.com', 'hotmail.com', 'yahoo.com', 'outlook.com', 'bol.com.br'];\nconst fraudPatterns = [\n  /taxa\\s+(de\\s+)?(inscri[cç][aã]o|processo|sele[cç][aã]o)/i,\n  /pagar\\s+(pelo\\s+)?(curso|treinamento|exame)/i,\n  /chave\\s+pix|dep[oó]sito/i,\n  /envie\\s+(foto\\s+do\\s+)?(documento|rg|cpf|cnh|cart[aã]o)/i,\n  /renda\\s+extra\\s+di[aá]ria/i\n];\n\nfor (const entry of items) {\n  const item = entry.json;\n  let isFraud = false;\n  let reason = '';\n\n  const email = (item.contact_email || '').toLowerCase();\n  const domain = email.split('@')[1];\n  if (domain && freeEmailDomains.includes(domain)) {\n    isFraud = true;\n    reason = `Domínio de e-mail gratuito (${domain}) em vaga corporativa`;\n  }\n\n  const text = `${item.title || ''} ${item.description || ''}`.toLowerCase();\n  for (const pat of fraudPatterns) {\n    if (pat.test(text)) {\n      isFraud = true;\n      reason = `Gatilho de risco detectado: ${pat.toString()}`;\n      break;\n    }\n  }\n\n  if (item.whois_age_days !== undefined && item.whois_age_days < 30) {\n    isFraud = true;\n    reason = 'Domínio com menos de 30 dias de registro';\n  }\n\n  output.push({\n    json: {\n      ...item,\n      security_passed: !isFraud,\n      fraud_reason: reason,\n      processed_at: new Date().toISOString()\n    }\n  });\n}\n\nreturn output;"
+      },
+      "id": "node-antifraud-gate",
+      "name": "Gate Antifraude (Fail-Closed)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        760,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.security_passed }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "node-filter-security",
+      "name": "Filtro: Vaga Segura?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        980,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Extraia e normalize a seguinte vaga de emprego em um Schema estruturado:\\nTítulo: {{ $json.title }}\\nDescrição: {{ $json.description }}\\n\\nRetorne estritamente um JSON com:\\n- cargo_normalizado\\n- senioridade_requerida\\n- stack_tecnica (array)\\n- modalidade (remoto, híbrido, presencial)\\n- requisitos_obrigatorios (array)\\n- requisitos_desejaveis (array)\\n- sla_missao_critica (true/false)",
+        "options": {
+          "systemMessage": "Você é um Engenheiro de Dados e IA especialista em análise de vagas de tecnologia. Responda apenas em JSON válido sem marcações extras."
+        }
+      },
+      "id": "node-llm-parser",
+      "name": "LLM Parser: Normalização Schema",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        1200,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Motor de Match Semântico e Metrologia de Aderência\nconst profile = $('Loader: profile.json').first().json;\nconst jobRaw = $input.first().json;\nlet parsed = {};\n\ntry {\n  parsed = typeof jobRaw.message?.content === 'string' ? JSON.parse(jobRaw.message.content) : jobRaw;\n} catch (e) {\n  parsed = jobRaw;\n}\n\nconst jobStack = (parsed.stack_tecnica || []).map(s => s.toLowerCase());\nconst reqs = (parsed.requisitos_obrigatorios || []).map(r => r.toLowerCase());\nconst fullJob = `${parsed.cargo_normalizado || ''} ${jobStack.join(' ')} ${reqs.join(' ')}`.toLowerCase();\n\n// 1. Cálculo de Hard Skills Core (Control-M, TSM, Mainframe, UNIX, etc.)\nlet coreMatches = 0;\nfor (const skill of profile.skills_obrigatorias) {\n  if (fullJob.includes(skill.toLowerCase())) {\n    coreMatches++;\n  }\n}\nconst coreScore = (coreMatches / Math.max(1, profile.skills_obrigatorias.length)) * 100;\n\n// 2. Cálculo de Modern Skills (Python, CrewAI, Cloud, Kubernetes)\nlet modernMatches = 0;\nfor (const skill of profile.skills_modernas) {\n  if (fullJob.includes(skill.toLowerCase())) {\n    modernMatches++;\n  }\n}\nconst modernScore = (modernMatches / Math.max(1, profile.skills_modernas.length)) * 100;\n\n// 3. Ponderação de Senioridade e Missão Crítica\nconst missionCriticalBonus = parsed.sla_missao_critica ? 20 : 0;\nconst finalScore = Math.min(100, Math.round((coreScore * 0.55) + (modernScore * 0.25) + missionCriticalBonus + 15));\n\nlet status = 'BAIXA';\nif (finalScore >= profile.thresholds.high_match) {\n  status = 'ALTA_PRIORIDADE';\n} else if (finalScore >= profile.thresholds.correction_min) {\n  status = 'LOOP_CORRECAO';\n}\n\nreturn [\n  {\n    json: {\n      ...parsed,\n      match_score: finalScore,\n      status: status,\n      candidato: profile.profile_owner,\n      job_title: parsed.cargo_normalizado || $('Filtro: Vaga Segura?').first().json.title,\n      company: $('Filtro: Vaga Segura?').first().json.company || 'Empresa Confidencial',\n      evaluated_at: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "id": "node-semantic-matcher",
+      "name": "Matcher: Metrologia de Score",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1420,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.match_score }}",
+              "operation": "largerEqual",
+              "value2": 70
+            }
+          ]
+        }
+      },
+      "id": "node-filter-high-match",
+      "name": "Filtro: Score >= 70%?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1640,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Personalize a Carta de Apresentação e selecione os 3 principais tópicos STAR do histórico profissional de Mauricio Alves dos Santos para a seguinte vaga:\\nEmpresa: {{ $json.company }}\\nCargo: {{ $json.job_title }}\\nRequisitos: {{ JSON.stringify($json.requisitos_obrigatorios) }}\\nStack: {{ JSON.stringify($json.stack_tecnica) }}\\n\\nATENÇÃO INEGOCIÁVEL: NÃO invente dados. Utilize estritamente as experiências reais da TIVIT (13 anos, TECBAN, ENEL), IBM, Unilever, Rhodia e Comgás, além das certificações AWS, Azure e IA.",
+        "options": {
+          "systemMessage": "Você é um Especialista Sênior em Carreira e Otimização de Currículos ATS. Responda com a Carta de Apresentação formatada e os 3 destaques STAR."
+        }
+      },
+      "id": "node-ats-tailor",
+      "name": "Agente ATS: Carta & Bullets STAR",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        1860,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "=🎯 *NOVA VAGA ASSERTIVA ENCONTRADA!*\n\n🏢 *Empresa:* {{ $json.company }}\n💼 *Cargo:* {{ $json.job_title }}\n📊 *Score de Match:* `{{ $json.match_score }}%`\n\n📝 *Carta Customizada:*\n{{ $json.message?.content || $json.cover_letter }}\n\nClique abaixo para aprovar ou rejeitar a candidatura:",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "values": [
+                {
+                  "text": "✅ Aprovar Envio",
+                  "additionalFields": {
+                    "callback_data": "=APPLY_{{ $json.job_title }}_{{ $json.company }}"
+                  }
+                },
+                {
+                  "text": "❌ Rejeitar Vaga",
+                  "additionalFields": {
+                    "callback_data": "=REJECT_{{ $json.job_title }}_{{ $json.company }}"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "id": "node-telegram-bot",
+      "name": "Telegram: Human-in-the-Loop",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        2080,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "mauricio.santos.automacao@gmail.com",
+        "toEmail": "recrutamento@empresa.com",
+        "subject": "=Candidatura: {{ $json.job_title }} - Mauricio Alves dos Santos",
+        "html": "=Olá equipe de atração de talentos,<br><br>{{ $json.cover_letter }}<br><br>Em anexo envio meu currículo completo em PDF.<br><br>Cordialmente,<br><b>Mauricio Alves dos Santos</b>",
+        "options": {
+          "attachments": "curriculo_ats_mauricio_santos.pdf"
+        }
+      },
+      "id": "node-dispatcher-email",
+      "name": "Dispatcher: Gmail / Candidatura Oficial",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2300,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $env.AUDIT_SPREADSHEET_ID }}",
+          "mode": "id"
+        },
+        "sheetName": "Auditoria_Vagas",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "Data",
+              "fieldValue": "={{ $json.evaluated_at }}"
+            },
+            {
+              "fieldId": "Empresa",
+              "fieldValue": "={{ $json.company }}"
+            },
+            {
+              "fieldId": "Cargo",
+              "fieldValue": "={{ $json.job_title }}"
+            },
+            {
+              "fieldId": "Score",
+              "fieldValue": "={{ $json.match_score }}"
+            },
+            {
+              "fieldId": "Status",
+              "fieldValue": "ENVIADO_COM_APROVACAO"
+            }
+          ]
+        }
+      },
+      "id": "node-audit-logger",
+      "name": "Audit Logger: Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        2520,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $env.AUDIT_SPREADSHEET_ID }}",
+          "mode": "id"
+        },
+        "sheetName": "Log_Seguranca_Descartes",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "Data",
+              "fieldValue": "={{ $json.processed_at }}"
+            },
+            {
+              "fieldId": "Empresa",
+              "fieldValue": "={{ $json.company || 'N/A' }}"
+            },
+            {
+              "fieldId": "Titulo",
+              "fieldValue": "={{ $json.title || 'N/A' }}"
+            },
+            {
+              "fieldId": "Motivo",
+              "fieldValue": "={{ $json.fraud_reason }}"
+            },
+            {
+              "fieldId": "Status",
+              "fieldValue": "BLOQUEADO_POR_SEGURANCA"
+            }
+          ]
+        }
+      },
+      "id": "node-log-security",
+      "name": "Log de Descartes de Seguranca",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        1200,
+        450
+      ]
+    }
+  ],
+  "connections": {
+    "Disparador Agendado (08h Seg-Sex)": {
+      "main": [
+        [
+          {
+            "node": "Loader: profile.json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loader: profile.json": {
+      "main": [
+        [
+          {
+            "node": "Extractor: APIs Oficiais (Adzuna / Remotive)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extractor: APIs Oficiais (Adzuna / Remotive)": {
+      "main": [
+        [
+          {
+            "node": "Gate Antifraude (Fail-Closed)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gate Antifraude (Fail-Closed)": {
+      "main": [
+        [
+          {
+            "node": "Filtro: Vaga Segura?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtro: Vaga Segura?": {
+      "main": [
+        [
+          {
+            "node": "LLM Parser: Normalização Schema",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log de Descartes de Seguranca",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM Parser: Normalização Schema": {
+      "main": [
+        [
+          {
+            "node": "Matcher: Metrologia de Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Matcher: Metrologia de Score": {
+      "main": [
+        [
+          {
+            "node": "Filtro: Score >= 70%?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtro: Score >= 70%?": {
+      "main": [
+        [
+          {
+            "node": "Agente ATS: Carta & Bullets STAR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente ATS: Carta & Bullets STAR": {
+      "main": [
+        [
+          {
+            "node": "Telegram: Human-in-the-Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram: Human-in-the-Loop": {
+      "main": [
+        [
+          {
+            "node": "Dispatcher: Gmail / Candidatura Oficial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dispatcher: Gmail / Candidatura Oficial": {
+      "main": [
+        [
+          {
+            "node": "Audit Logger: Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

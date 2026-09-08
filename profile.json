@@ -1,0 +1,86 @@
+{
+  "profile_owner": "Mauricio Alves dos Santos",
+  "linkedin": "https://www.linkedin.com/in/mauricio-alves-dos-santos-1644a4360",
+  "github": "https://github.com/Mauriciomsonic/laboratoriomsonicA.I./tree/main",
+  "target_seniority": "Senior / Lead Architect",
+  "target_hourly_rate": "Elite Market Rate",
+  "cargos_alvo": [
+    "SRE Manager / Specialist",
+    "Automation Architect",
+    "Workload Automation Specialist",
+    "Infrastructure Engineer - AI & Cloud",
+    "Analista de Produção e Operações de TI SR",
+    "Scheduler SR"
+  ],
+  "skills_obrigatorias": [
+    "Control-M",
+    "UC4 (Automic)",
+    "Maestro",
+    "TSM (Tivoli Storage Manager)",
+    "NetBackup",
+    "Mainframe ES9000 / VM/VSESA",
+    "Tape Libraries (ACSLS / IBM / HP / SUN)",
+    "UNIX (AIX, Solaris, HP-UX, Linux)",
+    "SAP R/3 Basis Operations"
+  ],
+  "skills_modernas": [
+    "Python (Advanced)",
+    "CrewAI Agentic Orchestration",
+    "N8N Automation",
+    "AWS Cloud Practitioner",
+    "Azure AZ-900 / AI-900",
+    "Kubernetes Fundamentals",
+    "Power BI & Advanced Excel"
+  ],
+  "major_accounts": [
+    "TECBAN",
+    "ENEL",
+    "BUNGE",
+    "UNILEVER",
+    "FABER-CASTELL",
+    "OESP"
+  ],
+  "career_trajectory": [
+    {
+      "company": "TIVIT",
+      "role": "Scheduller SR (Missão Crítica)",
+      "duration": "13 anos 10 meses (2011 - Presente)"
+    },
+    {
+      "company": "IBM",
+      "role": "Analista de Suporte a Storage",
+      "duration": "2010 - 2011 (Contas: Telefônica/VIVO e Perdigão)"
+    },
+    {
+      "company": "Saint Gobain Weber S.A.",
+      "role": "Operador SR",
+      "duration": "2007 - 2009"
+    },
+    {
+      "company": "Unilever [Stefanini]",
+      "role": "Analista de Produção",
+      "duration": "2005 - 2007"
+    },
+    {
+      "company": "Rhodia Brasil [Atos Origin]",
+      "role": "Operações SAP R/3 & UNIX",
+      "duration": "2000 - 2004"
+    },
+    {
+      "company": "COMGÁS",
+      "role": "Operador Mainframe SR",
+      "duration": "1986 - 2000 (9 anos de carreira em TI)"
+    }
+  ],
+  "security_protocols": {
+    "block_free_domains": true,
+    "min_whois_age_days": 30,
+    "require_cnpj_validation": true,
+    "fail_closed_mode": true
+  },
+  "matching_thresholds": {
+    "high_priority_score": 70,
+    "correction_loop_min": 50,
+    "discard_threshold": 50
+  }
+}
