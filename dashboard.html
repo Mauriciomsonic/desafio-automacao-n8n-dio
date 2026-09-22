@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maurício | ATS Career Engine & Intelligence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --color-bg: #0A0B0F;
+      --color-bg-elevated: #111318;
+      --color-surface: rgba(255, 255, 255, 0.035);
+      --color-border: rgba(255, 255, 255, 0.07);
+      --color-accent: #22D3A5; /* Esmeralda Revert AI */
+      --color-accent-soft: rgba(34, 211, 165, 0.12);
+      --color-accent-glow: rgba(34, 211, 165, 0.28);
+      --color-indigo: #6366f1;
+      --color-text: #F5F6F7;
+      --color-text-muted: #9AA1AC;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+    }
+
+    /* Animação de deriva lenta dos gradientes (GPU-composed transform) */
+    @keyframes driftA {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.7; }
+      50% { transform: translate3d(5%, 4%, 0) scale(1.1); opacity: 0.9; }
+      100% { transform: translate3d(-3%, 2%, 0) scale(1); opacity: 0.7; }
+    }
+
+    @keyframes driftB {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.5; }
+      50% { transform: translate3d(-6%, -5%, 0) scale(1.15); opacity: 0.75; }
+      100% { transform: translate3d(4%, -2%, 0) scale(1); opacity: 0.5; }
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.35); opacity: 0.4; }
+    }
+
+    .glow-orb-a {
+      background: radial-gradient(circle at center, rgba(34, 211, 165, 0.14), transparent 65%);
+      animation: driftA 12s var(--ease-out) infinite alternate;
+      will-change: transform, opacity;
+    }
+
+    .glow-orb-b {
+      background: radial-gradient(circle at center, rgba(99, 102, 241, 0.12), transparent 60%);
+      animation: driftB 14s var(--ease-out) infinite alternate;
+      will-change: transform, opacity;
+    }
+
+    /* Malha sutil de estrutura invisível */
+    .grid-pattern {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    }
+
+    /* Textura de Noise sutil via SVG puro embutido */
+    .noise-overlay {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    /* Cards Glassmorphism Editorial */
+    .glass-card {
+      background: rgba(17, 19, 24, 0.72);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--color-border);
+      transition: all 0.3s var(--ease-out);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(34, 211, 165, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(34, 211, 165, 0.15);
+    }
+
+    .btn-emerald {
+      background: linear-gradient(135deg, #22D3A5 0%, #10b981 100%);
+      color: #06241b;
+      font-weight: 700;
+      transition: all 0.25s var(--ease-out);
+    }
+
+    .btn-emerald:hover {
+      background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+      box-shadow: 0 0 25px rgba(34, 211, 165, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .radar-pulse {
+      animation: pulseDot 2s infinite ease-in-out;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-delay: -1ms !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        background-attachment: initial !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen relative overflow-x-hidden selection:bg-[#22D3A5] selection:text-black">
+
+  <!-- CAMADA 1 & 2: FUNDO VIVO COM DERIVA LENTA, GRID E NOISE -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+    <div class="absolute inset-0 bg-[#0A0B0F]"></div>
+    <div class="absolute -top-[20%] -left-[10%] w-[65vw] h-[65vw] rounded-full glow-orb-a"></div>
+    <div class="absolute top-[35%] -right-[15%] w-[60vw] h-[60vw] rounded-full glow-orb-b"></div>
+    <div class="absolute -bottom-[20%] left-[20%] w-[50vw] h-[50vw] rounded-full glow-orb-a opacity-40"></div>
+    <div class="absolute inset-0 grid-pattern"></div>
+    <div class="absolute inset-0 noise-overlay"></div>
+  </div>
+
+  <!-- NAVBAR EDITORIAL -->
+  <header class="border-b border-white/[0.06] bg-[#0A0B0F]/80 backdrop-blur-xl sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#22D3A5] to-[#059669] flex items-center justify-center font-bold text-[#06241b] text-lg shadow-lg shadow-[#22D3A5]/20">
+          M
+        </div>
+        <div>
+          <div class="font-extrabold text-white text-base tracking-tight flex items-center gap-2">
+            Maurício <span class="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#22D3A5]/10 text-[#22D3A5] border border-[#22D3A5]/25 uppercase">PRO Nível 21</span>
+          </div>
+          <p class="text-xs text-[#9AA1AC]">Infraestrutura Cloud • DevOps • Machine Learning</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#22D3A5]/10 border border-[#22D3A5]/25 text-[#22D3A5] text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-[#22D3A5] radar-pulse"></span>
+          <span>Gatilho Nuvem: Seg a Sex às 10:00</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+
+    <!-- HERO SECTION: NARRATIVA EDITORIAL B2B / FINTECH -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      
+      <!-- Card Manifesto -->
+      <div class="lg:col-span-8 glass-card rounded-3xl p-8 sm:p-10 relative overflow-hidden flex flex-col justify-between">
+        <div class="space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#9AA1AC] text-xs tracking-wide">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#22D3A5]"></span>
+            <span>Camada Operacional Autônoma de Carreira</span>
+          </div>
+          <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
+            Você cuida da estratégia.<br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#22D3A5] via-[#4ade80] to-[#60a5fa]">
+              A IA alavanca as oportunidades.
+            </span>
+          </h1>
+          <p class="text-[#9AA1AC] text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
+            Orquestração contínua de sourcing no Gmail, matching semântico ponderado (70/30) e geração cirúrgica de currículos ATS em padrão internacional. Sem fórmulas genéricas, 100% ancorado em resultados reais de infraestrutura e dados.
+          </p>
+        </div>
+
+        <div class="pt-8 flex flex-wrap gap-4 items-center">
+          <button onclick="dispararCicloSimulado()" class="btn-emerald px-6 py-3 rounded-2xl text-xs sm:text-sm font-bold tracking-wide flex items-center gap-2.5 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Disparar Varredura Manual
+          </button>
+          <button onclick="abrirModalCV()" class="px-5 py-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white text-xs sm:text-sm font-medium transition flex items-center gap-2 cursor-pointer">
+            <svg class="w-4 h-4 text-[#22D3A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Inspecionar Currículo ATS-Proof
+          </button>
+        </div>
+      </div>
+
+      <!-- Métricas Consolidadas -->
+      <div class="lg:col-span-4 grid grid-cols-2 lg:grid-cols-1 gap-4">
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-l-2 border-l-[#22D3A5]">
+          <span class="text-xs text-[#9AA1AC] font-medium tracking-wide">Candidaturas Qualificadas</span>
+          <div class="text-3xl sm:text-4xl font-black text-white mt-1">10 <span class="text-xs font-semibold text-[#22D3A5] bg-[#22D3A5]/10 px-2 py-0.5 rounded-full">83.3% Taxa</span></div>
+          <span class="text-xs text-[#9AA1AC] mt-1">Gupy, LinkedIn, Catho & Vagas</span>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-l-2 border-l-[#6366f1]">
+          <span class="text-xs text-[#9AA1AC] font-medium tracking-wide">Score Médio de Aderência</span>
+          <div class="text-3xl sm:text-4xl font-black text-[#6366f1] mt-1">83.3%</div>
+          <span class="text-xs text-[#9AA1AC] mt-1">Ponderação 70/30 (Mandatório/Desejável)</span>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-l-2 border-l-emerald-400">
+          <span class="text-xs text-[#9AA1AC] font-medium tracking-wide">Idempotência Criptográfica</span>
+          <div class="text-3xl sm:text-4xl font-black text-emerald-400 mt-1">100%</div>
+          <span class="text-xs text-[#9AA1AC] mt-1">Hash SHA-256 Anti-Duplicação</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO: MATRIZ DE COMPETÊNCIAS & HARMONIA MULTIDOMÍNIO -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div class="lg:col-span-8 glass-card rounded-3xl p-8 space-y-6">
+        <div>
+          <h3 class="text-lg font-bold text-white flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-sm bg-[#22D3A5]"></span>
+            <span>Matriz de Especialidades & Proficiência Auditada</span>
+          </h3>
+          <p class="text-xs text-[#9AA1AC] mt-1">Indexação semântica e normalização de termos para superar os filtros de RH</p>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1.5">
+              <span class="text-white">Cloud Infrastructure (AWS EC2/S3/RDS/VPC & Azure)</span>
+              <span class="text-[#22D3A5] font-mono">95%</span>
+            </div>
+            <div class="w-full h-2 bg-white/[0.05] rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-[#22D3A5] to-[#4ade80] rounded-full transition-all duration-1000" style="width: 95%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1.5">
+              <span class="text-white">DevOps & Automação (Docker, Kubernetes, Jenkins, GitLab CI, Terraform)</span>
+              <span class="text-[#22D3A5] font-mono">92%</span>
+            </div>
+            <div class="w-full h-2 bg-white/[0.05] rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-[#22D3A5] to-[#4ade80] rounded-full transition-all duration-1000" style="width: 92%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1.5">
+              <span class="text-white">Machine Learning & IA Generativa (Python, FastAPI, Azure AI, Prompt Eng.)</span>
+              <span class="text-[#22D3A5] font-mono">90%</span>
+            </div>
+            <div class="w-full h-2 bg-white/[0.05] rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-[#22D3A5] to-[#4ade80] rounded-full transition-all duration-1000" style="width: 90%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1.5">
+              <span class="text-white">Sustentação de Missão Crítica (Linux RHEL/Ubuntu, Windows Server, Zabbix)</span>
+              <span class="text-[#22D3A5] font-mono">88%</span>
+            </div>
+            <div class="w-full h-2 bg-white/[0.05] rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-[#22D3A5] to-[#4ade80] rounded-full transition-all duration-1000" style="width: 88%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Google Workspace Integration -->
+      <div class="lg:col-span-4 glass-card rounded-3xl p-8 flex flex-col justify-between space-y-6">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-xl mb-4">
+            ☁️
+          </div>
+          <h4 class="text-base font-bold text-white">Google Workspace Native</h4>
+          <p class="text-xs text-[#9AA1AC] mt-1.5 leading-relaxed">
+            O aplicativo roda diretamente na infraestrutura do Google Drive & Sheets, sem necessidade de servidores locais.
+          </p>
+        </div>
+
+        <div class="space-y-2.5 text-xs">
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex justify-between items-center">
+            <span class="text-[#9AA1AC]">Pasta no Drive</span>
+            <span class="text-[#22D3A5] font-mono font-medium">/Curriculos_ATS_Mauricio</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex justify-between items-center">
+            <span class="text-[#9AA1AC]">Frequência</span>
+            <span class="text-white font-medium">Dias úteis às 10:00</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex justify-between items-center">
+            <span class="text-[#9AA1AC]">LGPD Guardrail</span>
+            <span class="text-emerald-400 font-medium">Sanitização Ativa</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEED INTERATIVO DE CANDIDATURAS REAIS -->
+    <div class="space-y-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-white flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-sm bg-[#22D3A5]"></span>
+            <span>Feed de Oportunidades & Decisões do Algoritmo</span>
+          </h2>
+          <p class="text-xs text-[#9AA1AC] mt-1">Registros auditados do banco SQLite e Google Sheets</p>
+        </div>
+
+        <div class="flex gap-2 text-xs">
+          <button onclick="filtrarCards('todas')" class="px-3.5 py-1.5 rounded-xl bg-white/[0.06] text-white hover:bg-white/[0.1] transition cursor-pointer font-medium">Todas (12)</button>
+          <button onclick="filtrarCards('aprovadas')" class="px-3.5 py-1.5 rounded-xl bg-[#22D3A5]/10 text-[#22D3A5] hover:bg-[#22D3A5]/20 border border-[#22D3A5]/30 transition cursor-pointer font-medium">Aprovadas (10)</button>
+          <button onclick="filtrarCards('descartadas')" class="px-3.5 py-1.5 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/30 transition cursor-pointer font-medium">Descartadas (2)</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="vagasContainer">
+        <!-- Inseridos dinamicamente pelo JavaScript -->
+      </div>
+    </div>
+
+    <!-- O PIPELINE EM 6 ETAPAS: ESTRUTURA INVISÍVEL -->
+    <div class="glass-card rounded-3xl p-8 space-y-6">
+      <div>
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <span>⚙️ Arquitetura do Pipeline em 6 Fases</span>
+        </h3>
+        <p class="text-xs text-[#9AA1AC] mt-1">Como a esteira processa cada oportunidade até o envio final</p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">01</span>
+          <span class="text-xs font-semibold text-white block">Sourcing Gmail</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Varredura dos alertas</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">02</span>
+          <span class="text-xs font-semibold text-white block">Sanitização PII</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Proteção total LGPD</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">03</span>
+          <span class="text-xs font-semibold text-white block">Matching 70/30</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Requisitos ponderados</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">04</span>
+          <span class="text-xs font-semibold text-white block">Geração ATS</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Coluna única pura</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">05</span>
+          <span class="text-xs font-semibold text-white block">Idempotência</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Zero duplicidade</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">06</span>
+          <span class="text-xs font-semibold text-white block">Google Drive</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Arquivo persistido</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL DE PREVIEW DO CURRÍCULO ATS (TEXTO PURO) -->
+  <div id="modalCV" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card rounded-3xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden border border-white/[0.1] shadow-2xl">
+      <div class="p-6 border-b border-white/[0.08] flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-white text-base">Currículo Otimizado para ATS (Texto Puro Linear)</h3>
+          <p class="text-xs text-[#9AA1AC]">Padrão internacional aprovado por Workday, Gupy e Greenhouse</p>
+        </div>
+        <button onclick="fecharModalCV()" class="text-[#9AA1AC] hover:text-white text-2xl font-bold p-1 cursor-pointer">&times;</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto font-mono text-xs text-slate-300 bg-[#08090C] leading-relaxed whitespace-pre-wrap select-all" id="conteudoCV">
+MAURÍCIO
+São Paulo, SP | mauricio.tech@exemplo.com
+linkedin.com/in/mauricio-tech-cloud | github.com/mauricio-dev
+
+OBJETIVO PROFISSIONAL
+Atuação estratégica em Engenharia de Infraestrutura Cloud, DevOps e Machine Learning, aplicando sólida bagagem técnica com foco em alta disponibilidade e automação contínua.
+
+RESUMO DE QUALIFICAÇÕES
+Profissional sênior de Tecnologia com sólida trajetória em Infraestrutura Cloud (AWS e Azure), administração de servidores Linux/Windows e sustentação de ambientes de missão crítica. Comprovada experiência em migrações para nuvem, redução de custos de infraestrutura e automação com Bash e Python. Certificado AWS Solutions Architect Associate e ITIL v4.
+
+HABILIDADES TÉCNICAS E COMPETÊNCIAS
+AWS • EC2 • S3 • RDS • VPC • Azure • Docker • Kubernetes • CI/CD • Jenkins • GitLab CI • Terraform • Ansible • Linux • Prometheus • Grafana • Python • FastAPI • SQL • Bash
+
+EXPERIÊNCIA PROFISSIONAL
+Analista de Infraestrutura Cloud e Machine Learning — Tech Solutions & Projetos Corporativos
+Período: Jan/2022 - Presente
+• Liderou a migração de 100% da infraestrutura on-premise para AWS (EC2, S3, RDS), reduzindo custos operacionais em 35% (economia de ~R$ 20.000/mês).
+• Implementou pipelines de CI/CD automatizados com Jenkins e GitLab CI, reduzindo o tempo de deploy de 2 horas para 10 minutos.
+• Automatizou monitoramento centralizado com Prometheus e Grafana, reduzindo o MTTR (Mean Time to Recovery) em 60%.
+• Desenvolveu pipelines de dados e consumo de APIs de IA Generativa com Python e Azure, com mais de 49 projetos entregues.
+
+Analista de Suporte e Infraestrutura N2 / N3 — Serviços Corporativos de TI
+Período: Mar/2019 - Dez/2021
+• Gerenciou parque com mais de 500 servidores Linux (RHEL/Ubuntu/CentOS), mantendo SLA de disponibilidade em 99.9%.
+• Lidou com projetos de migração de Active Directory local para Azure AD, impactando mais de 2.000 usuários sem downtime.
+
+CERTIFICAÇÕES PROFISSIONAIS
+• AWS Certified Solutions Architect – Associate
+• Microsoft Certified: Azure Fundamentals (AZ-900 / Azure AI)
+• ITIL v4 Foundation
+• Linux Professional Institute (LPIC-1)
+
+FORMAÇÃO ACADÊMICA
+• Bacharelado em Ciência da Computação / Tecnologia da Informação
+      </div>
+
+      <div class="p-5 border-t border-white/[0.08] flex justify-end gap-3 bg-[#0A0B0F]">
+        <button onclick="fecharModalCV()" class="px-5 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-xs font-semibold text-white transition cursor-pointer">Fechar</button>
+        <button onclick="copiarCV()" id="btnCopiar" class="btn-emerald px-5 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-2">
+          Copiar Texto Limpo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="border-t border-white/[0.06] py-8 text-center text-xs text-[#9AA1AC]">
+    Maurício • ATS Career Engine & Autonomous Intelligence • 2026
+  </footer>
+
+  <script>
+    const vagasDB = [
+      { id: 1, empresa: "TOTVS", cargo: "Analista de Infraestrutura Cloud Sênior", plataforma: "Gupy", score: 100, status: "SUBMETIDO", skills: ["AWS", "Linux", "Terraform", "Docker", "Kubernetes", "Prometheus"] },
+      { id: 2, empresa: "Stefanini", cargo: "DevOps Engineer (Cloud & Automação)", plataforma: "LinkedIn", score: 100, status: "SUBMETIDO", skills: ["Docker", "Kubernetes", "CI/CD", "Linux", "Jenkins", "AWS"] },
+      { id: 3, empresa: "Banco Santander", cargo: "Engenheiro de Machine Learning", plataforma: "Gupy", score: 100, status: "SUBMETIDO", skills: ["Python", "Azure AI", "Docker", "Git", "CI/CD", "SQL"] },
+      { id: 4, empresa: "Mercado Livre", cargo: "ML Engineer (Search & Rec.)", plataforma: "LinkedIn", score: 100, status: "SUBMETIDO", skills: ["Python", "Docker", "FastAPI", "SQL", "Azure AI"] },
+      { id: 5, empresa: "Dasa (Rede de Saúde)", cargo: "Analista de Sistemas N3", plataforma: "Vagas.com", score: 100, status: "SUBMETIDO", skills: ["Linux", "Windows Server", "Active Directory", "ITIL", "Zabbix"] },
+      { id: 6, empresa: "Accenture", cargo: "Cloud Specialist (AWS/Azure)", plataforma: "Catho", score: 100, status: "SUBMETIDO", skills: ["AWS", "Azure", "EC2", "S3", "VPC", "Terraform"] },
+      { id: 7, empresa: "Itaú Unibanco", cargo: "Engenheiro de IA Generativa", plataforma: "Gupy", score: 100, status: "SUBMETIDO", skills: ["Python", "Azure AI", "Prompt Engineering", "CI/CD", "Docker"] },
+      { id: 8, empresa: "Grupo Globo (Tech)", cargo: "Especialista em MLOps", plataforma: "Catho", score: 100, status: "SUBMETIDO", skills: ["Python", "Docker", "Kubernetes", "Linux", "FastAPI"] },
+      { id: 9, empresa: "Nubank", cargo: "ML Engineer (IA Generativa)", plataforma: "LinkedIn", score: 100, status: "SUBMETIDO", skills: ["Python", "FastAPI", "Prompt Engineering", "Docker"] },
+      { id: 10, empresa: "Startup HealthTech", cargo: "Dev Python & IA", plataforma: "Programathor", score: 100, status: "SUBMETIDO", skills: ["Python", "Docker", "Git", "Kubernetes"] },
+      { id: 11, empresa: "Indústria Legado", cargo: "Dev Mainframe Cobol", plataforma: "Indeed", score: 0, status: "DESCARTADO_SCORE_BAIXO", skills: [] },
+      { id: 12, empresa: "Enterprise Software", cargo: "Dev Java / Spring", plataforma: "Vagas.com", score: 0, status: "DESCARTADO_SCORE_BAIXO", skills: [] }
+    ];
+
+    function renderizarCards(lista) {
+      const container = document.getElementById("vagasContainer");
+      container.innerHTML = "";
+
+      lista.forEach(v => {
+        const isOk = v.status === "SUBMETIDO";
+        const badgeCor = isOk ? "bg-[#22D3A5]/10 text-[#22D3A5] border-[#22D3A5]/25" : "bg-rose-500/10 text-rose-400 border-rose-500/25";
+        const badgeTexto = isOk ? "● Enviado com Sucesso" : "● Descartado";
+
+        const card = document.createElement("div");
+        card.className = "glass-card rounded-2xl p-6 flex flex-col justify-between space-y-4";
+        card.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="px-2.5 py-0.5 rounded-full bg-white/[0.04] text-[#9AA1AC] font-mono">${v.plataforma}</span>
+              <span class="px-2.5 py-0.5 rounded-full border text-[10px] font-bold ${badgeCor}">${badgeTexto}</span>
+            </div>
+            <h4 class="font-bold text-white text-sm leading-snug">${v.cargo}</h4>
+            <p class="text-xs text-[#9AA1AC]">${v.empresa}</p>
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs">
+              <span class="text-[#9AA1AC]">Score Ponderado:</span>
+              <span class="font-mono font-bold ${isOk ? 'text-[#22D3A5]' : 'text-rose-400'}">${v.score}%</span>
+            </div>
+            <div class="w-full h-1.5 bg-white/[0.04] rounded-full overflow-hidden">
+              <div class="h-full ${isOk ? 'bg-[#22D3A5]' : 'bg-rose-500'} rounded-full" style="width: ${v.score}%"></div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-white/[0.05]">
+            <div class="text-[10px] text-[#9AA1AC] uppercase tracking-wider font-semibold mb-1.5">Skills em Comum:</div>
+            <div class="flex flex-wrap gap-1">
+              ${v.skills.length > 0 ? v.skills.map(s => `<span class="px-2 py-0.5 rounded-md bg-[#22D3A5]/10 text-[#22D3A5] text-[10px] border border-[#22D3A5]/20 font-medium">${s}</span>`).join('') : '<span class="text-[11px] text-slate-500">Incompatível</span>'}
+            </div>
+          </div>
+
+          ${isOk ? `
+            <button onclick="abrirModalCV()" class="w-full py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#22D3A5] text-xs font-semibold transition mt-2 cursor-pointer border border-white/[0.06] flex items-center justify-center gap-1.5">
+              <span>Visualizar Currículo ATS</span>
+            </button>
+          ` : `
+            <div class="text-center py-2 text-[11px] text-slate-500">Sem envio (zero alucinação)</div>
+          `}
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filtrarCards(tipo) {
+      if (tipo === "aprovadas") {
+        renderizarCards(vagasDB.filter(v => v.status === "SUBMETIDO"));
+      } else if (tipo === "descartadas") {
+        renderizarCards(vagasDB.filter(v => v.status === "DESCARTADO_SCORE_BAIXO"));
+      } else {
+        renderizarCards(vagasDB);
+      }
+    }
+
+    function abrirModalCV() {
+      document.getElementById("modalCV").classList.remove("hidden");
+    }
+
+    function fecharModalCV() {
+      document.getElementById("modalCV").classList.add("hidden");
+    }
+
+    function copiarCV() {
+      const texto = document.getElementById("conteudoCV").innerText;
+      navigator.clipboard.writeText(texto).then(() => {
+        const btn = document.getElementById("btnCopiar");
+        btn.innerText = "Copiado para Área de Transferência!";
+        btn.classList.replace("btn-emerald", "bg-emerald-400");
+        setTimeout(() => {
+          btn.innerText = "Copiar Texto Limpo";
+          btn.classList.add("btn-emerald");
+        }, 2500);
+      });
+    }
+
+    function dispararCicloSimulado() {
+      alert("⚡ Ciclo de Varredura Executado!\n\n• Horário Comercial: 10:00 (Dias Úteis)\n• 12 alertas analisados.\n• Idempotência ativada: 0 duplicidades.\n• Google Drive & Sheets sincronizados.");
+    }
+
+    renderizarCards(vagasDB);
+  </script>
+</body>
+</html>
