@@ -1,0 +1,234 @@
+{
+  "name": "DIO - Assistente de Investimentos com TypeSafe Jev (Confidence-Gated)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "clientes-investimentos-typesafe",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "t1f7a0e1-1111-4444-9999-000000000001",
+      "name": "Webhook - Ingestão RPA",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ],
+      "webhookId": "clientes-investimentos-typesafe"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || $input.first().json;\nconst clientes = Array.isArray(body.clientes) ? body.clientes : (Array.isArray(body) ? body : [body]);\n\nreturn clientes.map((cliente, index) => ({\n  json: {\n    id: cliente.id || `CLI-${index + 1}`,\n    nome: cliente.nome || 'Investidor',\n    email: cliente.email || '',\n    saldo: typeof cliente.saldo === 'number' ? cliente.saldo : parseFloat(String(cliente.saldo || 0).replace(/[^0-9.]/g, '')),\n    saldo_formatado: cliente.saldo_formatado || `R$ ${Number(cliente.saldo || 0).toFixed(2)}`,\n    perfil: (cliente.perfil || 'Conservador').trim()\n  }\n}));"
+      },
+      "id": "t1f7a0e1-1111-4444-9999-000000000002",
+      "name": "Normalizar Clientes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        420,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Match Engine com Catálogo de Produtos e Preparação de Contexto para o Jev\nconst catalogo = [\n  { perfil: 'Conservador', produto: 'Poupança', minimo: 100, rentabilidade: '6.2%' },\n  { perfil: 'Conservador', produto: 'CDB Liquidez Diária', minimo: 1000, rentabilidade: '12.5%' },\n  { perfil: 'Conservador', produto: 'Tesouro Selic', minimo: 500, rentabilidade: '13.0%' },\n  { perfil: 'Moderado', produto: 'CDB Prefixado', minimo: 1000, rentabilidade: '14.0%' },\n  { perfil: 'Moderado', produto: 'Fundo Multimercado', minimo: 5000, rentabilidade: '16.0%' },\n  { perfil: 'Moderado', produto: 'Tesouro IPCA+', minimo: 1000, rentabilidade: 'IPCA+6.0%' },\n  { perfil: 'Arrojado', produto: 'Ações ETF', minimo: 500, rentabilidade: 'Variável' },\n  { perfil: 'Arrojado', produto: 'Fundo de Ações', minimo: 10000, rentabilidade: 'Variável' },\n  { perfil: 'Arrojado', produto: 'Criptomoedas', minimo: 100, rentabilidade: 'Variável' }\n];\n\nconst items = $input.all();\nreturn items.map(item => {\n  const c = item.json;\n  const produtosPerfil = catalogo.filter(p => p.perfil.toLowerCase() === c.perfil.toLowerCase());\n  const acessiveis = produtosPerfil.filter(p => c.saldo >= p.minimo);\n  const recomendacao = acessiveis.length > 0 ? acessiveis[0] : produtosPerfil[0];\n\n  const stateContext = `Cliente: ${c.nome} (ID: ${c.id})\\nSaldo Líquido: ${c.saldo_formatado}\\nPerfil Declarado: ${c.perfil}\\nProduto Recomendado: ${recomendacao.produto} (Mínimo: R$ ${recomendacao.minimo}, Rentabilidade: ${recomendacao.rentabilidade})`;\n\n  return {\n    json: {\n      ...c,\n      recomendacao,\n      typesafe_payload: {\n        model: 'jev-1.13',\n        state: stateContext,\n        questions: {\n          suitability: {\n            type: 'choice',\n            question: 'O ativo recomendado está estritamente adequado ao perfil e saldo do investidor?',\n            options: [\n              { id: 'conforme', description: 'Ativo 100% adequado' },\n              { id: 'inadequado', description: 'Ativo fora da conformidade de risco' }\n            ]\n          },\n          despacho_automatico: {\n            type: 'noul',\n            question: 'Pode ser enviado diretamente para o cliente sem revisão humana?'\n          }\n        }\n      }\n    }\n  };\n});"
+      },
+      "id": "t1f7a0e1-1111-4444-9999-000000000003",
+      "name": "Match & Preparar Payload Jev",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.typesafe.ai/v1/evaluate",
+        "authentication": "none",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.TYPESAFE_API_KEY || 'ts_chave_aqui' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.typesafe_payload) }}",
+        "options": {}
+      },
+      "id": "t1f7a0e1-1111-4444-9999-000000000004",
+      "name": "TypeSafe Jev AI (System One)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        880,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.confidence }}",
+              "operation": "largerEqual",
+              "value2": 0.85
+            }
+          ]
+        }
+      },
+      "id": "t1f7a0e1-1111-4444-9999-000000000005",
+      "name": "Confidence >= 0.85?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nreturn [{\n  json: {\n    status: 'AUTO_APPROVED',\n    confidence: item.confidence,\n    acao: 'Recomendação despachada diretamente para o investidor.',\n    resultado_jev: item\n  }\n}];"
+      },
+      "id": "t1f7a0e1-1111-4444-9999-000000000006",
+      "name": "Disparo Automático (Alta Confiança)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nreturn [{\n  json: {\n    status: 'HUMAN_REVIEW_REQUIRED',\n    confidence: item.confidence,\n    acao: 'Encaminhado para a fila de compliance do Assessor Santander.',\n    resultado_jev: item\n  }\n}];"
+      },
+      "id": "t1f7a0e1-1111-4444-9999-000000000007",
+      "name": "Fila de Revisão Humana",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "t1f7a0e1-1111-4444-9999-000000000008",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook - Ingestão RPA": {
+      "main": [
+        [
+          {
+            "node": "Normalizar Clientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar Clientes": {
+      "main": [
+        [
+          {
+            "node": "Match & Preparar Payload Jev",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Match & Preparar Payload Jev": {
+      "main": [
+        [
+          {
+            "node": "TypeSafe Jev AI (System One)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TypeSafe Jev AI (System One)": {
+      "main": [
+        [
+          {
+            "node": "Confidence >= 0.85?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confidence >= 0.85?": {
+      "main": [
+        [
+          {
+            "node": "Disparo Automático (Alta Confiança)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fila de Revisão Humana",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Disparo Automático (Alta Confiança)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fila de Revisão Humana": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

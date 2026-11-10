@@ -1,0 +1,15 @@
+﻿id,data_processamento,plataforma,empresa,titulo_cargo,score_match,status,skills_match,skills_gaps,url_vaga
+1,2026-09-17 18:52:15,Gupy,Banco Santander,Engenheiro de Machine Learning Júnior/Pleno,100.0,SUBMETIDO,,,https://santander.gupy.io/jobs/1049281
+2,2026-09-17 18:52:16,LinkedIn Jobs,Nubank,Machine Learning Engineer - IA Generativa,100.0,SUBMETIDO,,,https://www.linkedin.com/jobs/view/99281726
+3,2026-09-17 18:52:16,Programathor,Startup HealthTech,Desenvolvedor Python & IA,100.0,SUBMETIDO,,,https://programathor.com.br/jobs/558291
+4,2026-09-17 18:52:16,Indeed,Indústria Legado,Desenvolvedor Mainframe Cobol,0.0,DESCARTADO_SCORE_BAIXO,,,https://br.indeed.com/viewjob?jk=882716a
+5,2026-09-21 17:49:40,LinkedIn Jobs,Mercado Livre,Machine Learning Engineer (Search & Recommendation),100.0,SUBMETIDO,"Python, Docker, Kubernetes, Fastapi, Azure Ai, Ci/Cd, Sql",,https://www.linkedin.com/jobs/view/meli-mle-88392
+6,2026-09-21 17:49:40,Gupy,Itaú Unibanco,Engenheiro de Inteligência Artificial Generativa,100.0,SUBMETIDO,"Python, Docker, Notebooklm, Prompt Engineering, Azure Ai, Ci/Cd, Linux",,https://itau.gupy.io/jobs/genai-eng-44910
+7,2026-09-21 17:49:41,Catho,Grupo Globo (Tech),Especialista em MLOps e Automação Cloud,100.0,SUBMETIDO,"Python, Docker, Bash, Kubernetes, Fastapi, Azure Ai, Linux",,https://globo.gupy.io/jobs/mlops-globo-3392
+8,2026-09-21 17:49:41,Vagas.com,Enterprise Software Corp,Desenvolvedor Java / Spring Sênior,0.0,DESCARTADO_SCORE_BAIXO,,"Aws, Kafka, Spring Boot, Hibernate, Maven, Java",https://vagas.com.br/vagas/v892019-java-spring
+9,2026-09-21 18:04:37,Gupy,TOTVS,Analista de Infraestrutura Cloud Sênior,100.0,SUBMETIDO,"Ansible, Docker, Aws, Prometheus, Terraform, Kubernetes, Ec2, Linux",,https://totvs.gupy.io/jobs/infra-cloud-99201
+10,2026-09-21 18:04:37,LinkedIn Jobs,Stefanini,DevOps Engineer (Cloud & Automação),100.0,SUBMETIDO,"Docker, Aws, Bash, Kubernetes, Ci/Cd, Jenkins, Gitlab Ci, Linux",,https://www.linkedin.com/jobs/view/stefanini-devops-5519
+11,2026-09-21 18:04:37,Vagas.com,Dasa (Rede de Saúde),Analista de Sistemas e Infraestrutura N3,100.0,SUBMETIDO,"Active Directory, Itil, Zabbix, Powershell, Windows Server, Tcp/Ip, Linux, Vpn",,https://vagas.com.br/vagas/dasa-infra-n3-8821
+12,2026-09-21 18:04:38,Catho,Accenture,Cloud Infrastructure Specialist (AWS / Azure),100.0,SUBMETIDO,"S3, Aws, Vpc, Terraform, Ec2, Python, Azure, Linux",,https://catho.com.br/vagas/accenture-cloud-spec-7721
+13,2026-10-07 13:58:55,LinkedIn Jobs,Itaú Unibanco,AWS Cloud Architect & SRE Sênior,100.0,SUBMETIDO,"Terraform, Aws, Python, Kubernetes, Linux, Docker, Ci/Cd, Prometheus",,https://www.linkedin.com/jobs/view/itau-cloud-sre-2026-01
+14,2026-10-07 13:58:56,Gupy,TIVIT,Especialista em Sustentação de Missão Crítica & Workloads,57.5,DESCARTADO_SCORE_BAIXO,"Python, Aws, Zabbix, Linux, Docker","Tsm, Control-M, Sre",https://tivit.gupy.io/jobs/workloads-mission-critical-994

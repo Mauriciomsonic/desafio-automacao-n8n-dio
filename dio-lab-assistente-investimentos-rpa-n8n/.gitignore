@@ -1,0 +1,17 @@
+# Ambientes Virtuais
+.venv/
+venv/
+ENV/
+
+# Arquivos de Configuração Sensíveis
+.env
+
+# Bytecode e Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Arquivos de Exportação Local
+recomendacoes_investimentos.csv
+*.log

@@ -1,0 +1,64 @@
+/* ========================================================================= */
+/* CSS MODULAR: BANNER DE HISTÓRICO (ÚLTIMOS 20 DIAS) & TICKET DE VALIDAÇÃO */
+/* ========================================================================= */
+
+.timeline-day-card {
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.timeline-day-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(34, 211, 165, 0.4);
+  box-shadow: 0 4px 15px -3px rgba(34, 211, 165, 0.2);
+}
+
+.timeline-day-card.active-day {
+  border-color: #22D3A5 !important;
+  background: rgba(34, 211, 165, 0.08) !important;
+  box-shadow: 0 0 18px rgba(34, 211, 165, 0.25);
+}
+
+.timeline-day-card.active-day::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #22D3A5;
+}
+
+/* Indicador de Status dos Dias */
+.status-pill-success {
+  background-color: #22D3A5;
+  box-shadow: 0 0 8px rgba(34, 211, 165, 0.6);
+}
+
+.status-pill-warning {
+  background-color: #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+}
+
+.status-pill-failed {
+  background-color: #f43f5e;
+  box-shadow: 0 0 8px rgba(244, 63, 94, 0.6);
+}
+
+.status-pill-weekend {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Animações e Pulso */
+@keyframes ticketGlow {
+  0%, 100% { border-color: rgba(34, 211, 165, 0.25); }
+  50% { border-color: rgba(34, 211, 165, 0.55); }
+}
+
+.ticket-border-glow {
+  animation: ticketGlow 3s infinite ease-in-out;
+}

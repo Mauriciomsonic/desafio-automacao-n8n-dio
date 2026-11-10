@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portal de Assessoria Financeira e Investimentos - Automação RPA e IA Generativa Santander Bootcamp 2026">
+  <title>Portal de Clientes & Investimentos | DIO Santander 2026</title>
+  <style>
+    :root {
+      --santander-red: #cc0000;
+      --santander-red-dark: #990000;
+      --santander-dark: #1e1e1e;
+      --bg-light: #f4f6f9;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      
+      --badge-conservador-bg: #e0f2fe;
+      --badge-conservador-color: #0369a1;
+      --badge-moderado-bg: #fef3c7;
+      --badge-moderado-color: #b45309;
+      --badge-arrojado-bg: #fee2e2;
+      --badge-arrojado-color: #b91c1c;
+
+      --success-green: #10b981;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--santander-red), var(--santander-red-dark));
+      color: #ffffff;
+      padding: 2.2rem 1.5rem;
+      box-shadow: 0 4px 16px rgba(204, 0, 0, 0.2);
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+      width: 100%;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .brand-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-subtitle {
+      font-size: 1rem;
+      opacity: 0.92;
+      margin-top: 0.35rem;
+      max-width: 650px;
+    }
+
+    .header-badges {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      padding: 0.4rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.825rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    main {
+      flex: 1;
+      margin-top: -1.5rem;
+    }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .kpi-label {
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .kpi-value {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--santander-dark);
+    }
+
+    .kpi-desc {
+      font-size: 0.8rem;
+      color: var(--success-green);
+      font-weight: 600;
+    }
+
+    /* Main Table Card */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+
+    .card-title-group h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--santander-dark);
+    }
+
+    .card-title-group p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .table-toolbar {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      padding: 0.5rem 0.85rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+      min-width: 220px;
+    }
+
+    .search-input:focus {
+      border-color: var(--santander-red);
+    }
+
+    .btn-filter {
+      padding: 0.5rem 0.85rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      font-size: 0.825rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-filter.active, .btn-filter:hover {
+      background: var(--santander-red);
+      color: #fff;
+      border-color: var(--santander-red);
+    }
+
+    .btn-action {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: none;
+      background: #0f172a;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-action:hover {
+      background: #334155;
+    }
+
+    /* Table Styles (Otimizada para RPA e Apresentação) */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background-color: #f8fafc;
+      color: var(--text-muted);
+      font-size: 0.825rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+    }
+
+    tbody tr {
+      transition: background-color 0.15s ease;
+    }
+
+    tbody tr:hover {
+      background-color: #f8fafc;
+    }
+
+    .cliente-id {
+      font-family: 'Consolas', monospace;
+      font-weight: 600;
+      color: #475569;
+      font-size: 0.85rem;
+    }
+
+    .cliente-nome {
+      font-weight: 600;
+      color: var(--santander-dark);
+    }
+
+    .cliente-saldo {
+      font-family: 'Consolas', monospace;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .badge-conservador {
+      background-color: var(--badge-conservador-bg);
+      color: var(--badge-conservador-color);
+    }
+
+    .badge-moderado {
+      background-color: var(--badge-moderado-bg);
+      color: var(--badge-moderado-color);
+    }
+
+    .badge-arrojado {
+      background-color: var(--badge-arrojado-bg);
+      color: var(--badge-arrojado-color);
+    }
+
+    /* Links & Documentation Section */
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .doc-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+
+    .doc-box h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+      color: var(--santander-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .doc-box p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+    }
+
+    .doc-box code {
+      background: #f1f5f9;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+
+    footer {
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      padding: 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-top: auto;
+    }
+
+    footer a {
+      color: var(--santander-red);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container header-content">
+      <div>
+        <h1 class="brand-title">🏦 Santander Private Banking</h1>
+        <p class="brand-subtitle">Portal de Assessoria Financeira e Ingestão de Clientes — Pipeline RPA & IA Generativa</p>
+      </div>
+      <div class="header-badges">
+        <span class="chip">🚀 DIO Santander 2026</span>
+        <span class="chip">🟢 Web Scraping Ativo</span>
+        <span class="chip">🛡️ Antifrágil & Resiliente</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- KPIs Operacionais -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-label">Clientes Elegíveis</span>
+        <span class="kpi-value" id="kpi-total-clientes">6</span>
+        <span class="kpi-desc">Base pronta para extração</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Volume sob Assessoria</span>
+        <span class="kpi-value">R$ 45.850,00</span>
+        <span class="kpi-desc">Total em conta corrente</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Produtos no Catálogo</span>
+        <span class="kpi-value">9 Ativos</span>
+        <span class="kpi-desc">CSV oficial sincronizado</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Pipeline de Automação</span>
+        <span class="kpi-value">N8N + IA</span>
+        <span class="kpi-desc">Com fallback estático MVP</span>
+      </div>
+    </div>
+
+    <!-- Tabela de Clientes (Fonte para RPA) -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h2>Carteira Ativa de Clientes</h2>
+          <p>Tabela padronizada consumida pelo robô de extração em Python (BeautifulSoup)</p>
+        </div>
+        <div class="table-toolbar">
+          <input type="text" id="filtro-busca" class="search-input" placeholder="Buscar por nome ou e-mail..." onkeyup="filtrarTabela()">
+          <button class="btn-filter active" onclick="filtrarPerfil('todos', this)">Todos</button>
+          <button class="btn-filter" onclick="filtrarPerfil('Conservador', this)">Conservador</button>
+          <button class="btn-filter" onclick="filtrarPerfil('Moderado', this)">Moderado</button>
+          <button class="btn-filter" onclick="filtrarPerfil('Arrojado', this)">Arrojado</button>
+          <a href="data.csv" download class="btn-action">📥 Catálogo CSV</a>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table id="tabela-clientes">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Saldo em Conta</th>
+              <th>Perfil de Investidor</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela">
+            <tr>
+              <td class="cliente-id">CLI-1001</td>
+              <td class="cliente-nome">Carlos Eduardo Silva</td>
+              <td class="cliente-email">carlos.silva@email.com</td>
+              <td class="cliente-saldo">R$ 1.500,00</td>
+              <td><span class="badge badge-conservador cliente-perfil">Conservador</span></td>
+            </tr>
+            <tr>
+              <td class="cliente-id">CLI-1002</td>
+              <td class="cliente-nome">Mariana Rios de Souza</td>
+              <td class="cliente-email">mariana.rios@email.com</td>
+              <td class="cliente-saldo">R$ 15.000,00</td>
+              <td><span class="badge badge-moderado cliente-perfil">Moderado</span></td>
+            </tr>
+            <tr>
+              <td class="cliente-id">CLI-1003</td>
+              <td class="cliente-nome">Rodrigo Mendes Prado</td>
+              <td class="cliente-email">rodrigo.prado@email.com</td>
+              <td class="cliente-saldo">R$ 25.000,00</td>
+              <td><span class="badge badge-arrojado cliente-perfil">Arrojado</span></td>
+            </tr>
+            <tr>
+              <td class="cliente-id">CLI-1004</td>
+              <td class="cliente-nome">Ana Paula Albuquerque</td>
+              <td class="cliente-email">ana.albuquerque@email.com</td>
+              <td class="cliente-saldo">R$ 350,00</td>
+              <td><span class="badge badge-conservador cliente-perfil">Conservador</span></td>
+            </tr>
+            <tr>
+              <td class="cliente-id">CLI-1005</td>
+              <td class="cliente-nome">Felipe Augusto Zanin</td>
+              <td class="cliente-email">felipe.zanin@email.com</td>
+              <td class="cliente-saldo">R$ 3.200,00</td>
+              <td><span class="badge badge-moderado cliente-perfil">Moderado</span></td>
+            </tr>
+            <tr>
+              <td class="cliente-id">CLI-1006</td>
+              <td class="cliente-nome">Beatriz Helena Castro</td>
+              <td class="cliente-email">beatriz.castro@email.com</td>
+              <td class="cliente-saldo">R$ 800,00</td>
+              <td><span class="badge badge-arrojado cliente-perfil">Arrojado</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Seção de Recursos e Endpoints do GitHub Pages -->
+    <div class="docs-grid">
+      <div class="doc-box">
+        <h3>🤖 Script RPA Standalone</h3>
+        <p>Extração semântica com retry exponencial, validação Pydantic e disparo para o Webhook do N8N.</p>
+        <code>python -m src.extrair_clientes</code>
+      </div>
+      <div class="doc-box">
+        <h3>📊 Catálogo de Investimentos (CSV)</h3>
+        <p>Matriz de 9 opções com regras de elegibilidade por perfil e saldo mínimo de aporte.</p>
+        <p><a href="data.csv" target="_blank" style="color: var(--santander-red); font-weight: 600;">Abrir data.csv ↗</a></p>
+      </div>
+      <div class="doc-box">
+        <h3>📓 Google Colab Interativo</h3>
+        <p>Notebook com 10 células executáveis, barras <code>tqdm</code>, Styled DataFrames e cards visuais.</p>
+        <p>Disponível em <code>src/extrair_clientes.ipynb</code></p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>DIO Santander Bootcamp 2026 — Desafio de Automação com N8N, Python e IA Generativa.</p>
+      <p style="margin-top: 0.35rem; font-size: 0.8rem;">Página estática 100% compatível com <strong>GitHub Pages</strong> e validada para Web Scraping.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Filtro por texto em tempo real
+    function filtrarTabela() {
+      const input = document.getElementById("filtro-busca");
+      const filtro = input.value.toLowerCase();
+      const linhas = document.querySelectorAll("#corpo-tabela tr");
+
+      linhas.forEach(linha => {
+        const textoLinha = linha.innerText.toLowerCase();
+        linha.style.display = textoLinha.includes(filtro) ? "" : "none";
+      });
+    }
+
+    // Filtro por perfil do investidor
+    function filtrarPerfil(perfil, botao) {
+      document.querySelectorAll(".btn-filter").forEach(b => b.classList.remove("active"));
+      if (botao) botao.classList.add("active");
+
+      const linhas = document.querySelectorAll("#corpo-tabela tr");
+      linhas.forEach(linha => {
+        if (perfil === 'todos') {
+          linha.style.display = "";
+        } else {
+          const perfilLinha = linha.querySelector(".cliente-perfil").innerText.trim();
+          linha.style.display = (perfilLinha.toLowerCase() === perfil.toLowerCase()) ? "" : "none";
+        }
+      });
+    }
+  </script>
+</body>
+</html>

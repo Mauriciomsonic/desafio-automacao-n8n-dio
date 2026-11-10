@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Maurício | ATS Job Hunter App (Google Drive)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --color-bg: #0A0B0F;
+      --color-accent: #22D3A5;
+      --color-text: #F5F6F7;
+      --color-text-muted: #9AA1AC;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+    }
+
+    @keyframes driftA {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.7; }
+      50% { transform: translate3d(5%, 4%, 0) scale(1.1); opacity: 0.9; }
+      100% { transform: translate3d(-3%, 2%, 0) scale(1); opacity: 0.7; }
+    }
+
+    @keyframes driftB {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.5; }
+      50% { transform: translate3d(-6%, -5%, 0) scale(1.15); opacity: 0.75; }
+      100% { transform: translate3d(4%, -2%, 0) scale(1); opacity: 0.5; }
+    }
+
+    .glow-orb-a {
+      background: radial-gradient(circle at center, rgba(34, 211, 165, 0.14), transparent 65%);
+      animation: driftA 12s var(--ease-out) infinite alternate;
+      will-change: transform, opacity;
+    }
+
+    .glow-orb-b {
+      background: radial-gradient(circle at center, rgba(99, 102, 241, 0.12), transparent 60%);
+      animation: driftB 14s var(--ease-out) infinite alternate;
+      will-change: transform, opacity;
+    }
+
+    .grid-pattern {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    }
+
+    .noise-overlay {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    .glass-card {
+      background: rgba(17, 19, 24, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: all 0.3s var(--ease-out);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(34, 211, 165, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(34, 211, 165, 0.15);
+    }
+
+    .btn-emerald {
+      background: linear-gradient(135deg, #22D3A5 0%, #10b981 100%);
+      color: #06241b;
+      font-weight: 700;
+      transition: all 0.25s var(--ease-out);
+    }
+
+    .btn-emerald:hover {
+      background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+      box-shadow: 0 0 25px rgba(34, 211, 165, 0.45);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen relative overflow-x-hidden selection:bg-[#22D3A5] selection:text-black p-6 sm:p-10">
+
+  <!-- CAMADA DE FUNDO VIVO REVERT AI -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+    <div class="absolute inset-0 bg-[#0A0B0F]"></div>
+    <div class="absolute -top-[20%] -left-[10%] w-[65vw] h-[65vw] rounded-full glow-orb-a"></div>
+    <div class="absolute top-[35%] -right-[15%] w-[60vw] h-[60vw] rounded-full glow-orb-b"></div>
+    <div class="absolute inset-0 grid-pattern"></div>
+    <div class="absolute inset-0 noise-overlay"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto space-y-8">
+    <!-- Header -->
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/[0.08] pb-6">
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#22D3A5] to-[#059669] flex items-center justify-center font-bold text-[#06241b] text-lg shadow-lg shadow-[#22D3A5]/20">
+          M
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-white tracking-tight">Maurício • ATS Career Engine & Web App</h1>
+          <p class="text-xs text-[#9AA1AC]">Google Drive & Sheets Native Edition • Execução Automática às 10:00 (Dias Úteis)</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="executarCicloWeb()" id="btnDisparo" class="btn-emerald px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer">
+          <span>⚡ Executar Varredura Agora</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Cards de Métricas -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="glass-card rounded-2xl p-5 border-l-2 border-l-[#22D3A5]">
+        <span class="text-xs text-[#9AA1AC] font-semibold uppercase tracking-wider">Total Analisado</span>
+        <div class="text-3xl font-extrabold text-white mt-1" id="kpiTotal">-</div>
+        <span class="text-xs text-[#9AA1AC] mt-1 block">Oportunidades mapeadas</span>
+      </div>
+
+      <div class="glass-card rounded-2xl p-5 border-l-2 border-l-[#22D3A5]">
+        <span class="text-xs text-[#9AA1AC] font-semibold uppercase tracking-wider">Aprovadas & Salvas no Drive</span>
+        <div class="text-3xl font-extrabold text-[#22D3A5] mt-1" id="kpiAprovadas">-</div>
+        <span class="text-xs text-[#9AA1AC] mt-1 block">Score ATS ≥ 75%</span>
+      </div>
+
+      <div class="glass-card rounded-2xl p-5 border-l-2 border-l-rose-500">
+        <span class="text-xs text-[#9AA1AC] font-semibold uppercase tracking-wider">Descartadas (Score Baixo)</span>
+        <div class="text-3xl font-extrabold text-rose-400 mt-1" id="kpiDescartadas">-</div>
+        <span class="text-xs text-[#9AA1AC] mt-1 block">Zero competências inventadas</span>
+      </div>
+
+      <div class="glass-card rounded-2xl p-5 border-l-2 border-l-[#6366f1]">
+        <span class="text-xs text-[#9AA1AC] font-semibold uppercase tracking-wider">Status do Gatilho</span>
+        <div class="text-base font-bold text-white mt-1">Seg a Sex às 10:00</div>
+        <span class="text-xs text-[#22D3A5] mt-1 block">● Agendamento Ativo na Nuvem</span>
+      </div>
+    </div>
+
+    <!-- Tabela 1: Histórico Diário & Estatísticas -->
+    <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-4">
+      <div>
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-sm bg-[#22D3A5]"></span>
+          <span>Histórico Diário & Estatísticas de Varredura</span>
+        </h2>
+        <p class="text-xs text-[#9AA1AC] mt-1">Auditoria de cada ciclo disparado pelo agendador às 10h</p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs text-[#9AA1AC]">
+          <thead class="bg-white/[0.02] text-white font-semibold border-b border-white/[0.06]">
+            <tr>
+              <th class="p-3">Data</th>
+              <th class="p-3">Origem</th>
+              <th class="p-3">Total Analisado</th>
+              <th class="p-3">Aprovadas</th>
+              <th class="p-3">Score Médio</th>
+              <th class="p-3">Status</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaHistoricoBody" class="divide-y divide-white/[0.04]">
+            <tr>
+              <td colspan="6" class="p-4 text-center text-slate-500">Carregando histórico do Google Sheets...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tabela 2: Candidaturas e Links do Google Drive -->
+    <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-4">
+      <div>
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-sm bg-[#22D3A5]"></span>
+          <span>Candidaturas Registradas & Acesso aos Currículos no Google Drive</span>
+        </h2>
+        <p class="text-xs text-[#9AA1AC] mt-1">Documentos salvos automaticamente na pasta '/Curriculos_ATS_Mauricio'</p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs text-[#9AA1AC]">
+          <thead class="bg-white/[0.02] text-white font-semibold border-b border-white/[0.06]">
+            <tr>
+              <th class="p-3">Data/Hora</th>
+              <th class="p-3">Plataforma</th>
+              <th class="p-3">Empresa</th>
+              <th class="p-3">Cargo</th>
+              <th class="p-3">Score</th>
+              <th class="p-3">Status</th>
+              <th class="p-3">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaCandidaturasBody" class="divide-y divide-white/[0.04]">
+            <tr>
+              <td colspan="7" class="p-4 text-center text-slate-500">Carregando candidaturas...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function carregarDados() {
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(renderizarDados)
+          .withFailureHandler(tratarErro)
+          .obterDadosDashboardWeb();
+      } else {
+        renderizarDados({
+          totalCandidaturas: 12,
+          aprovadas: 10,
+          descartadas: 2,
+          candidaturas: [
+            { data: "22/09/2026 10:00", plataforma: "Gupy", empresa: "TOTVS", cargo: "Analista de Infraestrutura Cloud Sênior", score: "100%", status: "SUBMETIDO", linkDrive: "https://drive.google.com" },
+            { data: "22/09/2026 10:00", plataforma: "LinkedIn", empresa: "Stefanini", cargo: "DevOps Engineer (Cloud)", score: "100%", status: "SUBMETIDO", linkDrive: "https://drive.google.com" },
+            { data: "22/09/2026 10:00", plataforma: "Gupy", empresa: "Banco Santander", cargo: "Engenheiro de Machine Learning", score: "100%", status: "SUBMETIDO", linkDrive: "https://drive.google.com" }
+          ],
+          historico: [
+            { data: "22/09/2026", origem: "Automático_Gatilho_10h", total: 4, aprovadas: 4, scoreMedio: "100%", status: "CONCLUIDO_COM_SUCESSO" },
+            { data: "21/09/2026", origem: "Automático_Gatilho_10h", total: 8, aprovadas: 6, scoreMedio: "83.3%", status: "CONCLUIDO_COM_SUCESSO" }
+          ]
+        });
+      }
+    }
+
+    function renderizarDados(dados) {
+      document.getElementById("kpiTotal").innerText = dados.totalCandidaturas;
+      document.getElementById("kpiAprovadas").innerText = dados.aprovadas;
+      document.getElementById("kpiDescartadas").innerText = dados.descartadas;
+
+      const tbodyHist = document.getElementById("tabelaHistoricoBody");
+      tbodyHist.innerHTML = "";
+      dados.historico.forEach(h => {
+        tbodyHist.innerHTML += `
+          <tr class="hover:bg-white/[0.02] transition">
+            <td class="p-3 font-semibold text-white">${h.data}</td>
+            <td class="p-3 text-[#22D3A5] font-mono">${h.origem}</td>
+            <td class="p-3">${h.total}</td>
+            <td class="p-3 text-emerald-400 font-bold">${h.aprovadas}</td>
+            <td class="p-3 text-[#22D3A5] font-bold">${h.scoreMedio}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-[#22D3A5]/10 text-[#22D3A5] border border-[#22D3A5]/25 text-[10px] font-bold">● ${h.status}</span></td>
+          </tr>
+        `;
+      });
+
+      const tbodyCand = document.getElementById("tabelaCandidaturasBody");
+      tbodyCand.innerHTML = "";
+      dados.candidaturas.forEach(c => {
+        const isAprovada = c.status === "SUBMETIDO";
+        const badge = isAprovada ? "bg-[#22D3A5]/10 text-[#22D3A5] border-[#22D3A5]/25" : "bg-rose-500/10 text-rose-400 border-rose-500/25";
+        tbodyCand.innerHTML += `
+          <tr class="hover:bg-white/[0.02] transition">
+            <td class="p-3 text-[#9AA1AC]">${c.data}</td>
+            <td class="p-3">${c.plataforma}</td>
+            <td class="p-3 font-semibold text-white">${c.empresa}</td>
+            <td class="p-3">${c.cargo}</td>
+            <td class="p-3 font-bold ${isAprovada ? 'text-[#22D3A5]' : 'text-rose-400'}">${c.score}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded-full border text-[10px] font-bold ${badge}">${c.status}</span></td>
+            <td class="p-3">
+              ${c.linkDrive && c.linkDrive !== '-' ? `<a href="${c.linkDrive}" target="_blank" class="px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#22D3A5] border border-white/[0.08] font-semibold text-[11px] transition inline-block">Abrir no Drive</a>` : '<span class="text-slate-500">-</span>'}
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function tratarErro(erro) {
+      alert("Erro ao comunicar com o Google Apps Script: " + erro);
+    }
+
+    function executarCicloWeb() {
+      const btn = document.getElementById("btnDisparo");
+      btn.innerText = "⏳ Executando...";
+      btn.disabled = true;
+
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(() => {
+            alert("✅ Varredura realizada com sucesso!");
+            carregarDados();
+            btn.innerText = "⚡ Executar Varredura Agora";
+            btn.disabled = false;
+          })
+          .withFailureHandler(err => {
+            alert("Falha: " + err);
+            btn.innerText = "⚡ Executar Varredura Agora";
+            btn.disabled = false;
+          })
+          .executarCicloManual();
+      } else {
+        setTimeout(() => {
+          alert("⚡ [Simulação] Varredura realizada!");
+          btn.innerText = "⚡ Executar Varredura Agora";
+          btn.disabled = false;
+        }, 1200);
+      }
+    }
+
+    window.onload = carregarDados;
+  </script>
+</body>
+</html>

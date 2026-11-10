@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TERMINAL INSTITUCIONAL QUANT — SANTANDER PRIVATE WEALTH & RPA</title>
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM TOKENS — TERMINAL QUANT FUTURISTA
+       Baseado no estudo visual do Motion Graphics do Asset Artlist
+       ========================================================================== */
+    :root {
+      --bg-primary: #0A0B0F;
+      --bg-surface: #111318;
+      --bg-surface-elevated: #161922;
+      --border-subtle: #1e2330;
+      --border-bright: #2d3748;
+      
+      --color-up: #22D3A5;
+      --color-up-glow: rgba(34, 211, 165, 0.35);
+      --color-down: #FF4757;
+      --color-down-glow: rgba(255, 71, 87, 0.35);
+      --color-neutral: #F5F6F7;
+      --color-muted: #6B7280;
+      --color-accent-blue: #3B82F6;
+      --color-accent-blue-glow: rgba(59, 130, 246, 0.3);
+      --color-accent-amber: #F59E0B;
+      --color-santander: #EC0000;
+
+      --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--color-neutral);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+      line-height: 1.5;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(34, 211, 165, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+        linear-gradient(rgba(30, 35, 48, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 35, 48, 0.15) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+    }
+
+    /* ==========================================================================
+       TOP TICKER STREAMER (MOVIMENTO CONTÍNUO)
+       ========================================================================== */
+    .ticker-bar {
+      background-color: #06070a;
+      border-bottom: 1px solid var(--border-subtle);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 0.4rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      animation: marquee 35s linear infinite;
+      gap: 2rem;
+      padding-left: 100%;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ticker-symbol {
+      font-weight: 700;
+      color: var(--color-neutral);
+    }
+
+    .ticker-val {
+      color: var(--color-muted);
+    }
+
+    .ticker-up {
+      color: var(--color-up);
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .ticker-down {
+      color: var(--color-down);
+      display: inline-flex;
+      align-items: center;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* ==========================================================================
+       HEADER INSTITUCIONAL
+       ========================================================================== */
+    header {
+      padding: 1.25rem 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(17, 19, 24, 0.85);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .badge-terminal {
+      background: linear-gradient(135deg, var(--color-santander), #8B0000);
+      color: white;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      box-shadow: 0 0 12px rgba(236, 0, 0, 0.4);
+    }
+
+    .title-wrapper h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-neutral);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .title-wrapper p {
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      font-family: var(--font-mono);
+    }
+
+    .telemetry-status {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--color-up);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--color-up);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--color-up);
+      animation: livePulse 1.5s infinite;
+    }
+
+    @keyframes livePulse {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.4); opacity: 1; box-shadow: 0 0 14px var(--color-up); }
+      100% { transform: scale(0.9); opacity: 0.7; }
+    }
+
+    .clock-display {
+      color: var(--color-neutral);
+      background: var(--bg-surface-elevated);
+      padding: 0.35rem 0.75rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* ==========================================================================
+       CONTAINER PRINCIPAL E GRID DE 6 ZONAS DE MOTION GRAPHICS
+       ========================================================================== */
+    .dashboard-container {
+      max-width: 1600px;
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 2.2fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .card-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--border-bright), transparent);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .panel-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--color-neutral);
+    }
+
+    .panel-title span {
+      color: var(--color-up);
+    }
+
+    .panel-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .badge-chip {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--color-muted);
+    }
+
+    /* ZONA 1 & 4: CANDLESTICK & VOLUME CANVAS */
+    .chart-stage {
+      position: relative;
+      width: 100%;
+      height: 340px;
+      background: #08090d;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    canvas#candleCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .canvas-hud {
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      display: flex;
+      gap: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .hud-stat span.label {
+      color: var(--color-muted);
+      font-size: 0.7rem;
+      display: block;
+    }
+
+    .hud-stat span.val {
+      font-weight: 700;
+    }
+
+    /* ZONA 2 & 3: LINHA DE TENDÊNCIA E MARCADORES PULSANTES (SVG) */
+    .trend-stage {
+      width: 100%;
+      height: 140px;
+      margin-top: 1rem;
+      background: #090b10;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    svg.trend-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .pulse-radar {
+      animation: radarWave 2s infinite ease-out;
+      transform-origin: center;
+    }
+
+    @keyframes radarWave {
+      0% { r: 5; opacity: 1; }
+      100% { r: 18; opacity: 0; }
+    }
+
+    /* ZONA 5: TABELA DE COTAÇÕES EM TEMPO REAL COM FLASH EFFECT */
+    .quote-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+    }
+
+    .quote-table th {
+      text-align: left;
+      padding: 0.6rem 0.5rem;
+      color: var(--color-muted);
+      font-weight: 500;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+
+    .quote-table td {
+      padding: 0.65rem 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    .flash-up {
+      background-color: rgba(34, 211, 165, 0.25) !important;
+      color: #ffffff !important;
+    }
+
+    .flash-down {
+      background-color: rgba(255, 71, 87, 0.25) !important;
+      color: #ffffff !important;
+    }
+
+    /* ZONA 6: ORDER BOOK / DEPTH BARS */
+    .depth-container {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .depth-row {
+      display: flex;
+      align-items: center;
+      height: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      position: relative;
+    }
+
+    .depth-bar {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      border-radius: 2px;
+      transition: width 0.3s ease;
+      opacity: 0.35;
+    }
+
+    .depth-bar.bid {
+      right: 50%;
+      background-color: var(--color-up);
+    }
+
+    .depth-bar.ask {
+      left: 50%;
+      background-color: var(--color-accent-blue);
+    }
+
+    .depth-text {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0.5rem;
+      z-index: 2;
+    }
+
+    /* ==========================================================================
+       TABELA DE CLIENTES PARA RPA & N8N (SISTEMA INTEGRADO)
+       ========================================================================== */
+    .clients-section {
+      grid-column: 1 / -1;
+      margin-top: 0.5rem;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table#tabela-clientes {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    table#tabela-clientes th {
+      background: var(--bg-surface-elevated);
+      color: var(--color-muted);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border-bright);
+    }
+
+    table#tabela-clientes td {
+      padding: 0.95rem 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.88rem;
+    }
+
+    table#tabela-clientes tbody tr {
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    table#tabela-clientes tbody tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .cliente-id {
+      font-family: var(--font-mono);
+      color: var(--color-accent-blue);
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+
+    .cliente-nome {
+      font-weight: 600;
+      color: var(--color-neutral);
+    }
+
+    .cliente-email {
+      color: var(--color-muted);
+      font-size: 0.82rem;
+      font-family: var(--font-mono);
+    }
+
+    .cliente-saldo {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--color-up);
+    }
+
+    .badge-perfil {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .badge-conservador {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+    }
+
+    .badge-moderado {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .badge-arrojado {
+      background: rgba(255, 71, 87, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(255, 71, 87, 0.35);
+    }
+
+    /* TELEMETRIA & AÇÃO N8N */
+    .action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .btn-n8n {
+      background: linear-gradient(135deg, #ff6d5a, #ea4b71);
+      color: #ffffff;
+      border: none;
+      padding: 0.65rem 1.4rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 4px 14px rgba(234, 75, 113, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .btn-n8n:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(234, 75, 113, 0.5);
+    }
+
+    .btn-n8n:active {
+      transform: translateY(0);
+    }
+
+    .console-box {
+      background: #050608;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: #10b981;
+      flex: 1;
+      min-width: 300px;
+      max-height: 48px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP TICKER STREAMER (MOVIMENTO CONTÍNUO EM 60 FPS)
+       ======================================================================== -->
+  <div class="ticker-bar">
+    <div class="ticker-track" id="tickerTrack">
+      <div class="ticker-item"><span class="ticker-symbol">IBOV</span> <span class="ticker-val">134.820</span> <span class="ticker-up">▲ +1.14%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">PETR4</span> <span class="ticker-val">R$ 38,40</span> <span class="ticker-up">▲ +0.82%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">VALE3</span> <span class="ticker-val">R$ 57,90</span> <span class="ticker-down">▼ -0.35%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">BTC/BRL</span> <span class="ticker-val">R$ 364.500</span> <span class="ticker-up">▲ +2.45%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">TESOURO IPCA+</span> <span class="ticker-val">6.25%</span> <span class="ticker-up">▲ +0.05%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">CDB DI</span> <span class="ticker-val">12.50%</span> <span class="ticker-neutral">● 100% CDI</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">USD/BRL</span> <span class="ticker-val">R$ 5,48</span> <span class="ticker-down">▼ -0.42%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">SELIC</span> <span class="ticker-val">10.75%</span> <span class="ticker-neutral">● Meta BACEN</span></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       HEADER INSTITUCIONAL COM TELEMETRIA
+       ======================================================================== -->
+  <header>
+    <div class="brand-group">
+      <div class="badge-terminal">SANTANDER QUANT</div>
+      <div class="title-wrapper">
+        <h1>TERMINAL DE INVESTIMENTOS & RPA AGÊNTICO</h1>
+        <p>ORQUESTRAÇÃO N8N • MOTION GRAPHICS INTERATIVO • ANÁLISE DE CARTEIRA EM TEMPO REAL</p>
+      </div>
+    </div>
+
+    <div class="telemetry-status">
+      <div class="live-indicator">
+        <div class="pulse-dot"></div>
+        <span>ENGINE QUANT ATIVO</span>
+      </div>
+      <div class="clock-display" id="clockDisplay">--:--:-- UTC</div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       GRID PRINCIPAL (ZONAS VISUAIS 1 A 6)
+       ======================================================================== -->
+  <main class="dashboard-container">
+
+    <!-- COLUNA ESQUERDA: CANDLESTICK INTERATIVO & LINHA DE TENDÊNCIA COM GLOW -->
+    <div class="card-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>ZONE 01 & 04</span> // CANDLESTICK EM TEMPO REAL & OSCILADOR VOLUMÉTRICO
+        </div>
+        <div class="panel-controls">
+          <span class="badge-chip">ATIVO: SANTANDER WEALTH INDEX (SWI)</span>
+          <span class="badge-chip" id="fpsDisplay">60 FPS</span>
+        </div>
+      </div>
+
+      <!-- ÁREA GRÁFICA DO CANVAS (CANDLES + VOLUME) -->
+      <div class="chart-stage">
+        <div class="canvas-hud">
+          <div class="hud-stat">
+            <span class="label">ÚLTIMO PREÇO</span>
+            <span class="val" id="hudPrice" style="color: var(--color-up);">1.482,50</span>
+          </div>
+          <div class="hud-stat">
+            <span class="label">MÁXIMA (24H)</span>
+            <span class="val" id="hudHigh" style="color: var(--color-neutral);">1.510,00</span>
+          </div>
+          <div class="hud-stat">
+            <span class="label">MÍNIMA (24H)</span>
+            <span class="val" id="hudLow" style="color: var(--color-muted);">1.440,20</span>
+          </div>
+          <div class="hud-stat">
+            <span class="label">VOLUME FLUXO</span>
+            <span class="val" id="hudVol" style="color: var(--color-accent-blue);">R$ 48,2M</span>
+          </div>
+        </div>
+        <canvas id="candleCanvas"></canvas>
+      </div>
+
+      <!-- ZONA 2 & 3: LINHA DE TENDÊNCIA SPLINE COM PONTOS DE RADAR PULSANTE -->
+      <div class="panel-header" style="margin-top: 1rem; margin-bottom: 0.5rem;">
+        <div class="panel-title">
+          <span>ZONE 02 & 03</span> // LINHA DE TENDÊNCIA ALGORÍTMICA & RADAR DE PICOS E VALES
+        </div>
+      </div>
+
+      <div class="trend-stage">
+        <svg class="trend-svg" viewBox="0 0 800 140" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="trendGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#22D3A5" stop-opacity="0.35" />
+              <stop offset="100%" stop-color="#22D3A5" stop-opacity="0.0" />
+            </linearGradient>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="glow" />
+              <feComposite in="SourceGraphic" in2="glow" operator="over" />
+            </filter>
+          </defs>
+
+          <!-- Preenchimento em Gradiente -->
+          <path id="trendArea" d="M 0,140 Q 150,90 300,110 T 550,40 T 800,20 L 800,140 Z" fill="url(#trendGradient)" />
+
+          <!-- Linha Spline com Glow -->
+          <path id="trendLine" d="M 0,140 Q 150,90 300,110 T 550,40 T 800,20" fill="none" stroke="#22D3A5" stroke-width="3" filter="url(#glow)" />
+
+          <!-- Zona 3: Marcadores de Radar Pulsante nos Picos e Vales -->
+          <g transform="translate(300, 110)">
+            <circle class="pulse-radar" r="6" fill="none" stroke="#22D3A5" stroke-width="2" />
+            <circle r="4" fill="#ffffff" stroke="#22D3A5" stroke-width="2" />
+          </g>
+
+          <g transform="translate(550, 40)">
+            <circle class="pulse-radar" r="6" fill="none" stroke="#22D3A5" stroke-width="2" />
+            <circle r="4" fill="#ffffff" stroke="#22D3A5" stroke-width="2" />
+          </g>
+
+          <g transform="translate(780, 22)">
+            <circle class="pulse-radar" r="6" fill="none" stroke="#22D3A5" stroke-width="2" />
+            <circle r="5" fill="#22D3A5" stroke="#ffffff" stroke-width="2" />
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- COLUNA DIREITA: TABELA DE MERCADO EM TEMPO REAL & PROFUNDIDADE DE OFERTAS (DEPTH) -->
+    <div class="card-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>ZONE 05</span> // MERCADO & SPREAD
+        </div>
+        <span class="badge-chip">LIVE FEED</span>
+      </div>
+
+      <!-- ZONA 5: TABELA COM FLASH DE PREÇOS -->
+      <table class="quote-table">
+        <thead>
+          <tr>
+            <th>PRODUTO</th>
+            <th>MERCADO</th>
+            <th>RENT.</th>
+            <th>VAR.</th>
+          </tr>
+        </thead>
+        <tbody id="quoteBody">
+          <tr id="row-selic">
+            <td>Tesouro Selic</td>
+            <td class="price">R$ 14.820</td>
+            <td>13.0%</td>
+            <td class="chg" style="color: var(--color-up);">+0.12%</td>
+          </tr>
+          <tr id="row-cdb">
+            <td>CDB Liquidez</td>
+            <td class="price">R$ 1.000</td>
+            <td>12.5%</td>
+            <td class="chg" style="color: var(--color-up);">+0.08%</td>
+          </tr>
+          <tr id="row-ipca">
+            <td>Tesouro IPCA+</td>
+            <td class="price">R$ 3.250</td>
+            <td>IPCA+6%</td>
+            <td class="chg" style="color: var(--color-down);">-0.05%</td>
+          </tr>
+          <tr id="row-multi">
+            <td>F. Multimercado</td>
+            <td class="price">R$ 5.410</td>
+            <td>16.0%</td>
+            <td class="chg" style="color: var(--color-up);">+0.45%</td>
+          </tr>
+          <tr id="row-etf">
+            <td>Ações ETF</td>
+            <td class="price">R$ 118,50</td>
+            <td>Variável</td>
+            <td class="chg" style="color: var(--color-up);">+1.64%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ZONA 6: ORDER BOOK / PROFUNDIDADE DE MERCADO (DEPTH BARS) -->
+      <div class="panel-header" style="margin-top: 1.5rem;">
+        <div class="panel-title">
+          <span>ZONE 06</span> // ORDER BOOK & PROFUNDIDADE
+        </div>
+        <span class="badge-chip">BIDS / ASKS</span>
+      </div>
+
+      <div class="depth-container">
+        <div class="depth-row">
+          <div class="depth-bar bid" id="bidBar1" style="width: 44%;"></div>
+          <div class="depth-bar ask" id="askBar1" style="width: 32%;"></div>
+          <div class="depth-text">
+            <span style="color: var(--color-up);">COMPRA R$ 1.482,00</span>
+            <span style="color: var(--color-accent-blue);">R$ 1.482,80 VENDA</span>
+          </div>
+        </div>
+
+        <div class="depth-row">
+          <div class="depth-bar bid" id="bidBar2" style="width: 38%;"></div>
+          <div class="depth-bar ask" id="askBar2" style="width: 46%;"></div>
+          <div class="depth-text">
+            <span style="color: var(--color-up);">COMPRA R$ 1.481,50</span>
+            <span style="color: var(--color-accent-blue);">R$ 1.483,10 VENDA</span>
+          </div>
+        </div>
+
+        <div class="depth-row">
+          <div class="depth-bar bid" id="bidBar3" style="width: 25%;"></div>
+          <div class="depth-bar ask" id="askBar3" style="width: 29%;"></div>
+          <div class="depth-text">
+            <span style="color: var(--color-up);">COMPRA R$ 1.480,90</span>
+            <span style="color: var(--color-accent-blue);">R$ 1.483,70 VENDA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================
+         BASE DE CLIENTES (INTEGRAÇÃO RPA COM BEAUTIFUL SOUP & DISPARO N8N)
+         ======================================================================== -->
+    <div class="card-panel clients-section">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>CARTEIRA ATIVA DE CLIENTES</span> // INGESTÃO AUTOMATIZADA POR RPA
+        </div>
+        <span class="badge-chip">FONTE: docs/index.html</span>
+      </div>
+
+      <div class="table-responsive">
+        <!-- TABELA SEMÂNTICA IDÊNTICA À ESPERADA PELO EXTRAIR_CLIENTES.PY -->
+        <table id="tabela-clientes">
+          <thead>
+            <tr>
+              <th>ID REGISTRO</th>
+              <th>INVESTIDOR</th>
+              <th>E-MAIL INSTITUCIONAL</th>
+              <th>SALDO DISPONÍVEL</th>
+              <th>PERFIL DE RISCO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cliente-id">CLI-1001</td>
+              <td class="cliente-nome">Carlos Eduardo Silva</td>
+              <td class="cliente-email">carlos.silva@email.com</td>
+              <td class="cliente-saldo">R$ 1.500,00</td>
+              <td><span class="badge-perfil badge-conservador cliente-perfil">Conservador</span></td>
+            </tr>
+            <tr>
+              <td class="cliente-id">CLI-1002</td>
+              <td class="cliente-nome">Mariana Rios de Souza</td>
+              <td class="cliente-email">mariana.rios@email.com</td>
+              <td class="cliente-saldo">R$ 15.000,00</td>
+              <td><span class="badge-perfil badge-moderado cliente-perfil">Moderado</span></td>
+            </tr>
+            <tr>
+              <td class="cliente-id">CLI-1003</td>
+              <td class="cliente-nome">Rodrigo Mendes Prado</td>
+              <td class="cliente-email">rodrigo.prado@email.com</td>
+              <td class="cliente-saldo">R$ 25.000,00</td>
+              <td><span class="badge-perfil badge-arrojado cliente-perfil">Arrojado</span></td>
+            </tr>
+            <tr>
+              <td class="cliente-id">CLI-1004</td>
+              <td class="cliente-nome">Ana Paula Albuquerque</td>
+              <td class="cliente-email">ana.albuquerque@email.com</td>
+              <td class="cliente-saldo">R$ 350,00</td>
+              <td><span class="badge-perfil badge-conservador cliente-perfil">Conservador</span></td>
+            </tr>
+            <tr>
+              <td class="cliente-id">CLI-1005</td>
+              <td class="cliente-nome">Felipe Augusto Zanin</td>
+              <td class="cliente-email">felipe.zanin@email.com</td>
+              <td class="cliente-saldo">R$ 3.200,00</td>
+              <td><span class="badge-perfil badge-moderado cliente-perfil">Moderado</span></td>
+            </tr>
+            <tr>
+              <td class="cliente-id">CLI-1006</td>
+              <td class="cliente-nome">Beatriz Helena Castro</td>
+              <td class="cliente-email">beatriz.castro@email.com</td>
+              <td class="cliente-saldo">R$ 800,00</td>
+              <td><span class="badge-perfil badge-arrojado cliente-perfil">Arrojado</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn-n8n" id="btnDisparoN8N" onclick="dispararParaN8N()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          DISPARAR PIPELINE N8N
+        </button>
+
+        <div class="console-box" id="consoleBox">
+          ● [PRONTO] Robô de RPA configurado. Aguardando comando de extração ou disparo Webhook.
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================
+       ENGINE DE MOTION GRAPHICS (CANVAS 60 FPS + INTERATIVIDADE)
+       ======================================================================== -->
+  <script>
+    // Relógio UTC em tempo real
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clockDisplay').textContent = now.toTimeString().split(' ')[0] + ' UTC-3';
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // ========================================================================
+    // ENGINE DO CANVAS: CANDLESTICKS & VOLUME OSCILANTE EM 60 FPS
+    // ========================================================================
+    const canvas = document.getElementById('candleCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Geração de Candles Iniciais
+    let candles = [];
+    let currentPrice = 1482.50;
+
+    for (let i = 0; i < 35; i++) {
+      const open = currentPrice + (Math.random() * 8 - 4);
+      const close = open + (Math.random() * 10 - 4.5);
+      const high = Math.max(open, close) + Math.random() * 4;
+      const low = Math.min(open, close) - Math.random() * 4;
+      const volume = Math.random() * 50 + 20;
+      candles.push({ open, high, low, close, volume });
+      currentPrice = close;
+    }
+
+    let frameCount = 0;
+    let lastTime = performance.now();
+    let fps = 60;
+
+    function renderLoop(time) {
+      frameCount++;
+      if (time - lastTime >= 1000) {
+        fps = frameCount;
+        document.getElementById('fpsDisplay').textContent = fps + ' FPS';
+        frameCount = 0;
+        lastTime = time;
+      }
+
+      // Micro-oscilação do último candle (Tick ao vivo)
+      const lastCandle = candles[candles.length - 1];
+      const delta = (Math.random() - 0.49) * 0.8;
+      lastCandle.close += delta;
+      if (lastCandle.close > lastCandle.high) lastCandle.high = lastCandle.close;
+      if (lastCandle.close < lastCandle.low) lastCandle.low = lastCandle.close;
+
+      // Atualiza HUD de preço
+      const hudPrice = document.getElementById('hudPrice');
+      hudPrice.textContent = lastCandle.close.toFixed(2);
+      hudPrice.style.color = lastCandle.close >= lastCandle.open ? 'var(--color-up)' : 'var(--color-down)';
+
+      // Limpar Canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Grid de Fundo Sutil
+      ctx.strokeStyle = '#141824';
+      ctx.lineWidth = 1;
+      const gridSpacingY = canvas.height / 5;
+      for (let y = gridSpacingY; y < canvas.height; y += gridSpacingY) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+      }
+
+      // Escala de Preços
+      let minPrice = Infinity;
+      let maxPrice = -Infinity;
+      let maxVol = 0;
+
+      candles.forEach(c => {
+        if (c.low < minPrice) minPrice = c.low;
+        if (c.high > maxPrice) maxPrice = c.high;
+        if (c.volume > maxVol) maxVol = c.volume;
+      });
+
+      const padding = 20;
+      const priceRange = (maxPrice - minPrice) || 1;
+      const candleWidth = (canvas.width - padding * 2) / candles.length;
+      const chartHeight = canvas.height * 0.72;
+      const volumeBaseY = canvas.height - 10;
+
+      // Desenho dos Candles e Barras de Volume
+      candles.forEach((c, i) => {
+        const x = padding + i * candleWidth;
+        const isUp = c.close >= c.open;
+        const color = isUp ? '#22D3A5' : '#FF4757';
+
+        // 1. Barras Verticais de Volume (Zona 4)
+        const volHeight = (c.volume / maxVol) * 50;
+        ctx.fillStyle = isUp ? 'rgba(34, 211, 165, 0.25)' : 'rgba(255, 71, 87, 0.25)';
+        ctx.fillRect(x + 1, volumeBaseY - volHeight, candleWidth - 3, volHeight);
+
+        // 2. Candlestick (Zona 1)
+        const openY = chartHeight - ((c.open - minPrice) / priceRange) * (chartHeight - 40) + 10;
+        const closeY = chartHeight - ((c.close - minPrice) / priceRange) * (chartHeight - 40) + 10;
+        const highY = chartHeight - ((c.high - minPrice) / priceRange) * (chartHeight - 40) + 10;
+        const lowY = chartHeight - ((c.low - minPrice) / priceRange) * (chartHeight - 40) + 10;
+
+        // Wick / Sombra
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x + candleWidth / 2, highY);
+        ctx.lineTo(x + candleWidth / 2, lowY);
+        ctx.stroke();
+
+        // Corpo do Candle
+        const topY = Math.min(openY, closeY);
+        const bodyHeight = Math.max(Math.abs(closeY - openY), 2);
+        ctx.fillStyle = color;
+        ctx.fillRect(x + 2, topY, candleWidth - 4, bodyHeight);
+      });
+
+      // Linha de Preço Atual Pontilhada
+      const lastY = chartHeight - ((lastCandle.close - minPrice) / priceRange) * (chartHeight - 40) + 10;
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = lastCandle.close >= lastCandle.open ? '#22D3A5' : '#FF4757';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, lastY);
+      ctx.lineTo(canvas.width, lastY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      requestAnimationFrame(renderLoop);
+    }
+    requestAnimationFrame(renderLoop);
+
+    // ========================================================================
+    // SIMULAÇÃO DE FLASHES DE COTAÇÕES E DEPTH BARS (TEMPO REAL)
+    // ========================================================================
+    setInterval(() => {
+      const rows = ['row-selic', 'row-cdb', 'row-ipca', 'row-multi', 'row-etf'];
+      const randomRowId = rows[Math.floor(Math.random() * rows.length)];
+      const row = document.getElementById(randomRowId);
+      if (!row) return;
+
+      const isPositive = Math.random() > 0.45;
+      row.classList.remove('flash-up', 'flash-down');
+      void row.offsetWidth; // Força reflow CSS
+      row.classList.add(isPositive ? 'flash-up' : 'flash-down');
+
+      setTimeout(() => {
+        row.classList.remove('flash-up', 'flash-down');
+      }, 450);
+
+      // Micro oscilação das Depth Bars (Zona 6)
+      const bid1 = document.getElementById('bidBar1');
+      const ask1 = document.getElementById('askBar1');
+      if (bid1 && ask1) {
+        bid1.style.width = (30 + Math.random() * 25) + '%';
+        ask1.style.width = (25 + Math.random() * 25) + '%';
+      }
+    }, 1800);
+
+    // ========================================================================
+    // DISPARO WEBHOOK N8N COM FEEDBACK EM TEMPO REAL
+    // ========================================================================
+    async function dispararParaN8N() {
+      const consoleBox = document.getElementById('consoleBox');
+      consoleBox.innerHTML = '<span style="color:#fbbf24;">⚡ [ENVIANDO] Extraindo clientes da tabela e disparando para Webhook N8N...</span>';
+
+      // Extrai clientes diretamente do DOM
+      const linhas = document.querySelectorAll('#tabela-clientes tbody tr');
+      const clientes = [];
+
+      linhas.forEach(linha => {
+        const colunas = linha.querySelectorAll('td');
+        if (colunas.length >= 5) {
+          const saldoLimpo = parseFloat(colunas[3].innerText.replace(/[^0-9,]/g, '').replace(',', '.'));
+          clientes.push({
+            id: colunas[0].innerText.trim(),
+            nome: colunas[1].innerText.trim(),
+            email: colunas[2].innerText.trim(),
+            saldo: saldoLimpo,
+            saldo_formatado: colunas[3].innerText.trim(),
+            perfil: colunas[4].innerText.trim()
+          });
+        }
+      });
+
+      const payload = {
+        origem: "Terminal-Quant-Web-Client",
+        total_clientes: clientes.length,
+        clientes: clientes
+      };
+
+      try {
+        const response = await fetch('http://localhost:5678/webhook/clientes-investimentos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          consoleBox.innerHTML = `<span style="color:#22D3A5;">✅ [SUCESSO N8N] ${data.total_processados || clientes.length} clientes processados e cruzados com sucesso!</span>`;
+        } else {
+          consoleBox.innerHTML = `<span style="color:#fbbf24;">⚠️ [STATUS ${response.status}] N8N ativo. Certifique-se de ativar o workflow ou clicar em 'Listen for test event'.</span>`;
+        }
+      } catch (err) {
+        consoleBox.innerHTML = `<span style="color:#FF4757;">⚠️ [AVISO] Falha ao conectar em localhost:5678. Verifique se o N8N está rodando ou use 'extrair_clientes.py'.</span>`;
+      }
+    }
+  </script>
+
+</body>
+</html>

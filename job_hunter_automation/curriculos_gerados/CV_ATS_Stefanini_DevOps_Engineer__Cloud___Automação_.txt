@@ -1,0 +1,40 @@
+MAURÍCIO
+São Paulo, SP | mauricio.tech@exemplo.com
+linkedin.com/in/mauricio-tech-cloud | github.com/mauricio-dev
+
+OBJETIVO PROFISSIONAL
+Atuação estratégica como DevOps Engineer (Cloud & Automação) na Stefanini, aplicando sólida bagagem técnica com foco em alta disponibilidade, automação e eficiência operacional.
+
+RESUMO DE QUALIFICAÇÕES
+Profissional sênior de Tecnologia com sólida trajetória em Infraestrutura Cloud (AWS e Azure), administração de servidores Linux/Windows e sustentação de ambientes de missão crítica. Comprovada experiência em migrações para nuvem, redução de custos de infraestrutura e automação com Bash e Python. Certificado AWS Solutions Architect Associate e ITIL v4.
+
+HABILIDADES TÉCNICAS E COMPETÊNCIAS
+AWS • Docker • Kubernetes • CI/CD • Jenkins • GitLab CI • Linux • Bash • EC2 • S3 • RDS • Lambda • VPC • Azure • Azure AI • Active Directory • Azure AD • Terraform • Ansible • Git • GitHub Actions • RHEL • Ubuntu • CentOS • Windows Server • Prometheus • Grafana • Zabbix • Nagios • TCP/IP • DNS • DHCP • VPN • Firewall • Python • FastAPI • Pandas • Scikit-Learn • SQL • PowerShell • TypeScript • Prompt Engineering • NotebookLM • ITIL • ITIL v4
+
+EXPERIÊNCIA PROFISSIONAL
+Analista de Infraestrutura Cloud e Machine Learning — Tech Solutions & Projetos Corporativos
+Período: Jan/2022 - Presente
+• Liderou a migração de 100% da infraestrutura on-premise para AWS (EC2, S3, RDS), reduzindo custos operacionais em 35% (economia de ~R$ 20.000/mês).
+• Implementou pipelines de CI/CD automatizados com Jenkins e GitLab CI, reduzindo o tempo de deploy de 2 horas para 10 minutos.
+• Automatizou monitoramento centralizado com Prometheus e Grafana, reduzindo o MTTR (Mean Time to Recovery) em 60%.
+• Desenvolveu pipelines de dados e consumo de APIs de IA Generativa com Python e Azure, com mais de 49 projetos documentados e versionados.
+
+Analista de Suporte e Infraestrutura N2 / N3 — Serviços Corporativos de TI
+Período: Mar/2019 - Dez/2021
+• Gerenciou parque com mais de 500 servidores Linux (RHEL/Ubuntu/CentOS), mantendo SLA de disponibilidade em 99.9%.
+• Criou scripts em Bash e PowerShell para automação de rotinas de backup, auditoria de redes e conformidade de segurança.
+• Lidou com projetos de migração de Active Directory local para Azure AD, impactando mais de 2.000 usuários sem downtime.
+
+CERTIFICAÇÕES PROFISSIONAIS
+• AWS Certified Solutions Architect – Associate
+• Microsoft Certified: Azure Fundamentals (AZ-900 / Azure AI)
+• ITIL v4 Foundation
+• Linux Professional Institute (LPIC-1)
+• Formações e Bootcamps DIO: Machine Learning Engineer & Cloud DevOps
+
+FORMAÇÃO ACADÊMICA
+• Bacharelado em Ciência da Computação / Tecnologia da Informação
+
+IDIOMAS
+• Português: Nativo
+• Inglês: Técnico / Avançado para Leitura, Documentação e Conversação

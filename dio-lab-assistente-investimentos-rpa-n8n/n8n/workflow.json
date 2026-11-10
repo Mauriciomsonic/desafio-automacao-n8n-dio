@@ -1,0 +1,254 @@
+{
+  "name": "Assistente de Investimentos - RPA + IA Generativa",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "assistente-investimentos",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-recebe-clientes",
+      "name": "Webhook - Recebe Clientes",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "assistente-investimentos"
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "split-in-batches",
+      "name": "SplitInBatches - Clientes",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://<seu-usuario>.github.io/dio-lab-assistente-investimentos-rpa-n8n/data.csv",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "http-ler-csv",
+      "name": "HTTP - Ler CSV Investimentos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        450,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "fromFile",
+        "options": {}
+      },
+      "id": "parse-csv",
+      "name": "Parse CSV Investimentos",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        700,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// REGRA DE NEGÓCIO: Cruzamento perfil + saldo mínimo\n// ============================================================\n\nconst item = $input.first().json;\nconst cliente = item.cliente || item;\n\n// Normaliza perfil\nconst perfil = String(cliente.perfil || 'Moderado').trim();\n\n// Normaliza saldo (suporta R$ 1.234,56 / 1234.56 / etc)\nlet saldoRaw = String(cliente.saldo || '0');\nsaldoRaw = saldoRaw.replace(/[^\\d,.-]/g, '');\nif (saldoRaw.includes(',') && saldoRaw.includes('.')) {\n  saldoRaw = saldoRaw.replace(/\\./g, '').replace(',', '.');\n} else if (saldoRaw.includes(',')) {\n  saldoRaw = saldoRaw.replace(',', '.');\n}\nconst saldo = parseFloat(saldoRaw) || 0;\n\n// Carrega investimentos do nó Parse CSV ou fallback embutido\nlet investimentos = [];\ntry {\n  investimentos = $('Parse CSV Investimentos').all().map(i => ({\n    perfil: String(i.json.perfil || '').trim(),\n    produto: String(i.json.produto || '').trim(),\n    minimo: parseInt(String(i.json.minimo || '0').replace(/\\D/g, ''), 10) || 0,\n    rentabilidade: String(i.json.rentabilidade || '').trim(),\n  }));\n} catch (err) {\n  // Catalogo de contingencia\n  investimentos = [\n    { perfil: 'Conservador', produto: 'Poupança', minimo: 100, rentabilidade: '6.2%' },\n    { perfil: 'Conservador', produto: 'CDB Liquidez Diária', minimo: 1000, rentabilidade: '12.5%' },\n    { perfil: 'Conservador', produto: 'Tesouro Selic', minimo: 500, rentabilidade: '13.0%' },\n    { perfil: 'Moderado', produto: 'CDB Prefixado', minimo: 1000, rentabilidade: '14.0%' },\n    { perfil: 'Moderado', produto: 'Fundo Multimercado', minimo: 5000, rentabilidade: '16.0%' },\n    { perfil: 'Moderado', produto: 'Tesouro IPCA+', minimo: 1000, rentabilidade: 'IPCA+6.0%' },\n    { perfil: 'Arrojado', produto: 'Ações ETF', minimo: 500, rentabilidade: 'Variável' },\n    { perfil: 'Arrojado', produto: 'Fundo de Ações', minimo: 10000, rentabilidade: 'Variável' },\n    { perfil: 'Arrojado', produto: 'Criptomoedas', minimo: 100, rentabilidade: 'Variável' }\n  ];\n}\n\n// Filtra por perfil e saldo mínimo\nconst doPerfil = investimentos.filter(i => i.perfil.toLowerCase() === perfil.toLowerCase());\nconst compativeis = doPerfil\n  .filter(i => saldo >= i.minimo)\n  .sort((a, b) => a.minimo - b.minimo);\n\n// Mensagens estáticas por perfil (MVP)\nconst intros = {\n  'Conservador': 'foco em segurança e preservação de capital',\n  'Moderado': 'equilíbrio entre segurança e rentabilidade',\n  'Arrojado': 'potencial de retorno elevado com maior exposição a risco',\n};\n\nlet mensagem;\nif (compativeis.length === 0) {\n  mensagem = `Olá ${cliente.nome}, identificamos seu perfil ${perfil}, mas seu saldo atual (R$ ${saldo.toFixed(2)}) ainda não atinge o mínimo exigido para as opções disponíveis. Recomendamos aguardar ou aportar valores adicionais.`;\n} else {\n  const produtos = compativeis.map(i => ` • ${i.produto} — ${i.rentabilidade} (mín. R$ ${i.minimo})`).join('\\n');\n  mensagem = `Olá ${cliente.nome}, com base no seu perfil ${perfil} (${intros[perfil] || ''}) e saldo de R$ ${saldo.toFixed(2)}, recomendamos:\\n${produtos}`;\n}\n\nreturn [{\n  json: {\n    nome: cliente.nome,\n    email: cliente.email || '',\n    perfil: perfil,\n    saldo: saldo,\n    investimentos_recomendados: compativeis,\n    mensagem_estatica: mensagem,\n    mensagem: mensagem,\n    fonte: 'n8n-code-node'\n  }\n}];"
+      },
+      "id": "code-cruzamento",
+      "name": "Code - Cruzamento Perfil + Saldo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {
+          "temperature": 0.7,
+          "max_tokens": 350
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Você é um consultor financeiro certificado. Reescreva a recomendação de investimento de forma humanizada, profissional e acessível. Não invente produtos fora da lista fornecida. Mantenha o tom educativo e direcionado ao cliente."
+            },
+            {
+              "role": "user",
+              "content": "=Dados do cliente: nome={{ $json.nome }}, perfil={{ $json.perfil }}, saldo=R$ {{ $json.saldo.toFixed(2) }}. Investimentos elegíveis: {{ JSON.stringify($json.investimentos_recomendados) }}. Mensagem base: {{ $json.mensagem_estatica }}. Gere a mensagem final de recomendação em português."
+            }
+          ]
+        }
+      },
+      "id": "openai-mensagem",
+      "name": "OpenAI - Mensagem Personalizada",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [
+        950,
+        300
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "CREDENTIAL_ID_OPENAI",
+          "name": "OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Fallback: retorna mensagem estática caso a IA falhe (timeout, rate limit ou falta de credencial)\nconst item = $input.first().json;\nreturn [{\n  json: {\n    ...item,\n    mensagem: item.mensagem_estatica || item.mensagem,\n    observacao: 'Mensagem estática usada como fallback por falha na IA.'\n  }\n}];"
+      },
+      "id": "code-fallback-ia",
+      "name": "Code - Fallback IA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        950,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "respond-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook - Recebe Clientes": {
+      "main": [
+        [
+          {
+            "node": "SplitInBatches - Clientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SplitInBatches - Clientes": {
+      "main": [
+        [
+          {
+            "node": "Code - Cruzamento Perfil + Saldo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP - Ler CSV Investimentos": {
+      "main": [
+        [
+          {
+            "node": "Parse CSV Investimentos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse CSV Investimentos": {
+      "main": [
+        [
+          {
+            "node": "Code - Cruzamento Perfil + Saldo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Cruzamento Perfil + Saldo": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Mensagem Personalizada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ],
+      "onError": [
+        [
+          {
+            "node": "Code - Fallback IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Mensagem Personalizada": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ],
+      "onError": [
+        [
+          {
+            "node": "Code - Fallback IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Fallback IA": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Sao_Paulo",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true
+  },
+  "tags": [
+    "RPA",
+    "Investimentos",
+    "IA Generativa"
+  ]
+}

@@ -1,0 +1,279 @@
+<!-- ========================================================================= -->
+<!-- COMPONENTE: BANNER DE HISTÓRICO (ÚLTIMOS 20 DIAS) & TICKET DE VALIDAÇÃO -->
+<!-- ========================================================================= -->
+<section id="bannerHistorico20Dias" class="space-y-6">
+  
+  <!-- CABEÇALHO DO BANNER -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#22D3A5]/10 border border-[#22D3A5]/25 text-[#22D3A5] text-xs font-semibold tracking-wide">
+        <span class="w-2 h-2 rounded-full bg-[#22D3A5] radar-pulse"></span>
+        <span>Confiabilidade Operacional & Auditoria N8N</span>
+      </div>
+      <h2 class="text-xl sm:text-2xl font-black text-white mt-2 flex items-center gap-2.5">
+        <span>Histórico de Execuções & Métricas Consolidadas</span>
+      </h2>
+      <p class="text-xs text-[#9AA1AC] mt-1">
+        Monitoramento retroativo contínuo • Janela: <span id="labelJanela20Dias" class="text-white font-mono font-medium">Calculando...</span>
+      </p>
+    </div>
+
+    <!-- Indicador de Status Geral -->
+    <div class="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] px-4 py-2 rounded-2xl">
+      <div class="text-right">
+        <div class="text-[10px] uppercase font-bold text-[#9AA1AC] tracking-wider">Status da Esteira</div>
+        <div class="text-xs font-bold text-[#22D3A5] flex items-center gap-1.5 justify-end">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#22D3A5]"></span>
+          <span>95% Aderência Operacional</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRID DE 4 KPIS CONSOLIDADOS (ÚLTIMOS 20 DIAS) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    
+    <!-- KPI 1: Execuções Realizadas vs Esperadas -->
+    <div class="glass-card rounded-2xl p-5 border-l-2 border-l-[#22D3A5] flex flex-col justify-between">
+      <div class="flex justify-between items-start">
+        <span class="text-xs text-[#9AA1AC] font-medium">Execuções Realizadas</span>
+        <span class="px-2 py-0.5 rounded-full bg-[#22D3A5]/10 text-[#22D3A5] text-[10px] font-mono font-bold">20 Dias</span>
+      </div>
+      <div class="my-2">
+        <div class="text-2xl sm:text-3xl font-black text-white flex items-baseline gap-2">
+          <span id="kpiExecucoesRealizadas">19</span>
+          <span class="text-xs text-[#9AA1AC] font-normal">/ 20 esperadas</span>
+        </div>
+        <div class="w-full h-1.5 bg-white/[0.05] rounded-full overflow-hidden mt-2">
+          <div id="barExecucoesAderencia" class="h-full bg-gradient-to-r from-[#22D3A5] to-[#4ade80] rounded-full" style="width: 95%"></div>
+        </div>
+      </div>
+      <span class="text-[11px] text-[#9AA1AC] flex items-center gap-1">
+        <span class="text-[#22D3A5] font-semibold">95.0%</span> de pontualidade na esteira
+      </span>
+    </div>
+
+    <!-- KPI 2: Taxa de Sucesso -->
+    <div class="glass-card rounded-2xl p-5 border-l-2 border-l-emerald-400 flex flex-col justify-between">
+      <div class="flex justify-between items-start">
+        <span class="text-xs text-[#9AA1AC] font-medium">Taxa de Sucesso</span>
+        <span class="px-2 py-0.5 rounded-full bg-emerald-400/10 text-emerald-400 text-[10px] font-mono font-bold">Fail-Safe</span>
+      </div>
+      <div class="my-2">
+        <div class="text-2xl sm:text-3xl font-black text-emerald-400 flex items-baseline gap-2">
+          <span id="kpiTaxaSucesso">94.7%</span>
+        </div>
+        <div class="flex gap-2 text-[11px] text-[#9AA1AC] mt-1 font-mono">
+          <span class="text-emerald-400 font-semibold" id="kpiSucessosCount">18 Sucessos</span> • 
+          <span class="text-rose-400 font-semibold" id="kpiFalhasCount">1 Falha</span>
+        </div>
+      </div>
+      <span class="text-[11px] text-[#9AA1AC]">Auto-recuperação com backoff</span>
+    </div>
+
+    <!-- KPI 3: Tempo Médio de Resposta / Duração -->
+    <div class="glass-card rounded-2xl p-5 border-l-2 border-l-[#6366f1] flex flex-col justify-between">
+      <div class="flex justify-between items-start">
+        <span class="text-xs text-[#9AA1AC] font-medium">Tempo Médio de Ciclo</span>
+        <span class="px-2 py-0.5 rounded-full bg-[#6366f1]/10 text-[#6366f1] text-[10px] font-mono font-bold">Latência</span>
+      </div>
+      <div class="my-2">
+        <div class="text-2xl sm:text-3xl font-black text-[#6366f1] flex items-baseline gap-2">
+          <span id="kpiTempoMedio">1.84s</span>
+        </div>
+        <div class="flex justify-between text-[11px] text-[#9AA1AC] mt-1 font-mono">
+          <span>Min: <b class="text-white">1.12s</b></span>
+          <span>Max: <b class="text-white">3.20s</b></span>
+        </div>
+      </div>
+      <span class="text-[11px] text-[#9AA1AC]">Processamento semântico ultraveloz</span>
+    </div>
+
+    <!-- KPI 4: Total de Oportunidades Processadas -->
+    <div class="glass-card rounded-2xl p-5 border-l-2 border-l-sky-400 flex flex-col justify-between">
+      <div class="flex justify-between items-start">
+        <span class="text-xs text-[#9AA1AC] font-medium">Oportunidades Ingeridas</span>
+        <span class="px-2 py-0.5 rounded-full bg-sky-400/10 text-sky-400 text-[10px] font-mono font-bold">20 Dias</span>
+      </div>
+      <div class="my-2">
+        <div class="text-2xl sm:text-3xl font-black text-sky-400 flex items-baseline gap-2">
+          <span id="kpiVagasProcessadas">142</span>
+          <span class="text-xs text-[#9AA1AC] font-normal">vagas</span>
+        </div>
+        <div class="flex gap-2 text-[11px] text-[#9AA1AC] mt-1 font-mono">
+          <span class="text-[#22D3A5] font-semibold">38 Alta Prioridade</span> • 
+          <span class="text-amber-400 font-semibold">8 Antifraude</span>
+        </div>
+      </div>
+      <span class="text-[11px] text-[#9AA1AC]">Triagem 100% livre de ruído</span>
+    </div>
+  </div>
+
+  <!-- ÁREA COMBINADA: SPARKLINE / TIMELINE DE ATIVIDADE + CARD DE TICKET DE VALIDAÇÃO -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+    
+    <!-- COLUNA ESQUERDA (7 COLS): TIMELINE INTERATIVA DE 20 DIAS -->
+    <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-5">
+      <div>
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <svg class="w-4 h-4 text-[#22D3A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Timeline de Consistência & Saúde Diária</span>
+          </h3>
+          <span class="text-[11px] text-[#9AA1AC]">Clique em um dia para inspecionar</span>
+        </div>
+        <p class="text-xs text-[#9AA1AC] mt-1">
+          Registro diário de conformidade dos últimos 20 dias a partir da data atual.
+        </p>
+      </div>
+
+      <!-- GRID INTERATIVO DOS 20 DIAS -->
+      <div class="grid grid-cols-5 sm:grid-cols-10 gap-2" id="gridTimeline20Dias">
+        <!-- Preenchido dinamicamente via JS -->
+      </div>
+
+      <!-- LEGENDA DA TIMELINE -->
+      <div class="pt-3 border-t border-white/[0.06] flex flex-wrap items-center justify-between text-[11px] text-[#9AA1AC]">
+        <div class="flex items-center gap-4 flex-wrap">
+          <span class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#22D3A5]"></span> Sucesso
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Falha de Ingestão
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Alerta Antifraude
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-white/20"></span> Final de Semana
+          </span>
+        </div>
+        <span class="font-mono text-[10px] text-[#22D3A5]">19/20 Operações Concluídas</span>
+      </div>
+    </div>
+
+    <!-- COLUNA DIREITA (5 COLS): COMPONENTE DE TICKET / VALIDAÇÃO DE EXECUÇÃO -->
+    <div class="lg:col-span-5 glass-card rounded-3xl p-6 sm:p-7 flex flex-col justify-between space-y-4 border border-[#22D3A5]/30 relative overflow-hidden" id="cardTicketValidacao">
+      
+      <!-- Detalhes do Topo do Ticket -->
+      <div>
+        <div class="flex items-center justify-between">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-[#9AA1AC] text-[10px] font-mono">
+            <span>Ticket de Execução</span>
+          </div>
+          <span id="ticketBadgeStatus" class="px-2.5 py-0.5 rounded-full bg-[#22D3A5]/10 border border-[#22D3A5]/25 text-[#22D3A5] text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#22D3A5] radar-pulse"></span>
+            <span id="ticketBadgeTexto">SUCESSO (PASS)</span>
+          </span>
+        </div>
+
+        <div class="mt-3 flex items-center justify-between">
+          <h4 id="ticketRunId" class="text-base sm:text-lg font-black text-white font-mono tracking-tight">#RUN-20260924-N8N-8742</h4>
+          <button onclick="copiarTicketId()" title="Copiar Run ID" class="p-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-[#9AA1AC] hover:text-white transition cursor-pointer text-xs">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          </button>
+        </div>
+
+        <p class="text-[11px] text-[#9AA1AC] mt-0.5" id="ticketSubtitulo">Execução pontual do Disparador Agendado N8N</p>
+      </div>
+
+      <!-- METADADOS DA EXECUÇÃO (TIMESTAMP, FUSO, DURAÇÃO) -->
+      <div class="bg-black/30 rounded-2xl p-3.5 border border-white/[0.05] space-y-2 text-xs">
+        <div class="flex justify-between items-center">
+          <span class="text-[#9AA1AC]">Início:</span>
+          <span class="font-mono text-white text-[11px]" id="ticketTimestampInicio">24/09/2026 10:00:02.140 BRT</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-[#9AA1AC]">Fim:</span>
+          <span class="font-mono text-white text-[11px]" id="ticketTimestampFim">24/09/2026 10:00:03.985 BRT</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-[#9AA1AC]">Duração Efetiva:</span>
+          <span class="font-mono font-bold text-[#22D3A5] text-[11px]" id="ticketDuracao">1.845s (0.03m)</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-[#9AA1AC]">Fuso Horário:</span>
+          <span class="font-mono text-[#9AA1AC] text-[11px]">America/Sao_Paulo (UTC-3)</span>
+        </div>
+      </div>
+
+      <!-- CHECKPOINTS DE INTEGRIDADE (4 GATES) -->
+      <div class="space-y-1.5">
+        <div class="text-[10px] uppercase font-bold text-[#9AA1AC] tracking-wider">Checkpoints de Integridade</div>
+        <div class="grid grid-cols-4 gap-2 text-center text-xs">
+          <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+            <div class="font-bold text-white font-mono" id="ticketIngeridos">12</div>
+            <div class="text-[9px] text-[#9AA1AC] uppercase">Ingeridos</div>
+          </div>
+          <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+            <div class="font-bold text-emerald-400 font-mono" id="ticketAntifraude">11</div>
+            <div class="text-[9px] text-[#9AA1AC] uppercase">Seguros</div>
+          </div>
+          <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+            <div class="font-bold text-[#22D3A5] font-mono" id="ticketScoreAlto">3</div>
+            <div class="text-[9px] text-[#9AA1AC] uppercase">Score ≥70%</div>
+          </div>
+          <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+            <div class="font-bold text-sky-400 font-mono" id="ticketDespachados">3</div>
+            <div class="text-[9px] text-[#9AA1AC] uppercase">Despacho</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTÕES DE AÇÃO: PAYLOAD & AUDIT LOG -->
+      <div class="pt-2 flex gap-2">
+        <button onclick="abrirModalPayloadTicket()" class="flex-1 py-2.5 px-3 rounded-xl bg-[#22D3A5]/10 hover:bg-[#22D3A5]/20 border border-[#22D3A5]/30 text-[#22D3A5] text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          <span>Inspecionar Payload JSON</span>
+        </button>
+        <button onclick="copiarAuditSummary()" class="p-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white border border-white/[0.08] transition text-xs font-semibold cursor-pointer" title="Copiar Sumário">
+          📋
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ========================================================================= -->
+<!-- MODAL DE PAYLOAD RESUMIDO & AUDITORIA DE EXECUÇÃO -->
+<!-- ========================================================================= -->
+<div id="modalPayloadTicket" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+  <div class="glass-card rounded-3xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden border border-white/[0.1] shadow-2xl">
+    
+    <div class="p-6 border-b border-white/[0.08] flex items-center justify-between">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-[#22D3A5]"></span>
+          <h3 class="font-bold text-white text-base">Payload de Auditoria & Execução do N8N</h3>
+        </div>
+        <p class="text-xs text-[#9AA1AC] mt-0.5" id="modalPayloadSubtitulo">Run ID: #RUN-20260924-N8N-8742</p>
+      </div>
+      <button onclick="fecharModalPayloadTicket()" class="text-[#9AA1AC] hover:text-white text-2xl font-bold p-1 cursor-pointer">&times;</button>
+    </div>
+
+    <!-- ABAS DO MODAL -->
+    <div class="px-6 pt-3 border-b border-white/[0.06] flex gap-4 text-xs font-semibold">
+      <button onclick="trocarAbaPayload('json')" id="tabBtnJson" class="pb-2.5 border-b-2 border-[#22D3A5] text-[#22D3A5] transition cursor-pointer">Payload JSON Completo</button>
+      <button onclick="trocarAbaPayload('gates')" id="tabBtnGates" class="pb-2.5 border-b-2 border-transparent text-[#9AA1AC] hover:text-white transition cursor-pointer">Relatório dos Checkpoints</button>
+      <button onclick="trocarAbaPayload('vagas')" id="tabBtnVagas" class="pb-2.5 border-b-2 border-transparent text-[#9AA1AC] hover:text-white transition cursor-pointer">Vagas Selecionadas no Ciclo</button>
+    </div>
+
+    <!-- CONTEÚDO DAS ABAS -->
+    <div class="p-6 overflow-y-auto font-mono text-xs text-slate-300 bg-[#08090C] leading-relaxed flex-1" id="conteudoAbaPayload">
+      <!-- Preenchido dinamicamente via JS -->
+    </div>
+
+    <div class="p-5 border-t border-white/[0.08] flex justify-between items-center bg-[#0A0B0F]">
+      <span class="text-[11px] text-[#9AA1AC]">Rastreabilidade garantida via Hash SHA-256</span>
+      <div class="flex gap-2">
+        <button onclick="fecharModalPayloadTicket()" class="px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-xs font-semibold text-white transition cursor-pointer">Fechar</button>
+        <button onclick="copiarJsonModal()" id="btnCopiarModalJson" class="btn-emerald px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5">
+          Copiar JSON
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

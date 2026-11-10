@@ -1,0 +1,36 @@
+======================================================================
+MAURÍCIO
+São Paulo, SP | mauricio.tech@exemplo.com
+linkedin.com/in/mauricio-ml-engineer | github.com/mauricio-dev
+======================================================================
+
+RESUMO PROFISSIONAL
+------------------------------
+Profissional focado na função de Machine Learning Engineer - IA Generativa com histórico prático comprovado.
+Profissional de TI com sólida experiência no desenvolvimento de soluções em nuvem e inteligência artificial. Especialista em Python, ecossistema Azure AI, conteinerização com Docker e orquestração de pipelines. Histórico consistente com mais de 49 projetos entregues, otimizando arquiteturas de dados e automatizando processos operacionais.
+
+HABILIDADES TÉCNICAS (HARD SKILLS)
+------------------------------
+Python • FastAPI • Docker • Linux • Prompt Engineering • Pandas • Scikit-Learn • Azure AI • Kubernetes • CI/CD • Git • GitHub Actions • Bash • SQL • TypeScript • NotebookLM
+
+EXPERIÊNCIA PROFISSIONAL
+------------------------------
+Engenheiro de Machine Learning / Infraestrutura Cloud — Tech Solutions & Projetos DIO
+Período: 2023 - Presente
+• Construiu e versionou mais de 49 projetos de tecnologia e IA com conformidade técnica e documentação completa.
+• Implementou pipelines de processamento de dados e consumo de APIs de IA Generativa utilizando Python e Azure.
+• Automatizou fluxos de trabalho e geração de conteúdos estruturados com ferramentas de LLM e engenharia de prompt.
+
+Analista de Sistemas e Infraestrutura — Empresa de Tecnologia
+Período: 2020 - 2023
+• Administrou ambientes corporativos e servidores Linux com alta disponibilidade e SLA de 99.9%.
+• Desenvolveu automações em Bash e Python para redução de tarefas repetitivas em 50%.
+
+CERTIFICAÇÕES
+------------------------------
+• Microsoft Certified: Azure Fundamentals (AZ-900 / Azure AI)
+• Formações e Bootcamps DIO: Machine Learning Engineer & IA Generativa
+
+======================================================================
+[DOCUMENTO OTIMIZADO PARA VAGA: Machine Learning Engineer - IA Generativa @ Nubank]
+======================================================================

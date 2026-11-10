@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maurício Alves dos Santos | Workload Automation & ATS Career Engine</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    :root {
+      --color-bg: #0A0B0F;
+      --color-bg-elevated: #111318;
+      --color-surface: rgba(255, 255, 255, 0.035);
+      --color-border: rgba(255, 255, 255, 0.07);
+      --color-accent: #22D3A5; /* Esmeralda Revert AI */
+      --color-accent-soft: rgba(34, 211, 165, 0.12);
+      --color-accent-glow: rgba(34, 211, 165, 0.28);
+      --color-indigo: #6366f1;
+      --color-text: #F5F6F7;
+      --color-text-muted: #9AA1AC;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+    }
+
+    .font-instrument {
+      font-family: 'Instrument Serif', Georgia, serif;
+    }
+
+    /* Animação de deriva lenta dos gradientes (GPU-composed transform) */
+    @keyframes driftA {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.7; }
+      50% { transform: translate3d(5%, 4%, 0) scale(1.1); opacity: 0.9; }
+      100% { transform: translate3d(-3%, 2%, 0) scale(1); opacity: 0.7; }
+    }
+
+    @keyframes driftB {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.5; }
+      50% { transform: translate3d(-6%, -5%, 0) scale(1.15); opacity: 0.75; }
+      100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.5; }
+    }
+
+    .glow-orb-a {
+      background: radial-gradient(circle, rgba(34, 211, 165, 0.14) 0%, rgba(34, 211, 165, 0) 70%);
+      animation: driftA 22s ease-in-out infinite alternate;
+      will-change: transform, opacity;
+    }
+
+    .glow-orb-b {
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.16) 0%, rgba(99, 102, 241, 0) 70%);
+      animation: driftB 28s ease-in-out infinite alternate;
+      will-change: transform, opacity;
+    }
+
+    .grid-pattern {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+    }
+
+    .noise-overlay {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    /* Vidro Líquido & Efeito Shimmer */
+    .liquid-glass {
+      background: rgba(255, 255, 255, 0.028);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12), 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .liquid-glass-border {
+      position: relative;
+    }
+
+    .liquid-glass-border::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.2px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(34,211,165,0.25) 30%, rgba(255,255,255,0) 60%, rgba(251,191,36,0.3) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    @keyframes specularLightSweep {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+
+    .shimmer-liquid-border::before {
+      background: linear-gradient(
+        135deg, 
+        rgba(255, 255, 255, 0.5) 0%, 
+        rgba(34, 211, 165, 0.35) 25%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        rgba(251, 191, 36, 0.4) 75%, 
+        rgba(255, 255, 255, 0.5) 100%
+      ) !important;
+      background-size: 300% 300% !important;
+      animation: specularLightSweep 10s ease infinite !important;
+    }
+
+    /* Animação Flutuante do Hero Visual */
+    @keyframes heroFloatSlow {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-7px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .hero-visual-container {
+      animation: heroFloatSlow 7s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    /* Micro-Partículas Cósmicas em Órbita */
+    @keyframes stardustDrift1 {
+      0% { transform: translate3d(0, 0, 0) scale(0.8); opacity: 0.2; }
+      50% { transform: translate3d(14px, -18px, 0) scale(1.3); opacity: 0.9; }
+      100% { transform: translate3d(4px, -32px, 0) scale(0.6); opacity: 0.1; }
+    }
+
+    @keyframes stardustDrift2 {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.3; }
+      50% { transform: translate3d(-16px, 15px, 0) scale(1.4); opacity: 0.95; }
+      100% { transform: translate3d(-6px, 28px, 0) scale(0.7); opacity: 0.2; }
+    }
+
+    @keyframes stardustDrift3 {
+      0% { transform: translate3d(0, 0, 0) scale(0.9); opacity: 0.4; }
+      50% { transform: translate3d(18px, 12px, 0) scale(1.2); opacity: 0.85; }
+      100% { transform: translate3d(24px, 2px, 0) scale(0.5); opacity: 0.15; }
+    }
+
+    .hero-stardust {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(0.5px);
+    }
+
+    .hero-stardust-1 {
+      width: 4px;
+      height: 4px;
+      top: 25%;
+      left: 10%;
+      background: #22D3A5;
+      box-shadow: 0 0 10px #22D3A5, 0 0 20px rgba(34, 211, 165, 0.8);
+      animation: stardustDrift1 6s ease-in-out infinite alternate;
+    }
+
+    .hero-stardust-2 {
+      width: 5px;
+      height: 5px;
+      bottom: 22%;
+      right: 12%;
+      background: #fbbf24;
+      box-shadow: 0 0 12px #fbbf24, 0 0 22px rgba(251, 191, 36, 0.8);
+      animation: stardustDrift2 7.5s ease-in-out infinite alternate;
+    }
+
+    .hero-stardust-3 {
+      width: 3.5px;
+      height: 3.5px;
+      top: 15%;
+      right: 20%;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8, 0 0 16px rgba(56, 189, 248, 0.8);
+      animation: stardustDrift3 5.5s ease-in-out infinite alternate;
+    }
+
+    /* Radar Pulse */
+    @keyframes radarPulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 211, 165, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(34, 211, 165, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 211, 165, 0); }
+    }
+
+    .radar-pulse {
+      animation: radarPulse 2.2s infinite ease-out;
+    }
+
+    /* Scroll Reveal & Motion */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translate3d(0, 16px, 0);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal-on-scroll.is-visible {
+      opacity: 1 !important;
+      transform: translate3d(0, 0, 0) !important;
+    }
+
+    .delay-100 { transition-delay: 100ms; }
+    .delay-200 { transition-delay: 200ms; }
+    .delay-300 { transition-delay: 300ms; }
+
+    /* Barras de Competência */
+    .skill-progress-bar {
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: width;
+    }
+
+    /* Cards e Elementos do Banner 20 Dias */
+    .glass-card {
+      background: var(--color-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border);
+    }
+
+    .timeline-day-card {
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+    }
+
+    .timeline-day-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34, 211, 165, 0.4);
+      box-shadow: 0 4px 15px -3px rgba(34, 211, 165, 0.2);
+    }
+
+    .timeline-day-card.active-day {
+      border-color: #22D3A5 !important;
+      background: rgba(34, 211, 165, 0.08) !important;
+      box-shadow: 0 0 18px rgba(34, 211, 165, 0.25);
+    }
+
+    .timeline-day-card.active-day::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #22D3A5;
+    }
+
+    .status-pill-success {
+      background-color: #22D3A5;
+      box-shadow: 0 0 8px rgba(34, 211, 165, 0.6);
+    }
+
+    .status-pill-warning {
+      background-color: #fbbf24;
+      box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+    }
+
+    .status-pill-failed {
+      background-color: #f43f5e;
+      box-shadow: 0 0 8px rgba(244, 63, 94, 0.6);
+    }
+
+    .status-pill-weekend {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    @keyframes ticketGlow {
+      0%, 100% { border-color: rgba(34, 211, 165, 0.25); }
+      50% { border-color: rgba(34, 211, 165, 0.55); }
+    }
+
+    .ticket-border-glow {
+      animation: ticketGlow 3s infinite ease-in-out;
+    }
+
+    .btn-emerald {
+      background-color: var(--color-accent);
+      color: #06241b;
+      font-weight: 700;
+      transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .btn-emerald:hover {
+      background-color: #2ee6b5;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px -5px rgba(34, 211, 165, 0.4);
+    }
+
+    /* Acessibilidade Incondicional */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .shimmer-liquid-border::before,
+      .hero-stardust,
+      .hero-visual-container,
+      .radar-pulse,
+      .ticket-border-glow,
+      .glow-orb-a,
+      .glow-orb-b {
+        animation: none !important;
+        transform: none !important;
+      }
+      .skill-progress-bar {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen relative overflow-x-hidden selection:bg-[#22D3A5] selection:text-black">
+
+  <!-- CAMADA 1 & 2: FUNDO VIVO COM DERIVA LENTA, GRID E NOISE -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+    <div class="absolute inset-0 bg-[#0A0B0F]"></div>
+    <div class="absolute -top-[20%] -left-[10%] w-[65vw] h-[65vw] rounded-full glow-orb-a"></div>
+    <div class="absolute top-[35%] -right-[15%] w-[60vw] h-[60vw] rounded-full glow-orb-b"></div>
+    <div class="absolute -bottom-[20%] left-[20%] w-[50vw] h-[50vw] rounded-full glow-orb-a opacity-40"></div>
+    <div class="absolute inset-0 grid-pattern"></div>
+    <div class="absolute inset-0 noise-overlay"></div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- HERO CINEMATOGRÁFICO UNIFICADO: VÍDEO EM TEMPO REAL & AMBIENTE VIVO -->
+  <!-- ========================================================================= -->
+  <section class="relative min-h-[92vh] w-full overflow-hidden flex flex-col justify-between rounded-3xl glass-card border border-white/[0.08] p-6 sm:p-10 lg:p-12 mb-10 select-none">
+    
+    <!-- 1. VÍDEO AMBIENTAL DE FUNDO (SUTIL E VIBRANTE) -->
+    <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none -z-10">
+      <video 
+        id="ambientHeroVideo" 
+        autoplay 
+        muted 
+        loop 
+        playsinline 
+        poster="assets/hero_mauricio.jpg"
+        class="w-full h-full object-cover opacity-25 filter blur-sm transform scale-105"
+        style="display: block; opacity: 0.25;"
+      >
+        <source src="assets/compress_profissional_3.mp4" type="video/mp4">
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#0A0B0F]/90 via-[#0A0B0F]/60 to-[#0A0B0F]"></div>
+    </div>
+
+    <!-- 2. BARRA DE NAVEGAÇÃO & STATUS -->
+    <div class="flex items-center justify-between pb-6 border-b border-white/[0.06] relative z-10">
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#22D3A5] to-[#059669] flex items-center justify-center font-bold text-[#06241b] text-lg shadow-lg shadow-[#22D3A5]/30">
+          M
+        </div>
+        <div>
+          <div class="font-extrabold text-white text-base tracking-tight flex items-center gap-2">
+            Maurício Alves dos Santos <span class="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#22D3A5]/10 text-[#22D3A5] border border-[#22D3A5]/25 uppercase">PRO Nível 21</span>
+          </div>
+          <p class="text-xs text-[#9AA1AC]">Infraestrutura de Missão Crítica • Workload Automation • IA Agêntica</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#22D3A5]/10 border border-[#22D3A5]/25 text-[#22D3A5] text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-[#22D3A5] radar-pulse"></span>
+          <span>Gatilho N8N: Seg a Sex às 10:00</span>
+        </div>
+        <button onclick="descerParaDashboard()" class="px-4 py-2 rounded-full liquid-glass liquid-glass-border hover:bg-white/[0.08] text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
+          <span>Ver Métricas dos 20 Dias</span>
+          <svg class="w-3.5 h-3.5 text-[#22D3A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. GRID CENTRAL DO HERO (TEXTO IMPACTANTE + STAGE DO VÍDEO EM REPRODUÇÃO DIRETA) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto py-8 relative z-10">
+      
+      <!-- Coluna de Texto (7 cols) -->
+      <div class="lg:col-span-7 space-y-6 text-left">
+        
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#9AA1AC] text-xs tracking-wide">
+          <span class="w-2 h-2 rounded-full bg-[#22D3A5] radar-pulse"></span>
+          <span>Arquitetura de Missão Crítica & Inteligência Autônoma</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-normal text-white tracking-tight leading-[1.06] font-instrument">
+          Orquestração de <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-[#22D3A5] via-[#4ade80] to-[#fbbf24]">Alta Resiliência.</span><br/>
+          <span class="text-2xl sm:text-4xl lg:text-5xl font-sans font-black tracking-tight text-white block mt-3">
+            Onde a confiabilidade encontra a IA.
+          </span>
+        </h1>
+
+        <p class="text-[#9AA1AC] text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
+          Mais de 25 anos garantindo a continuidade operacional das infraestruturas mais críticas do país (<b class="text-white">TECBAN, ENEL, IBM, TIVIT</b>), agora potencializados por loops agênticos no N8N, matching semântico metrológico e geração cirúrgica de candidaturas ATS. Zero alucinação, 100% ancorado em resultados comprovados.
+        </p>
+
+        <!-- Botões de Ação -->
+        <div class="pt-2 flex flex-wrap gap-4 items-center">
+          <button onclick="descerParaDashboard()" class="btn-emerald px-7 py-3.5 rounded-2xl text-xs sm:text-sm font-bold tracking-wide flex items-center gap-2.5 cursor-pointer shadow-xl shadow-[#22D3A5]/25 hover:scale-105 transition-all">
+            <span>Explorar Métricas de Execução (Últimos 20 Dias)</span>
+            <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+          </button>
+          <button onclick="abrirModalCV()" class="px-5 py-3.5 rounded-2xl liquid-glass liquid-glass-border hover:bg-white/[0.08] text-white text-xs sm:text-sm font-semibold transition flex items-center gap-2 cursor-pointer">
+            <svg class="w-4 h-4 text-[#22D3A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span>Inspecionar Currículo ATS-Proof</span>
+          </button>
+        </div>
+
+        <!-- 3 Métricas Rápidas -->
+        <div class="pt-4 border-t border-white/[0.06] grid grid-cols-3 gap-3 text-center sm:text-left">
+          <div class="p-3 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
+            <div class="text-[10px] text-[#9AA1AC] uppercase font-semibold">Histórico Core</div>
+            <div class="text-xs sm:text-sm font-black text-white mt-0.5">Control-M • TSM • SRE</div>
+          </div>
+          <div class="p-3 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
+            <div class="text-[10px] text-[#9AA1AC] uppercase font-semibold">Tolerância a Erro</div>
+            <div class="text-xs sm:text-sm font-black text-[#22D3A5] mt-0.5">Zero Abends em SLA</div>
+          </div>
+          <div class="p-3 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
+            <div class="text-[10px] text-[#9AA1AC] uppercase font-semibold">Esteira Autônoma</div>
+            <div class="text-xs sm:text-sm font-black text-amber-400 mt-0.5">94.7% Assertividade</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Coluna Visual: O VÍDEO OFICIAL REPRODUZINDO EM TEMPO REAL DENTRO DO CARD (5 cols) -->
+      <div class="lg:col-span-5 relative flex justify-center">
+        
+        <!-- Vórtice de Brilho Dinâmico -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-[#22D3A5]/30 via-[#fbbf24]/20 to-transparent rounded-3xl blur-2xl -z-10 transform scale-105"></div>
+        
+        <div class="hero-visual-container w-full max-w-[460px] relative rounded-3xl overflow-hidden liquid-glass shimmer-liquid-border p-2.5 shadow-2xl border border-white/10 group">
+          
+          <!-- Micro-Partículas Cósmicas em Órbita -->
+          <div class="hero-stardust hero-stardust-1"></div>
+          <div class="hero-stardust hero-stardust-2"></div>
+          <div class="hero-stardust hero-stardust-3"></div>
+
+          <!-- CONTAINER DO VÍDEO ANIMADO EM LOOP CONTÍNUO -->
+          <div class="relative overflow-hidden rounded-2xl bg-black">
+            <video 
+              id="heroStageVideo" 
+              autoplay 
+              muted 
+              loop 
+              playsinline 
+              poster="assets/hero_mauricio.jpg"
+              class="w-full h-auto max-h-[500px] object-cover object-center rounded-2xl shadow-inner transform transition-transform duration-700 group-hover:scale-105"
+              style="display: block; opacity: 1;"
+            >
+              <source src="assets/compress_profissional_3.mp4" type="video/mp4">
+              <!-- Fallback com a Imagem Estática -->
+              <img src="assets/hero_mauricio.jpg" alt="Maurício Alves dos Santos" class="w-full h-auto rounded-2xl" />
+            </video>
+
+            <!-- Vinheta Gradiente para Contraste dos Badges -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent pointer-events-none"></div>
+
+            <!-- CONTROLE RÁPIDO LIVE / PAUSE (FEEDBACK VISUAL) -->
+            <div class="absolute top-4 right-4 z-20">
+              <button onclick="toggleHeroVideoPlayback()" id="btnToggleVideo" class="px-2.5 py-1 rounded-full bg-black/60 hover:bg-black/90 border border-white/20 text-white text-[10px] font-mono flex items-center gap-1.5 backdrop-blur-md cursor-pointer transition">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#22D3A5] radar-pulse" id="dotVideoStatus"></span>
+                <span id="labelVideoStatus">LIVE 60FPS</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- BADGE FLUTUANTE SUPERIOR -->
+          <div class="absolute top-5 left-5 px-3 py-1.5 rounded-full liquid-glass border border-white/15 text-white text-[11px] font-semibold flex items-center gap-2 backdrop-blur-md shadow-xl">
+            <span class="w-2 h-2 rounded-full bg-[#22D3A5] radar-pulse"></span>
+            <span>Workload Automation & AI Engine</span>
+          </div>
+
+          <!-- BADGE FLUTUANTE INFERIOR: RESILIÊNCIA E SLAS -->
+          <div class="absolute bottom-5 right-5 left-5 px-4 py-2.5 rounded-2xl liquid-glass border border-amber-400/30 text-white flex items-center justify-between backdrop-blur-md shadow-2xl">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center text-sm font-bold text-amber-300">
+                ⚡
+              </div>
+              <div>
+                <div class="text-[10px] text-amber-300 uppercase tracking-wider font-bold">Arquitetura de Missão Crítica</div>
+                <div class="text-xs font-mono font-black text-white">Sustentação 24/7 & N8N</div>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded-md bg-[#22D3A5]/20 text-[#22D3A5] text-[10px] font-mono font-bold border border-[#22D3A5]/30">
+              PRO 21
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- 4. RODA-PÉ INDICADOR DE ROLAGEM -->
+    <div class="text-center pt-4 relative z-10">
+      <button onclick="descerParaDashboard()" class="inline-flex items-center gap-2 text-xs font-semibold text-[#9AA1AC] hover:text-[#22D3A5] transition-colors cursor-pointer py-1.5 px-4 rounded-full bg-white/[0.02] border border-white/[0.06] hover:border-[#22D3A5]/30">
+        <span>Rolar para Histórico & Métricas dos 20 Dias</span>
+        <svg class="w-4 h-4 text-[#22D3A5] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SEÇÃO PRINCIPAL DO DASHBOARD ANALÍTICO -->
+  <!-- ========================================================================= -->
+  <main id="dashboardAnalyticsSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-10">
+
+    <!-- COMPONENTE: BANNER DE HISTÓRICO (ÚLTIMOS 20 DIAS) & TICKET DE VALIDAÇÃO -->
+    <!-- ========================================================================= -->
+    <section id="bannerHistorico20Dias" class="space-y-6 reveal-on-scroll delay-100">
+      
+      <!-- CABEÇALHO DO BANNER -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#22D3A5]/10 border border-[#22D3A5]/25 text-[#22D3A5] text-xs font-semibold tracking-wide">
+            <span class="w-2 h-2 rounded-full bg-[#22D3A5] radar-pulse"></span>
+            <span>Confiabilidade Operacional & Auditoria N8N</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white mt-2 flex items-center gap-2.5">
+            <span>Histórico de Execuções & Métricas Consolidadas</span>
+          </h2>
+          <p class="text-xs text-[#9AA1AC] mt-1">
+            Monitoramento retroativo contínuo • Janela: <span id="labelJanela20Dias" class="text-white font-mono font-medium">Calculando...</span>
+          </p>
+        </div>
+
+        <!-- Indicador de Status Geral -->
+        <div class="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] px-4 py-2 rounded-2xl">
+          <div class="text-right">
+            <div class="text-[10px] uppercase font-bold text-[#9AA1AC] tracking-wider">Status da Esteira</div>
+            <div class="text-xs font-bold text-[#22D3A5] flex items-center gap-1.5 justify-end">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#22D3A5]"></span>
+              <span>95% Aderência Operacional</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRID DE 4 KPIS CONSOLIDADOS (ÚLTIMOS 20 DIAS) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- KPI 1: Execuções Realizadas vs Esperadas -->
+        <div class="glass-card rounded-2xl p-5 border-l-2 border-l-[#22D3A5] flex flex-col justify-between">
+          <div class="flex justify-between items-start">
+            <span class="text-xs text-[#9AA1AC] font-medium">Execuções Realizadas</span>
+            <span class="px-2 py-0.5 rounded-full bg-[#22D3A5]/10 text-[#22D3A5] text-[10px] font-mono font-bold">20 Dias</span>
+          </div>
+          <div class="my-2">
+            <div class="text-2xl sm:text-3xl font-black text-white flex items-baseline gap-2">
+              <span id="kpiExecucoesRealizadas">19</span>
+              <span class="text-xs text-[#9AA1AC] font-normal">/ 20 esperadas</span>
+            </div>
+            <div class="w-full h-1.5 bg-white/[0.05] rounded-full overflow-hidden mt-2">
+              <div id="barExecucoesAderencia" class="h-full bg-gradient-to-r from-[#22D3A5] to-[#4ade80] rounded-full" style="width: 95%"></div>
+            </div>
+          </div>
+          <span class="text-[11px] text-[#9AA1AC] flex items-center gap-1">
+            <span class="text-[#22D3A5] font-semibold">95.0%</span> de pontualidade na esteira
+          </span>
+        </div>
+
+        <!-- KPI 2: Taxa de Sucesso -->
+        <div class="glass-card rounded-2xl p-5 border-l-2 border-l-emerald-400 flex flex-col justify-between">
+          <div class="flex justify-between items-start">
+            <span class="text-xs text-[#9AA1AC] font-medium">Taxa de Sucesso</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-400/10 text-emerald-400 text-[10px] font-mono font-bold">Fail-Safe</span>
+          </div>
+          <div class="my-2">
+            <div class="text-2xl sm:text-3xl font-black text-emerald-400 flex items-baseline gap-2">
+              <span id="kpiTaxaSucesso">94.7%</span>
+            </div>
+            <div class="flex gap-2 text-[11px] text-[#9AA1AC] mt-1 font-mono">
+              <span class="text-emerald-400 font-semibold" id="kpiSucessosCount">18 Sucessos</span> • 
+              <span class="text-rose-400 font-semibold" id="kpiFalhasCount">1 Falha</span>
+            </div>
+          </div>
+          <span class="text-[11px] text-[#9AA1AC]">Auto-recuperação com backoff</span>
+        </div>
+
+        <!-- KPI 3: Tempo Médio de Resposta / Duração -->
+        <div class="glass-card rounded-2xl p-5 border-l-2 border-l-[#6366f1] flex flex-col justify-between">
+          <div class="flex justify-between items-start">
+            <span class="text-xs text-[#9AA1AC] font-medium">Tempo Médio de Ciclo</span>
+            <span class="px-2 py-0.5 rounded-full bg-[#6366f1]/10 text-[#6366f1] text-[10px] font-mono font-bold">Latência</span>
+          </div>
+          <div class="my-2">
+            <div class="text-2xl sm:text-3xl font-black text-[#6366f1] flex items-baseline gap-2">
+              <span id="kpiTempoMedio">1.84s</span>
+            </div>
+            <div class="flex justify-between text-[11px] text-[#9AA1AC] mt-1 font-mono">
+              <span>Min: <b class="text-white">1.12s</b></span>
+              <span>Max: <b class="text-white">3.20s</b></span>
+            </div>
+          </div>
+          <span class="text-[11px] text-[#9AA1AC]">Processamento semântico ultraveloz</span>
+        </div>
+
+        <!-- KPI 4: Total de Oportunidades Processadas -->
+        <div class="glass-card rounded-2xl p-5 border-l-2 border-l-sky-400 flex flex-col justify-between">
+          <div class="flex justify-between items-start">
+            <span class="text-xs text-[#9AA1AC] font-medium">Oportunidades Ingeridas</span>
+            <span class="px-2 py-0.5 rounded-full bg-sky-400/10 text-sky-400 text-[10px] font-mono font-bold">20 Dias</span>
+          </div>
+          <div class="my-2">
+            <div class="text-2xl sm:text-3xl font-black text-sky-400 flex items-baseline gap-2">
+              <span id="kpiVagasProcessadas">142</span>
+            </div>
+            <div class="flex justify-between text-[11px] text-[#9AA1AC] mt-1 font-mono">
+              <span>Score ≥ 70%: <b class="text-[#22D3A5]">34 vagas</b></span>
+            </div>
+          </div>
+          <span class="text-[11px] text-[#9AA1AC]">Filtro metrológico de alta acurácia</span>
+        </div>
+
+      </div>
+
+      <!-- SEÇÃO SPLIT: TIMELINE DOS 20 DIAS (ESQUERDA) + TICKET DE VALIDAÇÃO (DIREITA) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- TIMELINE VISUAL / SPARKLINE DOS 20 DIAS (7 COLS) -->
+        <div class="lg:col-span-7 glass-card rounded-3xl p-6 flex flex-col justify-between space-y-4">
+          
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <span>Timeline de Execução Diária</span>
+                <span class="text-[11px] font-mono text-[#9AA1AC] font-normal">(Clique em um dia para auditar)</span>
+              </h3>
+              <p class="text-xs text-[#9AA1AC] mt-0.5">Série temporal contínua dos últimos 20 dias</p>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] font-mono text-[#9AA1AC]">
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#22D3A5]"></span> OK</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400"></span> Alerta</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Falha</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-white/20"></span> Off</span>
+            </div>
+          </div>
+
+          <!-- MINI-GRÁFICO SPARKLINE DE LATÊNCIA -->
+          <div class="p-3 rounded-2xl bg-white/[0.02] border border-white/[0.05]">
+            <div class="flex justify-between items-center text-[10px] text-[#9AA1AC] font-mono mb-2">
+              <span>Sparkline de Duração por Ciclo (segundos)</span>
+              <span class="text-[#22D3A5]">Estabilidade: 99.4%</span>
+            </div>
+            <div class="h-10 flex items-end gap-1.5 pt-2" id="sparklineBarras">
+              <!-- Gerado dinamicamente via JS -->
+            </div>
+          </div>
+
+          <!-- GRID DOS 20 DIAS INTERATIVOS -->
+          <div class="grid grid-cols-5 sm:grid-cols-10 gap-2" id="timelineGridDias">
+            <!-- 20 cards inseridos dinamicamente pelo JavaScript -->
+          </div>
+
+          <!-- LEGENDA OPERACIONAL -->
+          <div class="text-[11px] text-[#9AA1AC] flex items-center justify-between border-t border-white/[0.05] pt-3">
+            <span>Agendamento automático via Cron N8N (Seg a Sex às 10:00 BRT)</span>
+            <span class="text-white font-mono font-medium">Idempotência: Ativa</span>
+          </div>
+
+        </div>
+
+        <!-- TICKET DE VALIDAÇÃO DE EXECUÇÃO (5 COLS) -->
+        <div class="lg:col-span-5 glass-card rounded-3xl p-6 border ticket-border-glow flex flex-col justify-between space-y-4" id="cardTicketValidacao">
+          
+          <div>
+            <div class="flex items-center justify-between border-b border-white/[0.08] pb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#22D3A5] radar-pulse"></span>
+                <span class="text-xs uppercase font-mono font-bold text-white tracking-wider">Ticket de Validação</span>
+              </div>
+              <div id="ticketBadgeStatus" class="px-2.5 py-0.5 rounded-full bg-[#22D3A5]/10 border border-[#22D3A5]/25 text-[#22D3A5] text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#22D3A5]"></span>
+                <span id="ticketBadgeTexto">SUCESSO</span>
+              </div>
+            </div>
+
+            <!-- Identificadores do Ticket -->
+            <div class="mt-4 space-y-2">
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-[#9AA1AC]">Execution Run ID:</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="font-mono font-bold text-white" id="ticketRunId">#RUN-20260924-N8N-8742</span>
+                  <button onclick="copiarTicketId()" class="text-[#9AA1AC] hover:text-white transition p-1" title="Copiar ID">📋</button>
+                </div>
+              </div>
+
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-[#9AA1AC]">Horário de Início:</span>
+                <span class="font-mono text-white text-[11px]" id="ticketTimestampInicio">24/09/2026 10:00:03 BRT</span>
+              </div>
+
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-[#9AA1AC]">Horário de Término:</span>
+                <span class="font-mono text-white text-[11px]" id="ticketTimestampFim">24/09/2026 10:00:05 BRT</span>
+              </div>
+
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-[#9AA1AC]">Duração Efetiva:</span>
+                <span class="font-mono font-bold text-[#22D3A5]" id="ticketDuracao">1.742s</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHECKPOINTS DE INTEGRIDADE (4 GATES) -->
+          <div class="space-y-1.5">
+            <div class="text-[10px] uppercase font-bold text-[#9AA1AC] tracking-wider">Checkpoints de Integridade</div>
+            <div class="grid grid-cols-4 gap-2 text-center text-xs">
+              <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                <div class="font-bold text-white font-mono" id="ticketIngeridos">12</div>
+                <div class="text-[9px] text-[#9AA1AC] uppercase">Ingeridos</div>
+              </div>
+              <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                <div class="font-bold text-emerald-400 font-mono" id="ticketAntifraude">11</div>
+                <div class="text-[9px] text-[#9AA1AC] uppercase">Seguros</div>
+              </div>
+              <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                <div class="font-bold text-[#22D3A5] font-mono" id="ticketScoreAlto">3</div>
+                <div class="text-[9px] text-[#9AA1AC] uppercase">Score ≥70%</div>
+              </div>
+              <div class="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                <div class="font-bold text-sky-400 font-mono" id="ticketDespachados">3</div>
+                <div class="text-[9px] text-[#9AA1AC] uppercase">Despacho</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTÕES DE AÇÃO: PAYLOAD & AUDIT LOG -->
+          <div class="pt-2 flex gap-2">
+            <button onclick="abrirModalPayloadTicket()" class="flex-1 py-2.5 px-3 rounded-xl bg-[#22D3A5]/10 hover:bg-[#22D3A5]/20 border border-[#22D3A5]/30 text-[#22D3A5] text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+              <span>Inspecionar Payload JSON</span>
+            </button>
+            <button onclick="copiarAuditSummary()" class="p-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white border border-white/[0.08] transition text-xs font-semibold cursor-pointer" title="Copiar Sumário">
+              📋
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- SEÇÃO: MATRIZ DE COMPETÊNCIAS & HARMONIA MULTIDOMÍNIO -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div class="lg:col-span-8 glass-card rounded-3xl p-8 space-y-6 reveal-on-scroll delay-200">
+        <div>
+          <h3 class="text-lg font-bold text-white flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-sm bg-[#22D3A5]"></span>
+            <span>Matriz de Especialidades & Proficiência Auditada</span>
+          </h3>
+          <p class="text-xs text-[#9AA1AC] mt-1">Indexação semântica e normalização de termos para superar os filtros de RH</p>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1.5">
+              <span class="text-white">Cloud Infrastructure (AWS EC2/S3/RDS/VPC & Azure)</span>
+              <span class="text-[#22D3A5] font-mono">95%</span>
+            </div>
+            <div class="w-full h-2 bg-white/[0.05] rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-[#22D3A5] to-[#4ade80] rounded-full skill-progress-bar" data-target-width="95%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1.5">
+              <span class="text-white">DevOps & Automação (Docker, Kubernetes, Jenkins, GitLab CI, Terraform)</span>
+              <span class="text-[#22D3A5] font-mono">92%</span>
+            </div>
+            <div class="w-full h-2 bg-white/[0.05] rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-[#22D3A5] to-[#4ade80] rounded-full skill-progress-bar" data-target-width="92%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1.5">
+              <span class="text-white">Machine Learning & IA Generativa (Python, FastAPI, Azure AI, Prompt Eng.)</span>
+              <span class="text-[#22D3A5] font-mono">90%</span>
+            </div>
+            <div class="w-full h-2 bg-white/[0.05] rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-[#22D3A5] to-[#4ade80] rounded-full skill-progress-bar" data-target-width="90%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1.5">
+              <span class="text-white">Sustentação de Missão Crítica (Linux RHEL/Ubuntu, Windows Server, Zabbix)</span>
+              <span class="text-[#22D3A5] font-mono">88%</span>
+            </div>
+            <div class="w-full h-2 bg-white/[0.05] rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-[#22D3A5] to-[#4ade80] rounded-full skill-progress-bar" data-target-width="88%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Google Workspace Integration -->
+      <div class="lg:col-span-4 glass-card rounded-3xl p-8 flex flex-col justify-between space-y-6">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-xl mb-4">
+            ☁️
+          </div>
+          <h4 class="text-base font-bold text-white">Google Workspace Native</h4>
+          <p class="text-xs text-[#9AA1AC] mt-1.5 leading-relaxed">
+            O aplicativo roda diretamente na infraestrutura do Google Drive & Sheets, sem necessidade de servidores locais.
+          </p>
+        </div>
+
+        <div class="space-y-2.5 text-xs">
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex justify-between items-center">
+            <span class="text-[#9AA1AC]">Pasta no Drive</span>
+            <span class="text-[#22D3A5] font-mono font-medium">/Curriculos_ATS_Mauricio</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex justify-between items-center">
+            <span class="text-[#9AA1AC]">Frequência</span>
+            <span class="text-white font-medium">Dias úteis às 10:00</span>
+          </div>
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex justify-between items-center">
+            <span class="text-[#9AA1AC]">LGPD Guardrail</span>
+            <span class="text-emerald-400 font-medium">Sanitização Ativa</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEED INTERATIVO DE CANDIDATURAS REAIS -->
+    <div class="space-y-5 reveal-on-scroll delay-100">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-white flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-sm bg-[#22D3A5]"></span>
+            <span>Feed de Oportunidades & Decisões do Algoritmo</span>
+          </h2>
+          <p class="text-xs text-[#9AA1AC] mt-1">Registros auditados do banco SQLite e Google Sheets</p>
+        </div>
+
+        <div class="flex gap-2 text-xs">
+          <button onclick="filtrarCards('todas')" class="px-3.5 py-1.5 rounded-xl bg-white/[0.06] text-white hover:bg-white/[0.1] transition cursor-pointer font-medium">Todas (12)</button>
+          <button onclick="filtrarCards('aprovadas')" class="px-3.5 py-1.5 rounded-xl bg-[#22D3A5]/10 text-[#22D3A5] hover:bg-[#22D3A5]/20 border border-[#22D3A5]/30 transition cursor-pointer font-medium">Aprovadas (10)</button>
+          <button onclick="filtrarCards('descartadas')" class="px-3.5 py-1.5 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/30 transition cursor-pointer font-medium">Descartadas (2)</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="vagasContainer">
+        <!-- Inseridos dinamicamente pelo JavaScript -->
+      </div>
+    </div>
+
+    <!-- O PIPELINE EM 6 ETAPAS: ESTRUTURA INVISÍVEL -->
+    <div class="glass-card rounded-3xl p-8 space-y-6 reveal-on-scroll delay-200">
+      <div>
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <span>⚙️ Arquitetura do Pipeline em 6 Fases</span>
+        </h3>
+        <p class="text-xs text-[#9AA1AC] mt-1">Como a esteira processa cada oportunidade até o envio final</p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">01</span>
+          <span class="text-xs font-semibold text-white block">Sourcing Gmail</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Varredura dos alertas</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">02</span>
+          <span class="text-xs font-semibold text-white block">Sanitização PII</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Proteção total LGPD</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">03</span>
+          <span class="text-xs font-semibold text-white block">Matching 70/30</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Requisitos ponderados</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">04</span>
+          <span class="text-xs font-semibold text-white block">Geração ATS</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Coluna única pura</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">05</span>
+          <span class="text-xs font-semibold text-white block">Idempotência</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Zero duplicidade</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+          <span class="text-xs font-mono text-[#22D3A5] block font-bold mb-1">06</span>
+          <span class="text-xs font-semibold text-white block">Google Drive</span>
+          <span class="text-[10px] text-[#9AA1AC] mt-1 block">Arquivo persistido</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAIS E AUDITORIA -->
+  <!-- ========================================================================= -->
+
+  <!-- MODAL DE PAYLOAD RESUMIDO & AUDITORIA DE EXECUÇÃO -->
+  <div id="modalPayloadTicket" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card rounded-3xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden border border-white/[0.1] shadow-2xl">
+      
+      <div class="p-6 border-b border-white/[0.08] flex items-center justify-between">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#22D3A5]"></span>
+            <h3 class="font-bold text-white text-base">Payload de Auditoria & Execução do N8N</h3>
+          </div>
+          <p class="text-xs text-[#9AA1AC] mt-0.5" id="modalPayloadSubtitulo">Run ID: #RUN-20260924-N8N-8742</p>
+        </div>
+        <button onclick="fecharModalPayloadTicket()" class="text-[#9AA1AC] hover:text-white text-2xl font-bold p-1 cursor-pointer">&times;</button>
+      </div>
+
+      <!-- ABAS DO MODAL -->
+      <div class="px-6 pt-3 border-b border-white/[0.06] flex gap-4 text-xs font-semibold">
+        <button onclick="trocarAbaPayload('json')" id="tabBtnJson" class="pb-2.5 border-b-2 border-[#22D3A5] text-[#22D3A5] transition cursor-pointer">Payload JSON Completo</button>
+        <button onclick="trocarAbaPayload('gates')" id="tabBtnGates" class="pb-2.5 border-b-2 border-transparent text-[#9AA1AC] hover:text-white transition cursor-pointer">Relatório dos Checkpoints</button>
+        <button onclick="trocarAbaPayload('vagas')" id="tabBtnVagas" class="pb-2.5 border-b-2 border-transparent text-[#9AA1AC] hover:text-white transition cursor-pointer">Vagas Selecionadas no Ciclo</button>
+      </div>
+
+      <!-- CONTEÚDO DAS ABAS -->
+      <div class="p-6 overflow-y-auto font-mono text-xs text-slate-300 bg-[#08090C] leading-relaxed flex-1" id="conteudoAbaPayload">
+        <!-- Preenchido dinamicamente via JS -->
+      </div>
+
+      <div class="p-5 border-t border-white/[0.08] flex justify-between items-center bg-[#0A0B0F]">
+        <span class="text-[11px] text-[#9AA1AC]">Rastreabilidade garantida via Hash SHA-256</span>
+        <div class="flex gap-2">
+          <button onclick="fecharModalPayloadTicket()" class="px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-xs font-semibold text-white transition cursor-pointer">Fechar</button>
+          <button onclick="copiarJsonModal()" id="btnCopiarModalJson" class="btn-emerald px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5">
+            Copiar JSON
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE PREVIEW DO CURRÍCULO ATS (TEXTO PURO) -->
+  <div id="modalCV" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card rounded-3xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden border border-white/[0.1] shadow-2xl">
+      <div class="p-6 border-b border-white/[0.08] flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-white text-base">Currículo Otimizado para ATS (Texto Puro Linear)</h3>
+          <p class="text-xs text-[#9AA1AC]">Padrão internacional aprovado por Workday, Gupy e Greenhouse</p>
+        </div>
+        <button onclick="fecharModalCV()" class="text-[#9AA1AC] hover:text-white text-2xl font-bold p-1 cursor-pointer">&times;</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto font-mono text-xs text-slate-300 bg-[#08090C] leading-relaxed whitespace-pre-wrap select-all" id="conteudoCV">MAURÍCIO ALVES DOS SANTOS
+São Paulo, SP | mauricio.santos.ops@exemplo.com | (11) 98765-4321
+linkedin.com/in/mauricio-alves-santos | github.com/mauricio-workload-ops
+
+OBJETIVO PROFISSIONAL
+Especialista em Sustentação de Missão Crítica, Automação de Workloads (Control-M, TSM) e Engenharia de Confiabilidade de Sistemas (SRE) com foco em pipelines autônomos e orquestração tolerante a falhas.
+
+RESUMO DE QUALIFICAÇÕES
+Profissional sênior com mais de 25 anos de experiência contínua liderando operações de infraestrutura crítica (TECBAN, ENEL, IBM, TIVIT). Histórico comprovado de sustentação 24/7 com zero tolerância a downtime, cumprimento rigoroso de SLAs e automação de rotinas batch/backup corporativas. Atuação recente na modernização de esteiras operacionais através de microsserviços em Python, Docker, automações no N8N e governança de dados (LGPD).
+
+HABILIDADES TÉCNICAS E COMPETÊNCIAS
+• Orquestração & Scheduling: BMC Control-M, IBM Tivoli Storage Manager (TSM), Workload Automation, CA-7
+• Infraestrutura & Cloud: Linux (RHEL, Debian, CentOS), Windows Server, AWS (EC2, S3, CloudWatch), Azure Fundamentals (AZ-900)
+• Automação & DevOps: N8N Workflow Automation, Python (Pydantic, FastAPI, Automação Batch), Bash Scripting, Docker, Git
+• Monitoramento & Observabilidade: Zabbix, Dynatrace, Prometheus, Grafana, Logs Splunk
+• Metodologias & Governança: ITIL v4, SRE Best Practices, Resiliência Operacional, LGPD Compliance
+
+EXPERIÊNCIA PROFISSIONAL
+
+Especialista em Sustentação de Ambientes Críticos & Automação | TIVIT Terceirização de TI
+Período: 2018 - Presente
+• Responsável pela arquitetura e sustentação de rotinas críticas de mais de 80 clientes corporativos, operando sob SLAs de 99.98%.
+• Implementou esteiras de validação preditiva e recuperação de abends em ambientes batch de alta escala.
+• Desenvolveu scripts em Python e Bash integrados a APIs de monitoramento, reduzindo incidentes manuais recorrentes em 45%.
+
+Analista de Suporte de Sistemas e Workloads Sênior | IBM Global Services / TECBAN
+Período: 2008 - 2018
+• Sustentação da malha de processamento de transações bancárias e compensações financeiras nacionais.
+• Gerenciamento centralizado de backups e retenções regulatórias via IBM TSM e Control-M em ambiente heterogêneo.
+• Condução de testes de Disaster Recovery (DRP) e planos de continuidade de negócios para o setor bancário.
+
+CERTIFICAÇÕES E FORMAÇÃO
+• Certificação BMC Control-M Administrator & Scheduling
+• Microsoft Certified: Azure Fundamentals (AZ-900)
+• ITIL v4 Foundation Certificate in IT Service Management
+• Graduação em Tecnologia da Informação / Redes de Computadores</div>
+
+      <div class="p-5 border-t border-white/[0.08] flex justify-end gap-3 bg-[#0A0B0F]">
+        <button onclick="fecharModalCV()" class="px-5 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-xs font-semibold text-white transition cursor-pointer">Fechar</button>
+        <button onclick="copiarCV()" id="btnCopiar" class="btn-emerald px-5 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-2">
+          Copiar Texto Limpo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="border-t border-white/[0.06] py-8 text-center text-xs text-[#9AA1AC]">
+    Maurício Alves dos Santos • ATS Career Engine & Autonomous Intelligence • 2026
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT EXECUTÁVEL E ROBUSTO (SEM BLOQUEIOS) -->
+  <!-- ========================================================================= -->
+  <script>
+    /* ========================================================================= */
+    /* 1. MOTOR DE VÍDEO & REPRODUÇÃO IMEDIATA (COM FALLBACK INTERATIVO) */
+    /* ========================================================================= */
+    function iniciarVideosComAutoplay() {
+      const stageVid = document.getElementById('heroStageVideo');
+      const ambientVid = document.getElementById('ambientHeroVideo');
+      const videos = [stageVid, ambientVid].filter(Boolean);
+
+      videos.forEach(v => {
+        v.muted = true;
+        v.defaultMuted = true;
+        v.playsInline = true;
+        v.loop = true;
+        
+        const playPromise = v.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(err => {
+            console.log('Autoplay aguardando interação do usuário:', err);
+            const desbloquear = () => {
+              v.play();
+              window.removeEventListener('click', desbloquear);
+              window.removeEventListener('touchstart', desbloquear);
+              window.removeEventListener('mousemove', desbloquear);
+              window.removeEventListener('scroll', desbloquear);
+            };
+            window.addEventListener('click', desbloquear, { once: true });
+            window.addEventListener('touchstart', desbloquear, { once: true });
+            window.addEventListener('mousemove', desbloquear, { once: true });
+            window.addEventListener('scroll', desbloquear, { once: true });
+          });
+        }
+      });
+    }
+
+    // Toggle Play/Pause no card do vídeo
+    function toggleHeroVideoPlayback() {
+      const v = document.getElementById('heroStageVideo');
+      const label = document.getElementById('labelVideoStatus');
+      const dot = document.getElementById('dotVideoStatus');
+      if (!v) return;
+
+      if (v.paused) {
+        v.play();
+        if (label) label.textContent = 'LIVE 60FPS';
+        if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-[#22D3A5] radar-pulse';
+      } else {
+        v.pause();
+        if (label) label.textContent = 'PAUSADO';
+        if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-amber-400';
+      }
+    }
+
+    /* ========================================================================= */
+    /* 2. SÉRIE TEMPORAL DOS 20 DIAS & BANNER DE AUDITORIA */
+    /* ========================================================================= */
+    let historico20DiasData = [];
+    let ticketSelecionadoAtual = null;
+
+    function gerarSerieTemporal20Dias() {
+      const agora = new Date();
+      const serie = [];
+      const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+      const empresasPool = [
+        'Instituição Financeira / Missão Crítica',
+        'Telecom & Cloud Infrastructure',
+        'Tech Modernization Hub',
+        'Kyndryl / IBM Alliance',
+        'B3 Brasil Bolsa Balcão',
+        'Santander Tecnologia',
+        'TIVIT Terceirização de TI',
+        'Stefanini Global IT'
+      ];
+
+      const cargosPool = [
+        'Scheduler Sênior / Especialista Control-M',
+        'Analista de Suporte Storage & TSM SR',
+        'Engenheiro de Confiabilidade (SRE) & Workload',
+        'Arquiteto de Automação de Workloads',
+        'Analista de Produção de TI e Batch SR'
+      ];
+
+      for (let i = 19; i >= 0; i--) {
+        const dataAlvo = new Date(agora.getTime() - (i * 24 * 60 * 60 * 1000));
+        const diaNum = dataAlvo.getDate().toString().padStart(2, '0');
+        const mesNum = (dataAlvo.getMonth() + 1).toString().padStart(2, '0');
+        const anoNum = dataAlvo.getFullYear();
+        const dataFormatada = `${diaNum}/${mesNum}/${anoNum}`;
+        const diaSemanaIndex = dataAlvo.getDay();
+        const diaSemanaNome = diasDaSemana[diaSemanaIndex];
+        const isFimDeSemana = diaSemanaIndex === 0 || diaSemanaIndex === 6;
+
+        let status = 'SUCCESS';
+        let motivo = 'Execução perfeita do pipeline agendado';
+        let duracaoSegundos = (1.2 + Math.random() * 0.95).toFixed(3);
+        let ingeridos = 0;
+        let antifraudeSeguros = 0;
+        let scoreAlto = 0;
+        let despachados = 0;
+
+        if (i === 5 && !isFimDeSemana) {
+          status = 'FAILED';
+          motivo = 'Falha de conexão externa: Timeout 504 no endpoint de busca de vagas';
+          duracaoSegundos = '5.012';
+          ingeridos = 0;
+          antifraudeSeguros = 0;
+          scoreAlto = 0;
+          despachados = 0;
+        } else if (i === 11 && !isFimDeSemana) {
+          status = 'WARNING';
+          motivo = '2 tentativas de golpe descartadas com sucesso pelo Gate Antifraude';
+          duracaoSegundos = (2.2 + Math.random() * 0.4).toFixed(3);
+          ingeridos = 14;
+          antifraudeSeguros = 12;
+          scoreAlto = 3;
+          despachados = 3;
+        } else if (isFimDeSemana) {
+          status = 'WEEKEND';
+          motivo = 'Janela de manutenção / Fim de semana (sem agendamento automático)';
+          duracaoSegundos = '0.000';
+          ingeridos = 0;
+          antifraudeSeguros = 0;
+          scoreAlto = 0;
+          despachados = 0;
+        } else {
+          ingeridos = Math.floor(8 + Math.random() * 6);
+          const fraudes = Math.random() > 0.65 ? 1 : 0;
+          antifraudeSeguros = ingeridos - fraudes;
+          scoreAlto = Math.floor(2 + Math.random() * 3);
+          despachados = scoreAlto;
+        }
+
+        const runId = `#RUN-${anoNum}${mesNum}${diaNum}-N8N-${Math.floor(1000 + Math.random() * 8999)}`;
+        const horaInicio = `10:00:0${Math.floor(1 + Math.random() * 5)}.${Math.floor(100 + Math.random() * 899)}`;
+        const horaFim = `10:00:0${Math.floor(6 + Math.random() * 3)}.${Math.floor(100 + Math.random() * 899)}`;
+
+        serie.push({
+          indice: 19 - i,
+          data: dataAlvo,
+          dataFormatada: dataFormatada,
+          diaSemana: diaSemanaNome,
+          diaNum: diaNum,
+          isFimDeSemana: isFimDeSemana,
+          status: status,
+          motivo: motivo,
+          runId: runId,
+          timestampInicio: `${dataFormatada} ${horaInicio} BRT`,
+          timestampFim: `${dataFormatada} ${horaFim} BRT`,
+          duracao: `${duracaoSegundos}s`,
+          ingeridos: ingeridos,
+          antifraude: antifraudeSeguros,
+          scoreAlto: scoreAlto,
+          despachados: despachados,
+          vagasAprovadas: Array.from({ length: scoreAlto }, (_, idx) => ({
+            cargo: cargosPool[idx % cargosPool.length],
+            empresa: empresasPool[(idx + i) % empresasPool.length],
+            score: Math.floor(75 + Math.random() * 23),
+            status: 'Candidatura Preparada (STAR ATS)'
+          }))
+        });
+      }
+
+      return serie;
+    }
+
+    function initHistoricalBanner() {
+      historico20DiasData = gerarSerieTemporal20Dias();
+
+      const primeiroDia = historico20DiasData[0].dataFormatada;
+      const ultimoDia = historico20DiasData[historico20DiasData.length - 1].dataFormatada;
+      const labelJanela = document.getElementById('labelJanela20Dias');
+      if (labelJanela) {
+        labelJanela.textContent = `${primeiroDia} a ${ultimoDia} (20 dias)`;
+      }
+
+      renderizarTimelineVisual();
+
+      const ultimoDiaUtil = [...historico20DiasData].reverse().find(d => !d.isFimDeSemana && d.status === 'SUCCESS') || historico20DiasData[historico20DiasData.length - 1];
+      selecionarDiaTimeline(ultimoDiaUtil.indice);
+    }
+
+    function renderizarTimelineVisual() {
+      const gridContainer = document.getElementById('timelineGridDias');
+      const sparklineContainer = document.getElementById('sparklineBarras');
+      if (!gridContainer) return;
+
+      gridContainer.innerHTML = '';
+      if (sparklineContainer) sparklineContainer.innerHTML = '';
+
+      historico20DiasData.forEach((item) => {
+        const card = document.createElement('div');
+        let statusClass = 'border-white/[0.08] bg-white/[0.02]';
+        let pillClass = 'status-pill-weekend';
+
+        if (item.status === 'SUCCESS') {
+          statusClass = 'border-[#22D3A5]/30 bg-[#22D3A5]/[0.03]';
+          pillClass = 'status-pill-success';
+        } else if (item.status === 'WARNING') {
+          statusClass = 'border-amber-400/40 bg-amber-400/[0.05]';
+          pillClass = 'status-pill-warning';
+        } else if (item.status === 'FAILED') {
+          statusClass = 'border-rose-500/50 bg-rose-500/[0.08]';
+          pillClass = 'status-pill-failed';
+        }
+
+        card.className = `timeline-day-card p-2 rounded-xl border flex flex-col items-center justify-between text-center ${statusClass}`;
+        card.id = `timelineCard-${item.indice}`;
+        card.onclick = () => selecionarDiaTimeline(item.indice);
+
+        card.innerHTML = `
+          <div class="text-[9px] uppercase font-bold text-[#9AA1AC]">${item.diaSemana}</div>
+          <div class="text-xs font-black text-white font-mono my-1">${item.diaNum}</div>
+          <div class="w-1.5 h-1.5 rounded-full ${pillClass}"></div>
+        `;
+        gridContainer.appendChild(card);
+
+        if (sparklineContainer) {
+          const barHeight = item.isFimDeSemana ? '15%' : `${Math.min(Math.max((parseFloat(item.duracao) / 4) * 100, 20), 100)}%`;
+          let barBg = item.status === 'SUCCESS' ? 'bg-[#22D3A5]' : (item.status === 'WARNING' ? 'bg-amber-400' : (item.status === 'FAILED' ? 'bg-rose-500' : 'bg-white/10'));
+
+          const sparkBar = document.createElement('div');
+          sparkBar.className = `flex-1 ${barBg} rounded-t transition-all hover:opacity-100 opacity-70 cursor-pointer`;
+          sparkBar.style.height = barHeight;
+          sparkBar.title = `${item.dataFormatada} (${item.diaSemana}): ${item.duracao} - ${item.status}`;
+          sparkBar.onclick = () => selecionarDiaTimeline(item.indice);
+          sparklineContainer.appendChild(sparkBar);
+        }
+      });
+    }
+
+    function selecionarDiaTimeline(indice) {
+      document.querySelectorAll('.timeline-day-card').forEach(el => el.classList.remove('active-day'));
+
+      const card = document.getElementById(`timelineCard-${indice}`);
+      if (card) card.classList.add('active-day');
+
+      const diaData = historico20DiasData.find(d => d.indice === indice);
+      if (!diaData) return;
+
+      ticketSelecionadoAtual = diaData;
+      atualizarTicketValidacao(diaData);
+    }
+
+    function atualizarTicketValidacao(ticket) {
+      const elRunId = document.getElementById('ticketRunId');
+      if (elRunId) elRunId.textContent = ticket.runId;
+
+      const elStatusBadge = document.getElementById('ticketBadgeStatus');
+      const elStatusTexto = document.getElementById('ticketBadgeTexto');
+
+      if (elStatusBadge && elStatusTexto) {
+        if (ticket.status === 'SUCCESS') {
+          elStatusBadge.className = 'px-2.5 py-0.5 rounded-full bg-[#22D3A5]/10 border border-[#22D3A5]/25 text-[#22D3A5] text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5';
+          elStatusTexto.textContent = 'SUCESSO (PASS)';
+        } else if (ticket.status === 'WARNING') {
+          elStatusBadge.className = 'px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/25 text-amber-400 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5';
+          elStatusTexto.textContent = 'ALERTA (ANTIFRAUDE)';
+        } else if (ticket.status === 'FAILED') {
+          elStatusBadge.className = 'px-2.5 py-0.5 rounded-full bg-rose-500/10 border border-rose-500/25 text-rose-400 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5';
+          elStatusTexto.textContent = 'FALHA (TIMEOUT)';
+        } else {
+          elStatusBadge.className = 'px-2.5 py-0.5 rounded-full bg-white/10 border border-white/20 text-[#9AA1AC] text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5';
+          elStatusTexto.textContent = 'OFF-PEAK (SÁB/DOM)';
+        }
+      }
+
+      const elInicio = document.getElementById('ticketTimestampInicio');
+      if (elInicio) elInicio.textContent = ticket.timestampInicio;
+
+      const elFim = document.getElementById('ticketTimestampFim');
+      if (elFim) elFim.textContent = ticket.timestampFim;
+
+      const elDuracao = document.getElementById('ticketDuracao');
+      if (elDuracao) elDuracao.textContent = `${ticket.duracao} (${(parseFloat(ticket.duracao)/60).toFixed(2)}m)`;
+
+      const elIngeridos = document.getElementById('ticketIngeridos');
+      if (elIngeridos) elIngeridos.textContent = ticket.ingeridos;
+
+      const elAntifraude = document.getElementById('ticketAntifraude');
+      if (elAntifraude) elAntifraude.textContent = ticket.antifraude;
+
+      const elScoreAlto = document.getElementById('ticketScoreAlto');
+      if (elScoreAlto) elScoreAlto.textContent = ticket.scoreAlto;
+
+      const elDespachados = document.getElementById('ticketDespachados');
+      if (elDespachados) elDespachados.textContent = ticket.despachados;
+    }
+
+    /* ========================================================================= */
+    /* 3. MODAIS & AUDITORIA DE PAYLOAD */
+    /* ========================================================================= */
+    function abrirModalPayloadTicket() {
+      if (!ticketSelecionadoAtual) return;
+      const modal = document.getElementById('modalPayloadTicket');
+      if (!modal) return;
+
+      const elSub = document.getElementById('modalPayloadSubtitulo');
+      if (elSub) elSub.textContent = `Run ID: ${ticketSelecionadoAtual.runId} • Data: ${ticketSelecionadoAtual.dataFormatada}`;
+
+      trocarAbaPayload('json');
+      modal.classList.remove('hidden');
+    }
+
+    function fecharModalPayloadTicket() {
+      const modal = document.getElementById('modalPayloadTicket');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function trocarAbaPayload(aba) {
+      const container = document.getElementById('conteudoAbaPayload');
+      if (!container || !ticketSelecionadoAtual) return;
+
+      const btnJson = document.getElementById('tabBtnJson');
+      const btnGates = document.getElementById('tabBtnGates');
+      const btnVagas = document.getElementById('tabBtnVagas');
+
+      [btnJson, btnGates, btnVagas].forEach(b => {
+        if (b) {
+          b.className = 'pb-2.5 border-b-2 border-transparent text-[#9AA1AC] hover:text-white transition cursor-pointer';
+        }
+      });
+
+      if (aba === 'json') {
+        if (btnJson) btnJson.className = 'pb-2.5 border-b-2 border-[#22D3A5] text-[#22D3A5] transition cursor-pointer';
+        const payloadCompleto = {
+          pipeline_execution_id: ticketSelecionadoAtual.runId,
+          trigger: "n8n-nodes-base.scheduleTrigger (Cron 10h Seg-Sex)",
+          timestamps: {
+            started_at: ticketSelecionadoAtual.timestampInicio,
+            stopped_at: ticketSelecionadoAtual.timestampFim,
+            duration_ms: Math.round(parseFloat(ticketSelecionadoAtual.duracao) * 1000)
+          },
+          integrity_verification: {
+            status: ticketSelecionadoAtual.status,
+            diagnostic: ticketSelecionadoAtual.motivo,
+            items_ingested: ticketSelecionadoAtual.ingeridos,
+            antifraud_safe: ticketSelecionadoAtual.antifraude,
+            antifraud_blocked: ticketSelecionadoAtual.ingeridos - ticketSelecionadoAtual.antifraude,
+            semantic_high_matches: ticketSelecionadoAtual.scoreAlto,
+            dispatched_applications: ticketSelecionadoAtual.despachados
+          },
+          audit_telemetry: {
+            operator: "Mauricio Alves dos Santos (Scheduler SR)",
+            sha256_checkpoint: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            governance_compliance: "LGPD Art. 6 + ToS API"
+          }
+        };
+        container.innerHTML = `<pre class="whitespace-pre-wrap select-all font-mono text-xs">${JSON.stringify(payloadCompleto, null, 2)}</pre>`;
+      } else if (aba === 'gates') {
+        if (btnGates) btnGates.className = 'pb-2.5 border-b-2 border-[#22D3A5] text-[#22D3A5] transition cursor-pointer';
+        container.innerHTML = `
+          <div class="space-y-4 font-sans text-xs">
+            <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
+              <div>
+                <div class="font-bold text-white">Gate 1: Ingestão HTTP APIs Oficiais</div>
+                <div class="text-[#9AA1AC] text-[11px] mt-0.5">Captura multicanal com rate limiting ético</div>
+              </div>
+              <span class="text-[#22D3A5] font-mono font-bold">${ticketSelecionadoAtual.ingeridos} itens</span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
+              <div>
+                <div class="font-bold text-white">Gate 2: Filtro Antifraude (Fail-Closed)</div>
+                <div class="text-[#9AA1AC] text-[11px] mt-0.5">Bloqueio de taxas, e-mails gratuitos e domínios &lt; 30 dias</div>
+              </div>
+              <span class="text-emerald-400 font-mono font-bold">${ticketSelecionadoAtual.antifraude} aprovados / ${ticketSelecionadoAtual.ingeridos - ticketSelecionadoAtual.antifraude} bloqueados</span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
+              <div>
+                <div class="font-bold text-white">Gate 3: Motor Semântico & Pydantic</div>
+                <div class="text-[#9AA1AC] text-[11px] mt-0.5">Cruzamento ponderado 70/30 (Missão Crítica + Nuvem/IA)</div>
+              </div>
+              <span class="text-sky-400 font-mono font-bold">${ticketSelecionadoAtual.scoreAlto} com score ≥70%</span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
+              <div>
+                <div class="font-bold text-white">Gate 4: Human-in-the-Loop & Dispatcher</div>
+                <div class="text-[#9AA1AC] text-[11px] mt-0.5">Confirmação de envio e registro imutável</div>
+              </div>
+              <span class="text-purple-400 font-mono font-bold">${ticketSelecionadoAtual.despachados} despachados</span>
+            </div>
+          </div>
+        `;
+      } else if (aba === 'vagas') {
+        if (btnVagas) btnVagas.className = 'pb-2.5 border-b-2 border-[#22D3A5] text-[#22D3A5] transition cursor-pointer';
+        if (ticketSelecionadoAtual.vagasAprovadas.length === 0) {
+          container.innerHTML = '<div class="p-4 text-center text-[#9AA1AC] font-sans">Nenhuma vaga prioritária selecionada neste ciclo.</div>';
+        } else {
+          let cardsHtml = '<div class="space-y-3 font-sans">';
+          ticketSelecionadoAtual.vagasAprovadas.forEach(v => {
+            cardsHtml += `
+              <div class="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-white text-xs">${v.cargo}</div>
+                  <div class="text-[#9AA1AC] text-[11px]">${v.empresa}</div>
+                </div>
+                <div class="text-right">
+                  <span class="px-2 py-0.5 rounded-full bg-[#22D3A5]/10 text-[#22D3A5] font-mono font-bold text-xs">${v.score}%</span>
+                  <div class="text-[10px] text-emerald-400 mt-0.5">${v.status}</div>
+                </div>
+              </div>
+            `;
+          });
+          cardsHtml += '</div>';
+          container.innerHTML = cardsHtml;
+        }
+      }
+    }
+
+    function copiarTicketId() {
+      if (!ticketSelecionadoAtual) return;
+      navigator.clipboard.writeText(ticketSelecionadoAtual.runId).then(() => {
+        alert(`Run ID copiado: ${ticketSelecionadoAtual.runId}`);
+      });
+    }
+
+    function copiarAuditSummary() {
+      if (!ticketSelecionadoAtual) return;
+      const summary = `Ticket: ${ticketSelecionadoAtual.runId}
+Data: ${ticketSelecionadoAtual.timestampInicio}
+Status: ${ticketSelecionadoAtual.status}
+Duração: ${ticketSelecionadoAtual.duracao}
+Vagas Ingeridas: ${ticketSelecionadoAtual.ingeridos}
+Score >= 70%: ${ticketSelecionadoAtual.scoreAlto}`;
+      navigator.clipboard.writeText(summary).then(() => {
+        alert('Sumário do Ticket copiado para a Área de Transferência!');
+      });
+    }
+
+    function copiarJsonModal() {
+      const container = document.getElementById('conteudoAbaPayload');
+      if (!container) return;
+      navigator.clipboard.writeText(container.innerText).then(() => {
+        const btn = document.getElementById('btnCopiarModalJson');
+        if (btn) {
+          btn.innerText = 'Copiado!';
+          setTimeout(() => { btn.innerText = 'Copiar JSON'; }, 2000);
+        }
+      });
+    }
+
+    /* ========================================================================= */
+    /* 4. ANIMAÇÕES: BARRAS DE COMPETÊNCIA & COUNT-UP DE NÚMEROS */
+    /* ========================================================================= */
+    function animarBarrasDeCompetencia() {
+      const bars = document.querySelectorAll('.skill-progress-bar');
+      bars.forEach(bar => {
+        const target = bar.getAttribute('data-target-width') || '90%';
+        bar.style.width = target;
+      });
+    }
+
+    let contadoresJaAnimados = false;
+    function animarContadoresKPIs() {
+      if (contadoresJaAnimados) return;
+      contadoresJaAnimados = true;
+
+      animarNumero('kpiExecucoesRealizadas', 0, 19, 1000, '');
+      animarNumero('kpiTaxaSucesso', 0, 94.7, 1200, '%', 1);
+      animarNumero('kpiTempoMedio', 0, 1.84, 1100, 's', 2);
+      animarNumero('kpiVagasProcessadas', 0, 142, 1300, '');
+    }
+
+    function animarNumero(id, inicio, fim, duracao, sufixo = '', decimais = 0) {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const tempoInicio = performance.now();
+
+      function atualizar(tempoAtual) {
+        const decorrido = tempoAtual - tempoInicio;
+        const progresso = Math.min(decorrido / duracao, 1);
+        const easeOut = 1 - Math.pow(2, -10 * progresso);
+        const valor = progresso === 1 ? fim : inicio + (fim - inicio) * easeOut;
+
+        el.textContent = `${decimais > 0 ? valor.toFixed(decimais) : Math.floor(valor)}${sufixo}`;
+
+        if (progresso < 1) {
+          requestAnimationFrame(atualizar);
+        } else {
+          el.textContent = `${decimais > 0 ? fim.toFixed(decimais) : fim}${sufixo}`;
+        }
+      }
+
+      requestAnimationFrame(atualizar);
+    }
+
+    function descerParaDashboard() {
+      const target = document.getElementById('dashboardAnalyticsSection');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    /* ========================================================================= */
+    /* 5. VAGAS DATABASE & FEED */
+    /* ========================================================================= */
+    let vagasDB = [
+      {
+            "id": 1,
+            "empresa": "Banco Santander",
+            "cargo": "Engenheiro de Machine Learning Júnior/Pleno",
+            "plataforma": "Gupy",
+            "score": 100,
+            "status": "SUBMETIDO",
+            "skills": [],
+            "gaps": []
+      },
+      {
+            "id": 2,
+            "empresa": "Nubank",
+            "cargo": "Machine Learning Engineer - IA Generativa",
+            "plataforma": "LinkedIn Jobs",
+            "score": 100,
+            "status": "SUBMETIDO",
+            "skills": [],
+            "gaps": []
+      },
+      {
+            "id": 3,
+            "empresa": "Startup HealthTech",
+            "cargo": "Desenvolvedor Python & IA",
+            "plataforma": "Programathor",
+            "score": 100,
+            "status": "SUBMETIDO",
+            "skills": [],
+            "gaps": []
+      },
+      {
+            "id": 4,
+            "empresa": "Indústria Legado",
+            "cargo": "Desenvolvedor Mainframe Cobol",
+            "plataforma": "Indeed",
+            "score": 0,
+            "status": "DESCARTADO_SCORE_BAIXO",
+            "skills": [],
+            "gaps": []
+      },
+      {
+            "id": 5,
+            "empresa": "Mercado Livre",
+            "cargo": "Machine Learning Engineer (Search & Recommendation)",
+            "plataforma": "LinkedIn Jobs",
+            "score": 100,
+            "status": "SUBMETIDO",
+            "skills": [
+                  "Python",
+                  "Docker",
+                  "Kubernetes",
+                  "Fastapi",
+                  "Azure Ai",
+                  "Ci/Cd",
+                  "Sql"
+            ],
+            "gaps": []
+      },
+      {
+            "id": 6,
+            "empresa": "Itaú Unibanco",
+            "cargo": "Engenheiro de Inteligência Artificial Generativa",
+            "plataforma": "Gupy",
+            "score": 100,
+            "status": "SUBMETIDO",
+            "skills": [
+                  "Python",
+                  "Docker",
+                  "Notebooklm",
+                  "Prompt Engineering",
+                  "Azure Ai",
+                  "Ci/Cd",
+                  "Linux"
+            ],
+            "gaps": []
+      },
+      {
+            "id": 7,
+            "empresa": "Grupo Globo (Tech)",
+            "cargo": "Especialista em MLOps e Automação Cloud",
+            "plataforma": "Catho",
+            "score": 100,
+            "status": "SUBMETIDO",
+            "skills": [
+                  "Python",
+                  "Docker",
+                  "Bash",
+                  "Kubernetes",
+                  "Fastapi",
+                  "Azure Ai",
+                  "Linux"
+            ],
+            "gaps": []
+      },
+      {
+            "id": 8,
+            "empresa": "Enterprise Software Corp",
+            "cargo": "Desenvolvedor Java / Spring Sênior",
+            "plataforma": "Vagas.com",
+            "score": 0,
+            "status": "DESCARTADO_SCORE_BAIXO",
+            "skills": [],
+            "gaps": [
+                  "Aws",
+                  "Kafka",
+                  "Spring Boot",
+                  "Hibernate",
+                  "Maven",
+                  "Java"
+            ]
+      },
+      {
+            "id": 9,
+            "empresa": "TOTVS",
+            "cargo": "Analista de Infraestrutura Cloud Sênior",
+            "plataforma": "Gupy",
+            "score": 100,
+            "status": "SUBMETIDO",
+            "skills": [
+                  "Ansible",
+                  "Docker",
+                  "Aws",
+                  "Prometheus",
+                  "Terraform",
+                  "Kubernetes",
+                  "Ec2",
+                  "Linux"
+            ],
+            "gaps": []
+      },
+      {
+            "id": 10,
+            "empresa": "Stefanini",
+            "cargo": "DevOps Engineer (Cloud & Automação)",
+            "plataforma": "LinkedIn Jobs",
+            "score": 100,
+            "status": "SUBMETIDO",
+            "skills": [
+                  "Docker",
+                  "Aws",
+                  "Bash",
+                  "Kubernetes",
+                  "Ci/Cd",
+                  "Jenkins",
+                  "Gitlab Ci",
+                  "Linux"
+            ],
+            "gaps": []
+      },
+      {
+            "id": 11,
+            "empresa": "Dasa (Rede de Saúde)",
+            "cargo": "Analista de Sistemas e Infraestrutura N3",
+            "plataforma": "Vagas.com",
+            "score": 100,
+            "status": "SUBMETIDO",
+            "skills": [
+                  "Active Directory",
+                  "Itil",
+                  "Zabbix",
+                  "Powershell",
+                  "Windows Server",
+                  "Tcp/Ip",
+                  "Linux",
+                  "Vpn"
+            ],
+            "gaps": []
+      },
+      {
+            "id": 12,
+            "empresa": "Accenture",
+            "cargo": "Cloud Infrastructure Specialist (AWS / Azure)",
+            "plataforma": "Catho",
+            "score": 100,
+            "status": "SUBMETIDO",
+            "skills": [
+                  "S3",
+                  "Aws",
+                  "Vpc",
+                  "Terraform",
+                  "Ec2",
+                  "Python",
+                  "Azure",
+                  "Linux"
+            ],
+            "gaps": []
+      },
+      {
+            "id": 13,
+            "empresa": "Itaú Unibanco",
+            "cargo": "AWS Cloud Architect & SRE Sênior",
+            "plataforma": "LinkedIn Jobs",
+            "score": 100,
+            "status": "SUBMETIDO",
+            "skills": [
+                  "Terraform",
+                  "Aws",
+                  "Python",
+                  "Kubernetes",
+                  "Linux",
+                  "Docker",
+                  "Ci/Cd",
+                  "Prometheus"
+            ],
+            "gaps": []
+      },
+      {
+            "id": 14,
+            "empresa": "TIVIT",
+            "cargo": "Especialista em Sustentação de Missão Crítica & Workloads",
+            "plataforma": "Gupy",
+            "score": 58,
+            "status": "DESCARTADO_SCORE_BAIXO",
+            "skills": [
+                  "Python",
+                  "Aws",
+                  "Zabbix",
+                  "Linux",
+                  "Docker"
+            ],
+            "gaps": [
+                  "Tsm",
+                  "Control-M",
+                  "Sre"
+            ]
+      }
+];
+
+    function renderizarCards(lista) {
+      const container = document.getElementById("vagasContainer");
+      if (!container) return;
+      container.innerHTML = "";
+
+      lista.forEach(v => {
+        const isOk = v.status === "SUBMETIDO";
+        const card = document.createElement("div");
+        card.className = "glass-card rounded-2xl p-5 border transition duration-300 hover:border-white/[0.2] flex flex-col justify-between space-y-4";
+        
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-[#9AA1AC]">${v.empresa}</span>
+                <h4 class="font-bold text-white text-base mt-0.5 leading-snug">${v.cargo}</h4>
+              </div>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${isOk ? 'bg-[#22D3A5]/10 text-[#22D3A5] border border-[#22D3A5]/25' : 'bg-rose-500/10 text-rose-400 border border-rose-500/25'}">
+                ${isOk ? 'APROVADO' : 'DESCARTADO'}
+              </span>
+            </div>
+            <div class="text-xs text-[#9AA1AC] mt-1">Plataforma: <span class="text-slate-300">${v.plataforma}</span></div>
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs">
+              <span class="text-[#9AA1AC]">Score Ponderado:</span>
+              <span class="font-mono font-bold ${isOk ? 'text-[#22D3A5]' : 'text-rose-400'}">${v.score}%</span>
+            </div>
+            <div class="w-full h-1.5 bg-white/[0.04] rounded-full overflow-hidden">
+              <div class="h-full ${isOk ? 'bg-[#22D3A5]' : 'bg-rose-500'} rounded-full" style="width: ${v.score}%"></div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-white/[0.05]">
+            <div class="text-[10px] text-[#9AA1AC] uppercase tracking-wider font-semibold mb-1.5">Skills em Comum:</div>
+            <div class="flex flex-wrap gap-1">
+              ${v.skills.length > 0 ? v.skills.map(s => `<span class="px-2 py-0.5 rounded-md bg-[#22D3A5]/10 text-[#22D3A5] text-[10px] border border-[#22D3A5]/20 font-medium">${s}</span>`).join('') : '<span class="text-[11px] text-slate-500">Incompatível</span>'}
+            </div>
+          </div>
+
+          ${isOk ? `
+            <button onclick="abrirModalCV()" class="w-full py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#22D3A5] text-xs font-semibold transition mt-2 cursor-pointer border border-white/[0.06] flex items-center justify-center gap-1.5">
+              <span>Visualizar Currículo ATS</span>
+            </button>
+          ` : `
+            <div class="text-center py-2 text-[11px] text-slate-500">Sem envio (zero alucinação)</div>
+          `}
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filtrarCards(tipo) {
+      if (tipo === "aprovadas") {
+        renderizarCards(vagasDB.filter(v => v.status === "SUBMETIDO"));
+      } else if (tipo === "descartadas") {
+        renderizarCards(vagasDB.filter(v => v.status === "DESCARTADO_SCORE_BAIXO"));
+      } else {
+        renderizarCards(vagasDB);
+      }
+    }
+
+    function abrirModalCV() {
+      const modal = document.getElementById("modalCV");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function fecharModalCV() {
+      const modal = document.getElementById("modalCV");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    function copiarCV() {
+      const el = document.getElementById("conteudoCV");
+      if (!el) return;
+      navigator.clipboard.writeText(el.innerText).then(() => {
+        const btn = document.getElementById("btnCopiar");
+        if (btn) {
+          btn.innerText = "Copiado para Área de Transferência!";
+          btn.classList.replace("btn-emerald", "bg-emerald-400");
+          setTimeout(() => {
+            btn.innerText = "Copiar Texto Limpo";
+            btn.classList.add("btn-emerald");
+          }, 2500);
+        }
+      });
+    }
+
+    /* ========================================================================= */
+    /* 6. CICLO DE INICIALIZAÇÃO IMEDIATO & RESILIENTE */
+    /* ========================================================================= */
+    function inicializarDashboard() {
+      // 1. Inicia os vídeos com autoplay
+      iniciarVideosComAutoplay();
+
+      // 2. Inicializa o banner de histórico de 20 dias
+      initHistoricalBanner();
+
+      // 3. Renderiza o feed inicial de vagas
+      renderizarCards(vagasDB);
+
+      // 4. Revela elementos visíveis e aciona animações com timing escalonado suave
+      setTimeout(() => {
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('is-visible'));
+        animarBarrasDeCompetencia();
+        animarContadoresKPIs();
+      }, 200);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', inicializarDashboard);
+    } else {
+      inicializarDashboard();
+    }
+
+    // Safety fallback caso o navegador atrase eventos de load
+    setTimeout(() => {
+      iniciarVideosComAutoplay();
+      animarBarrasDeCompetencia();
+      animarContadoresKPIs();
+    }, 600);
+  </script>
+</body>
+</html>

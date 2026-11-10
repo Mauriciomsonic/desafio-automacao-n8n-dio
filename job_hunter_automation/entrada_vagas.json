@@ -1,0 +1,18 @@
+[
+  {
+    "plataforma": "LinkedIn Jobs",
+    "empresa": "Itaú Unibanco",
+    "titulo": "AWS Cloud Architect & SRE Sênior",
+    "url": "https://www.linkedin.com/jobs/view/itau-cloud-sre-2026-01",
+    "requisitos_obrigatorios": ["AWS", "Kubernetes", "Terraform", "Linux"],
+    "requisitos_desejaveis": ["Prometheus", "Python", "CI/CD", "Docker"]
+  },
+  {
+    "plataforma": "Gupy",
+    "empresa": "TIVIT",
+    "titulo": "Especialista em Sustentação de Missão Crítica & Workloads",
+    "url": "https://tivit.gupy.io/jobs/workloads-mission-critical-994",
+    "requisitos_obrigatorios": ["Linux", "Control-M", "TSM", "AWS"],
+    "requisitos_desejaveis": ["Python", "Zabbix", "Docker", "SRE"]
+  }
+]
